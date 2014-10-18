@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{071bb221-5418-434c-8706-e5f549053f03}</ItemsProjectGuid>
+    <ItemsRootNamespace>MediaCaptureReader</ItemsRootNamespace>
+    <ItemsProjectName>MediaCaptureReader.Shared</ItemsProjectName>
+    <CodeSharingProject>248F659F-DAC5-46E8-AC09-60EC9FC95053</CodeSharingProject>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaCaptureReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)D3D11DeviceLock.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DebuggerLogger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSink.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaStreamSink.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SampleFormatter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaCaptureReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DebuggerLogger.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaStreamSink.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SampleFormatter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+</Project>
