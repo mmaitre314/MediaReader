@@ -1,0 +1,15 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="CheckNonStoreApp" Condition="'$(WindowsAppContainer)' != 'true'" BeforeTargets="PrepareForBuild">
+    <Error Text="Only Store Apps are supported." />
+  </Target>
+  <ItemGroup>
+    <Reference Include="MediaCaptureReader.Windows" Condition="'$(ApplicationType)' == 'Windows Store'">
+      <HintPath>$(MSBuildThisFileDirectory)\Windows\$(PlatformTarget)\MediaCaptureReader.winmd</HintPath>
+      <Implementation>MediaCaptureReader.Windows.dll</Implementation>
+    </Reference>
+    <Reference Include="MediaCaptureReader.WindowsPhone" Condition="'$(ApplicationType)' == 'Windows Phone'">
+      <HintPath>$(MSBuildThisFileDirectory)\WindowsPhone\$(PlatformTarget)\MediaCaptureReader.winmd</HintPath>
+      <Implementation>MediaCaptureReader.WindowsPhone.dll</Implementation>
+    </Reference>
+  </ItemGroup>
+</Project>

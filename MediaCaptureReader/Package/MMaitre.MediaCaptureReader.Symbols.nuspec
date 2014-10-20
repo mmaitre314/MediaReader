@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MMaitre.MediaCaptureReader.Symbols</id>
+    <title>MediaCapture Reader symbols</title>
+    <version>$NuGetVersion$</version>
+    <authors>Matthieu Maitre</authors>
+    <owners>Matthieu Maitre</owners>
+    <licenseUrl>https://raw.githubusercontent.com/mmaitre314/MediaCaptureReader/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mmaitre314/MediaCaptureReader</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Reads audio and video samples from cameras and microphones using MediaCapture.</summary>
+    <description>Reads audio and video samples from cameras and microphones using MediaCapture. Renders video samples to XAML SwapChainPanel and SurfaceImageSource.</description>
+    <copyright>Copyright © 2014, Matthieu Maitre. All rights reserved.</copyright>
+    <tags>Native WinRT XAML MediaCapture SwapChainPanel SurfaceImageSource</tags>
+  </metadata>
+  <files>
+    <!-- symbols -->
+    <file src="Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="build\native\Windows\x86\" />
+    <file src="x64\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="build\native\Windows\x64\" />
+    <file src="ARM\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="build\native\Windows\Arm\" />
+    <file src="Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.pdb" target="build\native\WindowsPhone\x86\" />
+    <file src="ARM\Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.pdb" target="build\native\WindowsPhone\Arm\" />
+    
+    <!-- source -->
+    <file src="..\MediaCaptureReader\**\*.cpp" target="src\" />
+    <file src="..\MediaCaptureReader\**\*.h"   target="src\" />
+  </files>
+</package>
+
