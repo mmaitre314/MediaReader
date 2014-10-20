@@ -1,7 +1,7 @@
 MediaCapture Reader
 ===================
 
-Reads audio/video samples from cameras and microphone using MediaCapture.
+Reads audio/video samples from cameras and microphone using MediaCapture. Store apps targeting either Windows or Windows Phone are supported. 
 
 The following code snippet reads a video frame in Bgra8 format from the default camera:
 
