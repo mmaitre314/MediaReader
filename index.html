@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="MediaCapture Reader : Reads audio/video media samples from cameras and microphone using MediaCapture">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>MediaCapture Reader</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mmaitre314/MediaCaptureReader">View on GitHub</a>
+
+          <h1 id="project_title">MediaCapture Reader</h1>
+          <h2 id="project_tagline">Reads audio/video media samples from cameras and microphone using MediaCapture</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mmaitre314/MediaCaptureReader/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mmaitre314/MediaCaptureReader/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>The following code snippet reads a video sample in Bgra8 format from the default camera:</p>
+
+<div class="highlight highlight-c#"><pre><span class="err">#</span> <span class="n">Create</span> <span class="n">MediaCapture</span>
+<span class="kt">var</span> <span class="n">capture</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MediaCapture</span><span class="p">();</span>
+<span class="k">await</span> <span class="n">capture</span><span class="p">.</span><span class="n">InitializeAsync</span><span class="p">();</span>
+
+<span class="err">#</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">Bgra8</span> <span class="n">video</span> <span class="n">format</span> <span class="n">matching</span> <span class="n">the</span> <span class="n">camera</span> <span class="n">resolution</span> <span class="n">and</span> <span class="n">framerate</span>
+<span class="kt">var</span> <span class="n">previewProps</span> <span class="p">=</span> <span class="p">(</span><span class="n">VideoEncodingProperties</span><span class="p">)</span><span class="n">capture</span><span class="p">.</span><span class="n">VideoDeviceController</span><span class="p">.</span><span class="n">GetMediaStreamProperties</span><span class="p">(</span><span class="n">MediaStreamType</span><span class="p">.</span><span class="n">VideoPreview</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">readerProps</span> <span class="p">=</span> <span class="n">VideoEncodingProperties</span><span class="p">.</span><span class="n">CreateUncompressed</span><span class="p">(</span><span class="n">MediaEncodingSubtypes</span><span class="p">.</span><span class="n">Bgra8</span><span class="p">,</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">Width</span><span class="p">,</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">Height</span><span class="p">);</span>
+<span class="n">readerProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Numerator</span> <span class="p">=</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Numerator</span><span class="p">;</span>
+<span class="n">readerProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Denominator</span> <span class="p">=</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Denominator</span><span class="p">;</span>
+
+<span class="err">#</span> <span class="n">Create</span> <span class="n">CaptureReader</span> <span class="n">and</span> <span class="k">get</span> <span class="n">a</span> <span class="n">video</span> <span class="n">sample</span>
+<span class="kt">var</span> <span class="n">captureReader</span> <span class="p">=</span> <span class="k">await</span> <span class="n">CaptureReader</span><span class="p">.</span><span class="n">CreateAsync</span><span class="p">(</span>
+    <span class="n">capture</span><span class="p">,</span> 
+    <span class="k">new</span> <span class="n">MediaEncodingProfile</span>
+    <span class="p">{</span>
+        <span class="n">Video</span> <span class="p">=</span> <span class="n">readerProps</span>
+    <span class="p">});</span>
+<span class="n">MediaSample</span> <span class="n">sample</span> <span class="p">=</span> <span class="k">await</span> <span class="n">captureReader</span><span class="p">.</span><span class="n">GetVideoSampleAsync</span><span class="p">();</span>
+</pre></div>
+
+<p>The component also provides methods to display video samples in XAML using either SurfaceImageSource</p>
+
+<div class="highlight highlight-c#"><pre><span class="kt">var</span> <span class="n">image</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SurfaceImageSource</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Width</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Height</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">imagePresenter</span> <span class="p">=</span> <span class="n">MediaSamplePresenter</span><span class="p">.</span><span class="n">CreateFromSurfaceImageSource</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">graphicsDevice</span><span class="p">);</span>
+<span class="kt">var</span> <span class="n">imagePresenter</span><span class="p">.</span><span class="n">Present</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+</pre></div>
+
+<p>or SwapChainPanel</p>
+
+<div class="highlight highlight-c#"><pre><span class="kt">var</span> <span class="n">swapChainPresenter</span> <span class="p">=</span> <span class="n">MediaSamplePresenter</span><span class="p">.</span><span class="n">CreateFromSwapChainPanel</span><span class="p">(</span>
+    <span class="n">SwapChainPreview</span><span class="p">,</span>
+    <span class="n">graphicsDevice</span><span class="p">,</span>
+    <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Width</span><span class="p">,</span>
+    <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Height</span>
+    <span class="p">);</span>
+<span class="n">swapChainPresenter</span><span class="p">.</span><span class="n">Present</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
+</pre></div>
+
+<p>Store apps targeting either Windows or Windows Phone are supported. </p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">MediaCapture Reader maintained by <a href="https://github.com/mmaitre314">mmaitre314</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-55657833-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
