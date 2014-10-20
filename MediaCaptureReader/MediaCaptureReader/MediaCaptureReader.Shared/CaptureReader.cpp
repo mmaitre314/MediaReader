@@ -2,7 +2,7 @@
 #include "MediaSample.h"
 #include "MediaStreamSink.h"
 #include "MediaSink.h"
-#include "MediaCaptureReader.h"
+#include "CaptureReader.h"
 
 using namespace concurrency;
 using namespace MediaCaptureReader;

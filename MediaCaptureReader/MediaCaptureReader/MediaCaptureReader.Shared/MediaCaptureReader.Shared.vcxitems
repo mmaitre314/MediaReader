@@ -14,11 +14,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaCaptureReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)D3D11DeviceLock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DebuggerLogger.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaStreamSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.h" />
@@ -26,10 +27,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SampleFormatter.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaCaptureReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebuggerLogger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaStreamSink.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">

@@ -9,6 +9,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Image Name="ImagePreview" RenderTransformOrigin="0, 0">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX=".5" ScaleY=".5" />
+            </Image.RenderTransform>
+        </Image>
+        <SwapChainPanel Name="SwapChainPreview" RenderTransformOrigin="1, 1">
+            <SwapChainPanel.RenderTransform>
+                <ScaleTransform ScaleX=".5" ScaleY=".5" />
+            </SwapChainPanel.RenderTransform>
+        </SwapChainPanel>
+        <TextBlock Name="TextLog"></TextBlock>
     </Grid>
 </Page>

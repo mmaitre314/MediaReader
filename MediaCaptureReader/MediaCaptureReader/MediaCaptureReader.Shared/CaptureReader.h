@@ -12,7 +12,7 @@ namespace MediaCaptureReader
         Record
     };
 
-    ref class CaptureReader sealed
+    public ref class CaptureReader sealed
     {
     public:
 

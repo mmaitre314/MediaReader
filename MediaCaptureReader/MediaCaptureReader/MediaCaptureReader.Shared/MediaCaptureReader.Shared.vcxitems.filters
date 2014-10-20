@@ -10,7 +10,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaStreamSink.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaCaptureReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -22,6 +23,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaStreamSink.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaCaptureReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.cpp" />
   </ItemGroup>
 </Project>

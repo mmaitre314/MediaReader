@@ -13,6 +13,11 @@ namespace MediaCaptureReader
 
         MediaSample(_In_ const MW::ComPtr<IMFSample>& sample);
 
+        MW::ComPtr<IMFSample> GetSample() const
+        {
+            return _sample;
+        }
+
     private:
 
         MW::ComPtr<IMFSample> _sample;

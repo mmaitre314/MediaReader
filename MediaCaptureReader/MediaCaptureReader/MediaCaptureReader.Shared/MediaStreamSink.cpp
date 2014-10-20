@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "MediaTypeFormatter.h"
 #include "MediaSample.h"
 #include "MediaStreamSink.h"
 
@@ -257,7 +258,7 @@ HRESULT MediaStreamSink::GetMediaTypeByIndex(__in DWORD /*index*/, __deref_out  
 
 HRESULT MediaStreamSink::SetCurrentMediaType(__in IMFMediaType *mediaType)
 {
-    return ExceptionBoundary([this, mediaType]()
+    HRESULT hr = ExceptionBoundary([this, mediaType]()
     {
         auto lock = _lock.LockExclusive();
         HRESULT hr = S_OK;
@@ -273,6 +274,10 @@ HRESULT MediaStreamSink::SetCurrentMediaType(__in IMFMediaType *mediaType)
 
         _UpdateMediaType(mediaType);
     });
+
+    Trace("SetCurrentMediaType hr=%08X, %s", hr, MediaTypeFormatter::Format(mediaType).c_str());
+
+    return hr;
 }
 
 HRESULT MediaStreamSink::GetCurrentMediaType(__deref_out_opt IMFMediaType **mediaType)

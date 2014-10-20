@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="5ddd457f-34b3-421a-ae20-047becca18c6" Publisher="CN=mmait_000" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="5ddd457f-34b3-421a-ae20-047becca18c6" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="57e34fae-e5de-4b7f-9bd6-573ddb9f3ddc" Publisher="CN=UnitTestsCx_WindowsPhone" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="57e34fae-e5de-4b7f-9bd6-573ddb9f3ddc" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>MediaCaptureReaderTestApp.WindowsPhone</DisplayName>
-    <PublisherDisplayName>mmait_000</PublisherDisplayName>
+    <DisplayName>UnitTestsCx.WindowsPhone</DisplayName>
+    <PublisherDisplayName>UnitTestsCx_WindowsPhone</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -15,16 +15,18 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="MediaCaptureReaderTestApp.WindowsPhone.App">
-      <m3:VisualElements DisplayName="MediaCaptureReaderTestApp.WindowsPhone" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="MediaCaptureReaderTestApp.WindowsPhone" ForegroundText="light" BackgroundColor="transparent">
+    <Application Id="App" Executable="vstest.executionengine.appcontainer.exe" EntryPoint="Microsoft.VisualStudio.TestPlatform.TestExecutor.AppContainer.App">
+      <m3:VisualElements DisplayName="UnitTestsCx.WindowsPhone" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="UnitTestsCx.WindowsPhone" ForegroundText="light" BackgroundColor="#464646">
         <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:SplashScreen Image="Assets\SplashScreen.png" />
+        <m3:ApplicationView MinWidth="width320" />
+        <!--Used in XAML Designer. DO NOT REMOVE-->
       </m3:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
-    <Capability Name="internetClientServer" />
+    <Capability Name="internetClient" />
     <Capability Name="videosLibrary" />
     <DeviceCapability Name="webcam" />
     <DeviceCapability Name="microphone" />

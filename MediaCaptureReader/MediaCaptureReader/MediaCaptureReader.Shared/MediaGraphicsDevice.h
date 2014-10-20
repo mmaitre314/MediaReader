@@ -11,6 +11,13 @@ namespace MediaCaptureReader
         // IClosable
         virtual ~MediaGraphicsDevice();
 
+    internal:
+
+        MW::ComPtr<IMFDXGIDeviceManager> GetDeviceManager() const
+        {
+            return _deviceManager;
+        }
+
     private:
 
         MW::ComPtr<IMFDXGIDeviceManager> _deviceManager;

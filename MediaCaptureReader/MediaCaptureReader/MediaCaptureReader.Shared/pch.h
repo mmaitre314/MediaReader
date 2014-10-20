@@ -21,6 +21,7 @@
 
 #include <windows.media.h>
 #include <windows.media.mediaproperties.h>
+#include <windows.ui.xaml.media.dxinterop.h>
 
 #include "DebuggerLogger.h"
 
@@ -31,10 +32,13 @@ namespace MW = ::Microsoft::WRL;
 namespace MWD = ::Microsoft::WRL::Details;
 namespace MWW = ::Microsoft::WRL::Wrappers;
 namespace WF = ::Windows::Foundation;
+namespace WFM = ::Windows::Foundation::Metadata;
 namespace WM = ::Windows::Media;
 namespace WMC = ::Windows::Media::Capture;
 namespace WMMp = ::Windows::Media::MediaProperties;
 namespace WSS = ::Windows::Storage::Streams;
+namespace WUXMI = ::Windows::UI::Xaml::Media::Imaging;
+namespace WUXC = ::Windows::UI::Xaml::Controls;
 
 //
 // mfmediacapture.h is missing in Phone SDK 8.1
@@ -274,3 +278,38 @@ private:
 
     bool _initialized;
 };
+
+//
+// Run code at scope exit
+//
+// Note: the lambda cannot throw as it is called in a destructor
+//
+
+namespace Details
+{
+    template<typename Lambda>
+    class OnScopeExitImpl
+    {
+    public:
+
+        OnScopeExitImpl(_In_ Lambda lambda)
+            : _lambda(lambda)
+        {
+        }
+
+        ~OnScopeExitImpl()
+        {
+            _lambda();
+        }
+
+    private:
+
+        Lambda _lambda;
+    };
+}
+
+template<typename Lambda>
+::Details::OnScopeExitImpl<Lambda> OnScopeExit(_In_ Lambda lambda)
+{
+    return ::Details::OnScopeExitImpl<Lambda>(lambda);
+}

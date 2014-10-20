@@ -26,7 +26,7 @@ public:
         : _shutdown(false)
     {
         MW::ComPtr<IMFMediaType> audioMT;
-        if (audioProps != nullptr)
+        if ((audioProps != nullptr) && (!audioProps->Subtype->IsEmpty()))
         {
             CHK(MFCreateMediaTypeFromProperties(As<IUnknown>(audioProps).Get(), &audioMT));
             _audioStreamSink = MW::Make<MediaStreamSink>(
@@ -38,7 +38,7 @@ public:
         }
 
         MW::ComPtr<IMFMediaType> videoMT;
-        if (videoProps != nullptr)
+        if ((videoProps != nullptr) && (!videoProps->Subtype->IsEmpty()))
         {
             CHK(MFCreateMediaTypeFromProperties(As<IUnknown>(videoProps).Get(), &videoMT));
             _videoStreamSink = MW::Make<MediaStreamSink>(

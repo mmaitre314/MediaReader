@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderTestApp.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderTestApp.WindowsPhone", "MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.WindowsPhone\MediaCaptureReaderTestApp.WindowsPhone.csproj", "{C382EC3B-D2FA-487E-AE89-B04BF926DEF9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTestsCx.WindowsPhone", "UnitTestsCx.WindowsPhone\UnitTestsCx.WindowsPhone.vcxproj", "{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{076b7278-9f5a-450d-91c9-1aefc086afe1}*SharedItemsImports = 4
@@ -187,6 +189,34 @@ Global
 		{C382EC3B-D2FA-487E-AE89-B04BF926DEF9}.Release|x86.ActiveCfg = Release|x86
 		{C382EC3B-D2FA-487E-AE89-B04BF926DEF9}.Release|x86.Build.0 = Release|x86
 		{C382EC3B-D2FA-487E-AE89-B04BF926DEF9}.Release|x86.Deploy.0 = Release|x86
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|ARM.Build.0 = Debug|ARM
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|ARM.Deploy.0 = Debug|ARM
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Mixed Platforms.Deploy.0 = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Win32.Build.0 = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|Win32.Deploy.0 = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|x64.ActiveCfg = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|x86.ActiveCfg = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|x86.Build.0 = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Debug|x86.Deploy.0 = Debug|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Any CPU.ActiveCfg = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|ARM.ActiveCfg = Release|ARM
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|ARM.Build.0 = Release|ARM
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|ARM.Deploy.0 = Release|ARM
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Mixed Platforms.Deploy.0 = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Win32.ActiveCfg = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Win32.Build.0 = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Win32.Deploy.0 = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|x64.ActiveCfg = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|x86.ActiveCfg = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|x86.Build.0 = Release|Win32
+		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|x86.Deploy.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
