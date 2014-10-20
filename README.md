@@ -1,7 +1,7 @@
 MediaCapture Reader
 ===================
 
-Reads audio/video media samples from cameras and microphone using MediaCapture.
+Reads audio/video samples from cameras and microphone using MediaCapture.
 
 The following code snippet reads a video frame in Bgra8 format from the default camera:
 
