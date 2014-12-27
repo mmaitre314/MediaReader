@@ -1,88 +1,88 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="MediaCapture Reader : Reads audio/video media samples from cameras and microphone using MediaCapture">
+    <title>MediaCapture Reader by mmaitre314</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>MediaCapture Reader</title>
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/mmaitre314/MediaCaptureReader">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/mmaitre314/MediaCaptureReader/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/mmaitre314/MediaCaptureReader/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mmaitre314/MediaCaptureReader">View on GitHub</a>
+    <div class="wrapper">
 
-          <h1 id="project_title">MediaCapture Reader</h1>
-          <h2 id="project_tagline">Reads audio/video media samples from cameras and microphone using MediaCapture</h2>
+      <section>
+        <div id="title">
+          <h1>MediaCapture Reader</h1>
+          <p>Reads audio/video media samples from cameras and microphone using MediaCapture</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/mmaitre314">mmaitre314</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/mmaitre314/MediaCaptureReader/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/mmaitre314/MediaCaptureReader/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <p><a href="https://ci.appveyor.com/project/mmaitre314/mediacapturereader"><img src="https://ci.appveyor.com/api/projects/status/ix4eud7pf2w9p0gt?svg=true" alt="Build status"></a>
+<a href="https://www.nuget.org/packages/MMaitre.MediaCaptureReader/"><img src="http://mmaitre314.github.io/images/nuget.png" alt="NuGet package"></a></p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <p>The following code snippet reads a video sample in Bgra8 format from the default camera:</p>
+<p>Reads audio/video samples from cameras and microphone using MediaCapture. Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available <a href="http://www.nuget.org/packages/MMaitre.MediaCaptureReader/">here</a>.</p>
 
-<div class="highlight highlight-c#"><pre><span class="err">#</span> <span class="n">Create</span> <span class="n">MediaCapture</span>
-<span class="kt">var</span> <span class="n">capture</span> <span class="p">=</span> <span class="k">new</span> <span class="n">MediaCapture</span><span class="p">();</span>
-<span class="k">await</span> <span class="n">capture</span><span class="p">.</span><span class="n">InitializeAsync</span><span class="p">();</span>
+<p>The following code snippet reads a video sample in Bgra8 format from the default camera:</p>
 
-<span class="err">#</span> <span class="n">Create</span> <span class="n">a</span> <span class="n">Bgra8</span> <span class="n">video</span> <span class="n">format</span> <span class="n">matching</span> <span class="n">the</span> <span class="n">camera</span> <span class="n">resolution</span> <span class="n">and</span> <span class="n">framerate</span>
-<span class="kt">var</span> <span class="n">previewProps</span> <span class="p">=</span> <span class="p">(</span><span class="n">VideoEncodingProperties</span><span class="p">)</span><span class="n">capture</span><span class="p">.</span><span class="n">VideoDeviceController</span><span class="p">.</span><span class="n">GetMediaStreamProperties</span><span class="p">(</span><span class="n">MediaStreamType</span><span class="p">.</span><span class="n">VideoPreview</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">readerProps</span> <span class="p">=</span> <span class="n">VideoEncodingProperties</span><span class="p">.</span><span class="n">CreateUncompressed</span><span class="p">(</span><span class="n">MediaEncodingSubtypes</span><span class="p">.</span><span class="n">Bgra8</span><span class="p">,</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">Width</span><span class="p">,</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">Height</span><span class="p">);</span>
-<span class="n">readerProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Numerator</span> <span class="p">=</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Numerator</span><span class="p">;</span>
-<span class="n">readerProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Denominator</span> <span class="p">=</span> <span class="n">previewProps</span><span class="p">.</span><span class="n">FrameRate</span><span class="p">.</span><span class="n">Denominator</span><span class="p">;</span>
+<div class="highlight highlight-c#"><pre># Create MediaCapture
+<span class="pl-k">var</span> capture = <span class="pl-s">new</span> MediaCapture();
+await capture.InitializeAsync();
 
-<span class="err">#</span> <span class="n">Create</span> <span class="n">CaptureReader</span> <span class="n">and</span> <span class="k">get</span> <span class="n">a</span> <span class="n">video</span> <span class="n">sample</span>
-<span class="kt">var</span> <span class="n">captureReader</span> <span class="p">=</span> <span class="k">await</span> <span class="n">CaptureReader</span><span class="p">.</span><span class="n">CreateAsync</span><span class="p">(</span>
-    <span class="n">capture</span><span class="p">,</span> 
-    <span class="k">new</span> <span class="n">MediaEncodingProfile</span>
-    <span class="p">{</span>
-        <span class="n">Video</span> <span class="p">=</span> <span class="n">readerProps</span>
-    <span class="p">});</span>
-<span class="n">MediaSample</span> <span class="n">sample</span> <span class="p">=</span> <span class="k">await</span> <span class="n">captureReader</span><span class="p">.</span><span class="n">GetVideoSampleAsync</span><span class="p">();</span>
-</pre></div>
+# Create a Bgra8 video format matching the camera resolution and framerate
+<span class="pl-k">var</span> previewProps = (VideoEncodingProperties)capture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
+<span class="pl-k">var</span> readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
+readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
+readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
+
+# Create CaptureReader and <span class="pl-k">get</span> a video sample
+<span class="pl-k">var</span> captureReader = await CaptureReader.CreateAsync(
+    capture, 
+    <span class="pl-s">new</span> MediaEncodingProfile
+    {
+        Video = readerProps
+    });
+MediaSample sample = await captureReader.GetVideoSampleAsync();</pre></div>
 
 <p>The component also provides methods to display video samples in XAML using either SurfaceImageSource</p>
 
-<div class="highlight highlight-c#"><pre><span class="kt">var</span> <span class="n">image</span> <span class="p">=</span> <span class="k">new</span> <span class="n">SurfaceImageSource</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Width</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Height</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">imagePresenter</span> <span class="p">=</span> <span class="n">MediaSamplePresenter</span><span class="p">.</span><span class="n">CreateFromSurfaceImageSource</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">graphicsDevice</span><span class="p">);</span>
-<span class="kt">var</span> <span class="n">imagePresenter</span><span class="p">.</span><span class="n">Present</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
-</pre></div>
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> image = <span class="pl-s">new</span> SurfaceImageSource((<span class="pl-st">int</span>)previewProps.Width, (<span class="pl-st">int</span>)previewProps.Height);
+<span class="pl-k">var</span> imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice);
+<span class="pl-k">var</span> imagePresenter.Present(sample);</pre></div>
 
 <p>or SwapChainPanel</p>
 
-<div class="highlight highlight-c#"><pre><span class="kt">var</span> <span class="n">swapChainPresenter</span> <span class="p">=</span> <span class="n">MediaSamplePresenter</span><span class="p">.</span><span class="n">CreateFromSwapChainPanel</span><span class="p">(</span>
-    <span class="n">SwapChainPreview</span><span class="p">,</span>
-    <span class="n">graphicsDevice</span><span class="p">,</span>
-    <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Width</span><span class="p">,</span>
-    <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">previewProps</span><span class="p">.</span><span class="n">Height</span>
-    <span class="p">);</span>
-<span class="n">swapChainPresenter</span><span class="p">.</span><span class="n">Present</span><span class="p">(</span><span class="n">sample</span><span class="p">);</span>
-</pre></div>
-
-<p>Store apps targeting either Windows or Windows Phone are supported. </p>
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
+    SwapChainPreview,
+    graphicsDevice,
+    (<span class="pl-st">int</span>)previewProps.Width,
+    (<span class="pl-st">int</span>)previewProps.Height
+    );
+swapChainPresenter.Present(sample);</pre></div>
       </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">MediaCapture Reader maintained by <a href="https://github.com/mmaitre314">mmaitre314</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -93,7 +93,6 @@
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
-
 
   </body>
 </html>
