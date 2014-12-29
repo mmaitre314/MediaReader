@@ -23,6 +23,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaStreamSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCapture.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCaptureImpl.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SampleFormatter.h" />
   </ItemGroup>
@@ -34,6 +37,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaStreamSink.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCapture.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCaptureImpl.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

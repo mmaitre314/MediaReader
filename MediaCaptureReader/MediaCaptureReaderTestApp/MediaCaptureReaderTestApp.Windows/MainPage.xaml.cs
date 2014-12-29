@@ -55,7 +55,7 @@ namespace MediaCaptureReaderTestApp
 
             var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
             ImagePreview.Source = image;
-            _imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice);
+            _imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
 
             TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
 

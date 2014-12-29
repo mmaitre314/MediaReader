@@ -13,7 +13,7 @@ namespace UnitTests.NuGet.Windows
         [TestMethod]
         public void CS_W_N_UseCaptureStreamType()
         {
-            Assert.AreEqual(0, CaptureStreamType.Preview);
+            Assert.AreEqual(0, (int)CaptureStreamType.Preview);
         }
     }
 }

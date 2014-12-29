@@ -19,15 +19,18 @@
 #include <mfidl.h>
 #include <Mferror.h>
 
-#include <windows.media.h>
-#include <windows.media.mediaproperties.h>
+#include <windows.media.capture.h>
 #include <windows.ui.xaml.media.dxinterop.h>
 
 #include "DebuggerLogger.h"
 
+namespace AWF = ::ABI::Windows::Foundation;
 namespace AWFC = ::ABI::Windows::Foundation::Collections;
 namespace AWM = ::ABI::Windows::Media;
+namespace AWMC = ::ABI::Windows::Media::Capture;
+namespace AWMD = ::ABI::Windows::Media::Devices;
 namespace AWMMp = ::ABI::Windows::Media::MediaProperties;
+namespace AWSS = ::ABI::Windows::Storage::Streams;
 namespace MW = ::Microsoft::WRL;
 namespace MWD = ::Microsoft::WRL::Details;
 namespace MWW = ::Microsoft::WRL::Wrappers;
@@ -84,6 +87,7 @@ namespace Details
     {
     public:
 
+        // A method to track error origin
         template <size_t N, size_t L>
         static HRESULT TracedOriginateError(_In_ char const (&function)[L], _In_ HRESULT hr, _In_ wchar_t const (&str)[N])
         {
@@ -111,6 +115,7 @@ namespace Details
     };
 }
 
+// A method to track error origin
 #define OriginateError(_hr, ...) ::Details::ErrorOrigin::TracedOriginateError(__FUNCTION__, _hr, __VA_ARGS__)
 
 //

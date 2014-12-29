@@ -122,7 +122,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -139,7 +139,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -156,7 +156,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -173,7 +173,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -190,7 +190,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -207,7 +207,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>

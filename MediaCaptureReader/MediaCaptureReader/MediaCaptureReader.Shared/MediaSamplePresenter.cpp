@@ -10,49 +10,49 @@ using namespace Windows::UI::Xaml::Media::Imaging;
 using namespace Windows::UI::Xaml::Controls;
 
 MediaSamplePresenter^ MediaSamplePresenter::CreateFromSurfaceImageSource(
-    SurfaceImageSource^ image,
-    MediaGraphicsDevice^ device
+    _In_ SurfaceImageSource^ image,
+    _In_ MediaGraphicsDevice^ device,
+    _In_ int width,
+    _In_ int height
     )
 {
     CHKNULL(image);
     CHKNULL(device);
 
-    auto presenter = ref new MediaSamplePresenter();
+    auto presenter = ref new MediaSamplePresenter(width, height);
 
     // Get the DXGI device
     HANDLE deviceHandle = nullptr;
-    ComPtr<IDXGIDevice> dxgiDevice;
     ComPtr<IMFDXGIDeviceManager> deviceManager = device->GetDeviceManager();
     CHK(deviceManager->OpenDeviceHandle(&deviceHandle));
-    HRESULT hr = deviceManager->GetVideoService(deviceHandle, IID_PPV_ARGS(&dxgiDevice));
+    HRESULT hr = deviceManager->GetVideoService(deviceHandle, IID_PPV_ARGS(&presenter->_device));
     CHK(deviceManager->CloseDeviceHandle(deviceHandle));
     CHK(hr);
 
     // Initialize SurfaceImageSource
     CHK(((IUnknown*)image)->QueryInterface(IID_PPV_ARGS(&presenter->_image)));
-    CHK(presenter->_image->SetDevice(dxgiDevice.Get()));
+    CHK(presenter->_image->SetDevice(presenter->_device.Get()));
 
     return presenter;
 }
 
 MediaSamplePresenter^ MediaSamplePresenter::CreateFromSwapChainPanel(
-    SwapChainPanel^ panel,
-    MediaGraphicsDevice^ device,
-    int width,
-    int height
+    _In_ SwapChainPanel^ panel,
+    _In_ MediaGraphicsDevice^ device,
+    _In_ int width,
+    _In_ int height
     )
 {
     CHKNULL(panel);
     CHKNULL(device);
 
-    auto presenter = ref new MediaSamplePresenter();
+    auto presenter = ref new MediaSamplePresenter(width, height);
 
     // Get the DXGI device
     HANDLE deviceHandle = nullptr;
-    ComPtr<IDXGIDevice> dxgiDevice;
     ComPtr<IMFDXGIDeviceManager> deviceManager = device->GetDeviceManager();
     CHK(deviceManager->OpenDeviceHandle(&deviceHandle));
-    HRESULT hr = deviceManager->GetVideoService(deviceHandle, IID_PPV_ARGS(&dxgiDevice));
+    HRESULT hr = deviceManager->GetVideoService(deviceHandle, IID_PPV_ARGS(&presenter->_device));
     CHK(deviceManager->CloseDeviceHandle(deviceHandle));
     CHK(hr);
 
@@ -73,10 +73,10 @@ MediaSamplePresenter^ MediaSamplePresenter::CreateFromSwapChainPanel(
     // Create the swap chain
     ComPtr<IDXGIAdapter> dxgiAdapter;
     ComPtr<IDXGIFactory2> dxgiFactory;
-    CHK(dxgiDevice->GetAdapter(&dxgiAdapter));
+    CHK(presenter->_device->GetAdapter(&dxgiAdapter));
     CHK(dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory)));
     CHK(dxgiFactory->CreateSwapChainForComposition(
-        dxgiDevice.Get(),
+        presenter->_device.Get(),
         &swapChainDesc,
         nullptr,
         &presenter->_swapChain
@@ -99,15 +99,43 @@ void MediaSamplePresenter::Present(MediaSample^ sample)
 
     ComPtr<IMFMediaBuffer> buffer;
     CHK(sample->GetSample()->GetBufferByIndex(0, &buffer));
-    auto dxgiBuffer = As<IMFDXGIBuffer>(buffer);
+
+    // Get the MF DXGI buffer, make a copy if the buffer is not yet a DXGI one
+    ComPtr<IMFDXGIBuffer> bufferDxgi;
+    if (FAILED(buffer.As(&bufferDxgi)))
+    {
+        auto buffer2D = As<IMF2DBuffer2>(buffer);
+
+        D3D11_TEXTURE2D_DESC desc = {};
+        desc.Width = _width;
+        desc.Height = _height;
+        desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+        desc.Usage = D3D11_USAGE_STAGING;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        desc.BindFlags = 0;
+        desc.MiscFlags = 0;
+        desc.ArraySize = 1;
+        desc.MipLevels = 1;
+        desc.SampleDesc.Count = 1;
+        desc.SampleDesc.Quality = 0;
+
+        ComPtr<ID3D11Texture2D> texture;
+        CHK(As<ID3D11Device>(_device)->CreateTexture2D(&desc, nullptr, &texture));
+
+        ComPtr<IMFMediaBuffer> bufferCopy;
+        CHK(MFCreateDXGISurfaceBuffer(__uuidof(texture), texture.Get(), 0, /*fBottomUpWhenLinear*/false, &bufferCopy));
+        CHK(buffer2D->Copy2DTo(As<IMF2DBuffer2>(bufferCopy).Get()));
+
+        bufferDxgi = As<IMFDXGIBuffer>(bufferCopy);
+    }
 
     if (_image != nullptr)
     {
-        _PresentToSurfaceImageSource(dxgiBuffer);
+        _PresentToSurfaceImageSource(bufferDxgi);
     }
     else
     {
-        _PresentToSwapChainPanel(dxgiBuffer);
+        _PresentToSwapChainPanel(bufferDxgi);
     }
 }
 

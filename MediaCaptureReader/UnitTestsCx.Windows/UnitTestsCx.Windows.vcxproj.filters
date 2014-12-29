@@ -1,41 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>d2879184-3f33-4473-88e9-1301833143eb</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>5a61379c-fe47-4a10-ad81-7ccbf53fbfe1</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>26bc40c9-fd48-48c9-b422-6e79ab3d726e</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Package">
-      <UniqueIdentifier>033fad85-4f39-42bf-a1de-15c8e6e0c964</UniqueIdentifier>
-      <Extensions>appxmanifest;tile;settings</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Await.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="Await.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MediaGraphicsDeviceTests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="MediaGraphicsDeviceTests.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="MediaCaptureReaderTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\UnitTestLogo.scale-100.png">
@@ -52,11 +31,9 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <Filter>Package</Filter>
-    </AppxManifest>
+    <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
+    <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
 </Project>

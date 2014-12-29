@@ -1,14 +1,14 @@
-﻿using System;
+﻿using MediaCaptureReader;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Threading.Tasks;
-using Windows.Media.Capture;
-using MediaCaptureReader;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Media.MediaProperties;
-using Windows.UI.Xaml.Controls;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
+using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.Media.Capture;
+using Windows.Media.MediaProperties;
+using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace UnitTests.NuGet.WindowsPhone
 {
@@ -32,7 +32,12 @@ namespace UnitTests.NuGet.WindowsPhone
 
                     var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
 
-                    var imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice);
+                    var imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(
+                        image, 
+                        graphicsDevice,
+                        (int)previewProps.Width,
+                        (int)previewProps.Height
+                        );
 
                     var panel = new SwapChainPanel();
                     var swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
