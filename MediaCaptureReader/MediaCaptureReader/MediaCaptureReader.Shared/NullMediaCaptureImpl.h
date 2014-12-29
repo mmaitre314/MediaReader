@@ -236,7 +236,8 @@ private:
     virtual ~NullMediaCaptureImpl();
 
     void _HandlePreviewSinkRequests();
-    MW::ComPtr<IMFSample> _CreateVideoSample(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time);
+    MW::ComPtr<IMFSample> _CreateVideoSampleBgra8(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time);
+    MW::ComPtr<IMFSample> _CreateVideoSampleNv12(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time);
 
     MW::ComPtr<IMFDXGIDeviceManager> _device;
     MW::ComPtr<AWMD::IVideoDeviceController> _videoDeviceController;
@@ -245,6 +246,7 @@ private:
 
     unsigned int _deviceResetToken;
     MFTIME _previewStartTime;
+    unsigned int _previewFourCC;
 
     MWW::SRWLock _lock;
 };

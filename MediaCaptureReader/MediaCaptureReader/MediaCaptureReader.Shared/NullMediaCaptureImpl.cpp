@@ -14,6 +14,7 @@ using namespace Microsoft::WRL;
 NullMediaCaptureImpl::NullMediaCaptureImpl()
     : _deviceResetToken(0)
     , _previewStartTime(0)
+    , _previewFourCC(0)
 {
     CHK(MFCreateDXGIDeviceManager(&_deviceResetToken, &_device));
 
@@ -171,11 +172,16 @@ STDMETHODIMP NullMediaCaptureImpl::StartPreviewToCustomSinkAsync(
         GUID subType;
         CHK(type->GetGUID(MF_MT_MAJOR_TYPE, &majorType));
         CHK(type->GetGUID(MF_MT_SUBTYPE, &subType));
-        if ((majorType != MFMediaType_Video) || (subType != MFVideoFormat_ARGB32))
+        if (majorType != MFMediaType_Video)
+        {
+            CHK(OriginateError(E_INVALIDARG));
+        }
+        if ((subType != MFVideoFormat_ARGB32) && (subType != MFVideoFormat_NV12))
         {
             CHK(OriginateError(E_INVALIDARG));
         }
 
+        _previewFourCC = subType.Data1;
         _previewStartTime = MFGetSystemTime();
 
         ComPtr<NullMediaCaptureImpl> spThis(this);
@@ -263,7 +269,21 @@ void NullMediaCaptureImpl::_HandlePreviewSinkRequests()
         CHK(handler->GetCurrentMediaType(&mediaType));
         CHK(MFGetAttributeSize(mediaType.Get(), MF_MT_FRAME_SIZE, &width, &height));
 
-        ComPtr<IMFSample> sample = _CreateVideoSample(width, height, MFGetSystemTime() - previewStartTime);
+        ComPtr<IMFSample> sample;
+        if (_previewFourCC == MFVideoFormat_ARGB32.Data1)
+        {
+            sample = _CreateVideoSampleBgra8(width, height, MFGetSystemTime() - previewStartTime);
+        }
+        else if (_previewFourCC == MFVideoFormat_NV12.Data1)
+        {
+            sample = _CreateVideoSampleNv12(width, height, MFGetSystemTime() - previewStartTime);
+        }
+        else
+        {
+            assert(false);
+            CHK(OriginateError(MF_E_UNEXPECTED));
+        }
+
         hr = videoStreamSink->ProcessSample(sample.Get());
         if (hr == MF_E_SHUTDOWN)
         {
@@ -273,7 +293,7 @@ void NullMediaCaptureImpl::_HandlePreviewSinkRequests()
     }
 }
 
-ComPtr<IMFSample> NullMediaCaptureImpl::_CreateVideoSample(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time)
+ComPtr<IMFSample> NullMediaCaptureImpl::_CreateVideoSampleBgra8(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time)
 {
     ComPtr<IMFMediaBuffer> buffer;
     CHK(MFCreate2DMediaBuffer(width, height, MFVideoFormat_ARGB32.Data1, /*fBottomUp*/false, &buffer));
@@ -296,6 +316,47 @@ ComPtr<IMFSample> NullMediaCaptureImpl::_CreateVideoSample(_In_ unsigned int wid
         }
     }
     CHK(buffer2D->Unlock2D());
+
+    CHK(buffer->SetCurrentLength(width * height * 4))
+
+    ComPtr<IMFSample> sample;
+    CHK(MFCreateSample(&sample));
+    CHK(sample->SetSampleTime(time));
+    CHK(sample->AddBuffer(buffer.Get()));
+
+    return sample;
+}
+
+ComPtr<IMFSample> NullMediaCaptureImpl::_CreateVideoSampleNv12(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time)
+{
+    ComPtr<IMFMediaBuffer> buffer;
+    CHK(MFCreate2DMediaBuffer(width, height, MFVideoFormat_NV12.Data1, /*fBottomUp*/false, &buffer));
+
+    // Fill buffer with some pattern
+    auto buffer2D = As<IMF2DBuffer2>(buffer);
+    unsigned char *data = nullptr;
+    unsigned char *bufferStart = nullptr;
+    long pitch;
+    unsigned long length;
+    CHK(buffer2D->Lock2DSize(MF2DBuffer_LockFlags_Write, &data, &pitch, &bufferStart, &length));
+    for (unsigned int i = 0; i < height; i++) // Y
+    {
+        for (unsigned int j = 0; j < width; j++)
+        {
+            data[i * pitch + j] = (unsigned char)((100 * time) / 10000000 + 128);
+        }
+    }
+    for (unsigned int i = 0; i < height / 2; i++) // UV
+    {
+        for (unsigned int j = 0; j < width / 2; j++)
+        {
+            data[height * pitch + i * pitch + 2 * j + 0] = (unsigned char)i;
+            data[height * pitch + i * pitch + 2 * j + 1] = (unsigned char)j;
+        }
+    }
+    CHK(buffer2D->Unlock2D());
+
+    CHK(buffer->SetCurrentLength((width * height * 3) / 2));
 
     ComPtr<IMFSample> sample;
     CHK(MFCreateSample(&sample));

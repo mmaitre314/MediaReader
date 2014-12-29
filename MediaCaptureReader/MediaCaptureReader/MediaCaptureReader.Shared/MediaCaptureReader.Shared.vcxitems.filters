@@ -15,6 +15,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCaptureImpl.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCapture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -31,5 +32,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCaptureImpl.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCapture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.cpp" />
   </ItemGroup>
 </Project>

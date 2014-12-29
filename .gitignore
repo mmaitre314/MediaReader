@@ -79,3 +79,4 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPhone/x64
 /MediaCaptureReader/UnitTestsCx.WindowsPhone/Debug
 /MediaCaptureReader/UnitTestsCx.Windows/Debug
+/MediaCaptureReader/UnitTestsCx.Windows/Release

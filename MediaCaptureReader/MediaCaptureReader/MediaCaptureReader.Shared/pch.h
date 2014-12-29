@@ -19,6 +19,9 @@
 #include <mfidl.h>
 #include <Mferror.h>
 
+#include <wincodec.h>
+#include <shcore.h>
+
 #include <windows.media.capture.h>
 #include <windows.ui.xaml.media.dxinterop.h>
 

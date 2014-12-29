@@ -5,6 +5,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::Media::Capture;
 using namespace Windows::Media::MediaProperties;
+using namespace Windows::Storage;
 using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media::Imaging;
@@ -68,6 +69,50 @@ public:
                 imagePresenter->Present(sample);
             }
         })));
+    }
+
+    TEST_METHOD(CX_W_N_SaveBgra8ToJpeg)
+    {
+        auto capture = NullMediaCapture::Create();
+        Await(capture->InitializeAsync());
+
+        auto previewProps = (VideoEncodingProperties^)capture->VideoDeviceController->GetMediaStreamProperties(MediaStreamType::VideoPreview);
+
+        auto readerProps = VideoEncodingProperties::CreateUncompressed(MediaEncodingSubtypes::Bgra8, previewProps->Width, previewProps->Height);
+        readerProps->FrameRate->Numerator = previewProps->FrameRate->Numerator;
+        readerProps->FrameRate->Denominator = previewProps->FrameRate->Denominator;
+
+        auto profile = ref new MediaEncodingProfile();
+        profile->Video = readerProps;
+
+        auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
+
+        Logger::WriteMessage("Saving sample");
+        MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
+        StorageFile^ file = Await(KnownFolders::PicturesLibrary->CreateFileAsync(L"CX_W_N_SaveBgra8ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
+        Await(MediaSampleEncoder::SaveToFileAsync(sample, MediaPixelFormat::Bgra8, previewProps->Width, previewProps->Height, file, ContainerFormat::Jpeg));
+    }
+
+    TEST_METHOD(CX_W_N_SaveNv12ToJpeg)
+    {
+        auto capture = NullMediaCapture::Create();
+        Await(capture->InitializeAsync());
+
+        auto previewProps = (VideoEncodingProperties^)capture->VideoDeviceController->GetMediaStreamProperties(MediaStreamType::VideoPreview);
+
+        auto readerProps = VideoEncodingProperties::CreateUncompressed(MediaEncodingSubtypes::Nv12, previewProps->Width, previewProps->Height);
+        readerProps->FrameRate->Numerator = previewProps->FrameRate->Numerator;
+        readerProps->FrameRate->Denominator = previewProps->FrameRate->Denominator;
+
+        auto profile = ref new MediaEncodingProfile();
+        profile->Video = readerProps;
+
+        auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
+
+        Logger::WriteMessage("Saving sample");
+        MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
+        StorageFile^ file = Await(KnownFolders::PicturesLibrary->CreateFileAsync(L"CX_W_N_SaveNv12ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
+        Await(MediaSampleEncoder::SaveToFileAsync(sample, MediaPixelFormat::Nv12, previewProps->Width, previewProps->Height, file, ContainerFormat::Jpeg));
     }
 
 };
