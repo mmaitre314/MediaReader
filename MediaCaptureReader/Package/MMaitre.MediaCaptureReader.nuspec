@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Reads audio and video samples from cameras and microphones using MediaCapture.</summary>
     <description>Reads audio and video samples from cameras and microphones using MediaCapture. Renders video samples to XAML SwapChainPanel and SurfaceImageSource.</description>
+    <releaseNotes>Add NullMediaCapture to enable automated testing on Windows.</releaseNotes>
     <copyright>Copyright © 2014, Matthieu Maitre. All rights reserved.</copyright>
     <tags>Native WinRT XAML MediaCapture SwapChainPanel SurfaceImageSource</tags>
   </metadata>

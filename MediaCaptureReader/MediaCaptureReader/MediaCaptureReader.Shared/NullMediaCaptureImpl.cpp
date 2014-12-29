@@ -291,7 +291,7 @@ ComPtr<IMFSample> NullMediaCaptureImpl::_CreateVideoSample(_In_ unsigned int wid
         {
             data[i * pitch + 4 * j + 0] = (unsigned char)i;
             data[i * pitch + 4 * j + 1] = (unsigned char)j;
-            data[i * pitch + 4 * j + 2] = (unsigned char)((10 * time) / 10000000);
+            data[i * pitch + 4 * j + 2] = (unsigned char)((100 * time) / 10000000);
             data[i * pitch + 4 * j + 3] = 255;
         }
     }
