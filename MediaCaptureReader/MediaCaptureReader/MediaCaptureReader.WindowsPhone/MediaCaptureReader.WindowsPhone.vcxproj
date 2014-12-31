@@ -76,13 +76,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -100,6 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -110,13 +112,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINRT_DLL;%(PreprocessorDefinitions);_SCL_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>true</SDLCheck>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
       <WarningLevel>Level3</WarningLevel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

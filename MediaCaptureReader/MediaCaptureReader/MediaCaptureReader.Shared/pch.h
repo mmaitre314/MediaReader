@@ -41,6 +41,7 @@ namespace WF = ::Windows::Foundation;
 namespace WFM = ::Windows::Foundation::Metadata;
 namespace WM = ::Windows::Media;
 namespace WMC = ::Windows::Media::Capture;
+namespace WMCo = ::Windows::Media::Core;
 namespace WMMp = ::Windows::Media::MediaProperties;
 namespace WSS = ::Windows::Storage::Streams;
 namespace WUXMI = ::Windows::UI::Xaml::Media::Imaging;

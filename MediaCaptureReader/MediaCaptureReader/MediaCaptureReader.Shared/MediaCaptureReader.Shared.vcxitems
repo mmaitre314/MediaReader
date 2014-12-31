@@ -15,6 +15,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)D3D11DeviceLock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DebuggerLogger.h" />
@@ -32,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebuggerLogger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample.cpp" />

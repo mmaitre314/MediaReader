@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -39,48 +40,60 @@ namespace MediaCaptureReaderTestApp
         {
             DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
 
-            _capture = new MediaCapture();
-            await _capture.InitializeAsync(new MediaCaptureInitializationSettings
-            {
-                VideoDeviceId = await GetBackOrDefaulCameraIdAsync(),
-                StreamingCaptureMode = StreamingCaptureMode.Video
-            });
+            VideoPreview.MediaFailed += VideoPreview_MediaFailed;
+            //var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/video.cvmpilj.mjpg"));
+            //var stream = await file.OpenAsync(FileAccessMode.Read);
+            //var source = await HttpMjpegCaptureSource.CreateFromStreamAsync(stream, "myboundary");
+            var source = await HttpMjpegCaptureSource.CreateFromUriAsync(new Uri("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480"));
+            VideoPreview.SetMediaStreamSource(source.Source);
 
-            var graphicsDevice = MediaGraphicsDevice.CreateFromMediaCapture(_capture);
+            //_capture = new MediaCapture();
+            //await _capture.InitializeAsync(new MediaCaptureInitializationSettings
+            //{
+            //    VideoDeviceId = await GetBackOrDefaulCameraIdAsync(),
+            //    StreamingCaptureMode = StreamingCaptureMode.Video
+            //});
 
-            var previewProps = (VideoEncodingProperties)_capture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
-            TextLog.Text += String.Format("Preview: {0} {1}x{2} {3}fps\n", previewProps.Subtype, previewProps.Width, previewProps.Height, previewProps.FrameRate.Numerator / (float)previewProps.FrameRate.Denominator);
+            //var graphicsDevice = MediaGraphicsDevice.CreateFromMediaCapture(_capture);
 
-            TextLog.Text += "Creating MediaSamplePresenter from SurfaceImageSource\n";
+            //var previewProps = (VideoEncodingProperties)_capture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
+            //TextLog.Text += String.Format("Preview: {0} {1}x{2} {3}fps\n", previewProps.Subtype, previewProps.Width, previewProps.Height, previewProps.FrameRate.Numerator / (float)previewProps.FrameRate.Denominator);
 
-            var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
-            ImagePreview.Source = image;
-            _imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
+            //TextLog.Text += "Creating MediaSamplePresenter from SurfaceImageSource\n";
 
-            TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
+            //var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
+            //ImagePreview.Source = image;
+            //_imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
 
-            _swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
-                SwapChainPreview, 
-                graphicsDevice,
-                (int)previewProps.Width,
-                (int)previewProps.Height
-                );
+            //TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
 
-            TextLog.Text += "Creating CaptureReader\n";
+            //_swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
+            //    SwapChainPreview,
+            //    graphicsDevice,
+            //    (int)previewProps.Width,
+            //    (int)previewProps.Height
+            //    );
 
-            var readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
-            readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
-            readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
+            //TextLog.Text += "Creating CaptureReader\n";
 
-            _captureReader = await CaptureReader.CreateAsync(
-                _capture, new MediaEncodingProfile
-                {
-                    Video = readerProps
-                });
+            //var readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
+            //readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
+            //readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
 
-            TextLog.Text += "Starting video loop\n";
+            //_captureReader = await CaptureReader.CreateAsync(
+            //    _capture, new MediaEncodingProfile
+            //    {
+            //        Video = readerProps
+            //    });
 
-            var ignore = Task.Run(() => VideoLoop());
+            //TextLog.Text += "Starting video loop\n";
+
+            //var ignore = Task.Run(() => VideoLoop());
+        }
+
+        void VideoPreview_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            TextLog.Text += "VideoPreview MediaFailed: " + e.ErrorMessage;
         }
 
         async void VideoLoop()
