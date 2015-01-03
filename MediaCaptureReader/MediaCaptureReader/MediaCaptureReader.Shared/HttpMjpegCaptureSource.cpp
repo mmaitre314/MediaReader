@@ -283,7 +283,7 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
     if (pos0 != _accumulationBuffer.end())
     {
         auto pos1 = search(pos0 + 2, _accumulationBuffer.end(), markerEnd.begin(), markerEnd.end());
-        if (pos1!= _accumulationBuffer.end())
+        if (pos1 != _accumulationBuffer.end())
         {
             unsigned int length = (unsigned int)(pos1 - (pos0 + 4));
             auto buffer = ref new Buffer(length);
@@ -297,7 +297,6 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
     }
 
     // If not found, request more data and try again
-    _streamReadBuffer->Length = 0;
     return create_task([this]()
     {
         // Call ReadAsync() on a different thread to avoid deadlocks
@@ -308,6 +307,7 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
             throw ref new OperationCanceledException();
         }
 
+        _streamReadBuffer->Length = 0;
         return _stream->ReadAsync(_streamReadBuffer, _streamReadBuffer->Capacity, InputStreamOptions::Partial);
     }).then([this](IBuffer^ readBuffer)
     {

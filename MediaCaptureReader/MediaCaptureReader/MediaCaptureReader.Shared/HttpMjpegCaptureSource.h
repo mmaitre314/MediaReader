@@ -6,7 +6,14 @@ namespace MediaCaptureReader
     {
     public:
 
+        [Windows::Foundation::Metadata::DefaultOverload]
         static WF::IAsyncOperation<HttpMjpegCaptureSource^>^ CreateFromUriAsync(_In_ WF::Uri^ uri);
+        
+        static WF::IAsyncOperation<HttpMjpegCaptureSource^>^ CreateFromUriAsync(_In_ Platform::String^ uri)
+        {
+            return CreateFromUriAsync(ref new Windows::Foundation::Uri(uri));
+        }
+
         static WF::IAsyncOperation<HttpMjpegCaptureSource^>^ CreateFromStreamAsync(_In_ WSS::IInputStream^ stream, _In_ Platform::String^ boundary);
 
         // IClosable

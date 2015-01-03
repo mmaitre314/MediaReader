@@ -44,7 +44,7 @@ namespace MediaCaptureReaderTestApp
             //var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/video.cvmpilj.mjpg"));
             //var stream = await file.OpenAsync(FileAccessMode.Read);
             //var source = await HttpMjpegCaptureSource.CreateFromStreamAsync(stream, "myboundary");
-            var source = await HttpMjpegCaptureSource.CreateFromUriAsync(new Uri("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480"));
+            var source = await HttpMjpegCaptureSource.CreateFromUriAsync("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480");
             VideoPreview.SetMediaStreamSource(source.Source);
 
             //_capture = new MediaCapture();
