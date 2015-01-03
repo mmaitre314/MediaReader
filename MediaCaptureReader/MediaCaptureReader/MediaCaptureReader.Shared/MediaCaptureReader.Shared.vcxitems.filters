@@ -17,6 +17,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HttpMultipartMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">

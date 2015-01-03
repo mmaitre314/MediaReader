@@ -41,7 +41,7 @@ HttpMjpegCaptureSource::~HttpMjpegCaptureSource()
 
     _source = nullptr;
     _streamReadBuffer = nullptr;
-    _accumulationBuffer.clear();
+    _message.Clear();
 }
 
 IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriAsync(_In_ Uri^ uri)
@@ -59,25 +59,36 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriA
         {
             httpResponse->EnsureSuccessStatusCode();
 
-            Trace("HTTP response headers:\n%S", httpResponse->Headers->ToString());
-            Trace("HTTP response content headers:\n%S", httpResponse->Content->Headers->ToString());
+            Trace("HTTP response headers:");
+            for (auto header : httpResponse->Headers)
+            {
+                Trace("  %S: %S", header->Key->Data(), header->Value->Data());
+            }
+
+            Trace("HTTP response content headers:");
+            for (auto header : httpResponse->Content->Headers)
+            {
+                Trace("  %S: %S", header->Key->Data(), header->Value->Data());
+            }
 
             auto headers = httpResponse->Content->Headers;
             if (headers->ContentType->MediaType != "multipart/x-mixed-replace")
             {
                 throw ref new Platform::FailureException(L"Invalid ContentType: expected 'multipart/x-mixed-replace', received '" + headers->ContentType->MediaType + L"'");
             }
+
+            // Get the message boundary
+            bool found = false;
             for (auto param : headers->ContentType->Parameters)
             {
                 if (param->Name == "boundary")
                 {
-                    source->_httpBoundary.resize(param->Value->Length());
-                    size_t n;
-                    wcstombs_s(&n, &source->_httpBoundary[0], source->_httpBoundary.capacity(), param->Value->Data(), param->Value->Length());
+                    source->_message.SetBoundary(param->Value);
+                    found = true;
                     break;
                 }
             }
-            if (source->_httpBoundary.empty())
+            if (!found)
             {
                 throw ref new Platform::FailureException(L"HTTP multipart boundary not found");
             }
@@ -113,10 +124,7 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromStre
     return create_async([stream, boundary, source]()
     {
         source->_stream = stream;
-
-        source->_httpBoundary.resize(boundary->Length());
-        size_t n;
-        wcstombs_s(&n, &source->_httpBoundary[0], source->_httpBoundary.capacity(), boundary->Data(), boundary->Length());
+        source->_message.SetBoundary(boundary);
 
         return create_task(source->_InitializeAsync()).then([source]()
         {
@@ -276,24 +284,10 @@ void HttpMjpegCaptureSource::_ReadFramesAsync()
 
 task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
 {
-    // Look for a frame in the current accumulation buffer
-    string markerBegin("\r\n\r\n");
-    string markerEnd("\r\n--" + _httpBoundary + "\r\n");
-    auto pos0 = search(_accumulationBuffer.begin(), _accumulationBuffer.end(), markerBegin.begin(), markerBegin.end());
-    if (pos0 != _accumulationBuffer.end())
+    IBuffer^ buffer = _message.GetPart();
+    if (buffer != nullptr)
     {
-        auto pos1 = search(pos0 + 2, _accumulationBuffer.end(), markerEnd.begin(), markerEnd.end());
-        if (pos1 != _accumulationBuffer.end())
-        {
-            unsigned int length = (unsigned int)(pos1 - (pos0 + 4));
-            auto buffer = ref new Buffer(length);
-            buffer->Length = length;
-            unsigned char* data = GetData(buffer);
-            copy(pos0 + 4, pos1, data);
-            _accumulationBuffer.erase(_accumulationBuffer.begin(), pos1);
-
-            return task_from_result(static_cast<IBuffer^>(buffer));
-        }
+        return task_from_result(static_cast<IBuffer^>(buffer));
     }
 
     // If not found, request more data and try again
@@ -321,8 +315,7 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
 
         if (readBuffer->Length > 0)
         {
-            unsigned char* readData = GetData(readBuffer);
-            _accumulationBuffer.insert(_accumulationBuffer.end(), readData, readData + readBuffer->Length);
+            _message.Append(readBuffer);
         }
         else
         {

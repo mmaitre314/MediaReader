@@ -47,48 +47,48 @@ namespace MediaCaptureReaderTestApp
             var source = await HttpMjpegCaptureSource.CreateFromUriAsync("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480");
             VideoPreview.SetMediaStreamSource(source.Source);
 
-            //_capture = new MediaCapture();
-            //await _capture.InitializeAsync(new MediaCaptureInitializationSettings
-            //{
-            //    VideoDeviceId = await GetBackOrDefaulCameraIdAsync(),
-            //    StreamingCaptureMode = StreamingCaptureMode.Video
-            //});
+            _capture = new MediaCapture();
+            await _capture.InitializeAsync(new MediaCaptureInitializationSettings
+            {
+                VideoDeviceId = await GetBackOrDefaulCameraIdAsync(),
+                StreamingCaptureMode = StreamingCaptureMode.Video
+            });
 
-            //var graphicsDevice = MediaGraphicsDevice.CreateFromMediaCapture(_capture);
+            var graphicsDevice = MediaGraphicsDevice.CreateFromMediaCapture(_capture);
 
-            //var previewProps = (VideoEncodingProperties)_capture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
-            //TextLog.Text += String.Format("Preview: {0} {1}x{2} {3}fps\n", previewProps.Subtype, previewProps.Width, previewProps.Height, previewProps.FrameRate.Numerator / (float)previewProps.FrameRate.Denominator);
+            var previewProps = (VideoEncodingProperties)_capture.VideoDeviceController.GetMediaStreamProperties(MediaStreamType.VideoPreview);
+            TextLog.Text += String.Format("Preview: {0} {1}x{2} {3}fps\n", previewProps.Subtype, previewProps.Width, previewProps.Height, previewProps.FrameRate.Numerator / (float)previewProps.FrameRate.Denominator);
 
-            //TextLog.Text += "Creating MediaSamplePresenter from SurfaceImageSource\n";
+            TextLog.Text += "Creating MediaSamplePresenter from SurfaceImageSource\n";
 
-            //var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
-            //ImagePreview.Source = image;
-            //_imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
+            var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
+            ImagePreview.Source = image;
+            _imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
 
-            //TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
+            TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
 
-            //_swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
-            //    SwapChainPreview,
-            //    graphicsDevice,
-            //    (int)previewProps.Width,
-            //    (int)previewProps.Height
-            //    );
+            _swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
+                SwapChainPreview,
+                graphicsDevice,
+                (int)previewProps.Width,
+                (int)previewProps.Height
+                );
 
-            //TextLog.Text += "Creating CaptureReader\n";
+            TextLog.Text += "Creating CaptureReader\n";
 
-            //var readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
-            //readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
-            //readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
+            var readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
+            readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
+            readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
 
-            //_captureReader = await CaptureReader.CreateAsync(
-            //    _capture, new MediaEncodingProfile
-            //    {
-            //        Video = readerProps
-            //    });
+            _captureReader = await CaptureReader.CreateAsync(
+                _capture, new MediaEncodingProfile
+                {
+                    Video = readerProps
+                });
 
-            //TextLog.Text += "Starting video loop\n";
+            TextLog.Text += "Starting video loop\n";
 
-            //var ignore = Task.Run(() => VideoLoop());
+            var ignore = Task.Run(() => VideoLoop());
         }
 
         void VideoPreview_MediaFailed(object sender, ExceptionRoutedEventArgs e)

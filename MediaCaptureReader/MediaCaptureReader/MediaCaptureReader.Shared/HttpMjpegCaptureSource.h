@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "HttpMultipartMessage.h"
+
 namespace MediaCaptureReader
 {
     public ref class HttpMjpegCaptureSource sealed
@@ -43,15 +45,14 @@ namespace MediaCaptureReader
 #if WINDOWS_PHONE_APP
         const bool _decodeMJPEG = true; // No MJPEG decoder
 #else
-        const bool _decodeMJPEG = true; // MJPEG decoder in-box
+        const bool _decodeMJPEG = false; // MJPEG decoder in-box
 #endif
 
-        std::string _httpBoundary;
         WSS::IInputStream^ _stream;
         WMCo::MediaStreamSource^ _source;
         unsigned int _frameRate;
         WSS::Buffer^ _streamReadBuffer;
-        std::vector<unsigned char> _accumulationBuffer;
+        HttpMultipartMessage _message;
         MW::ComPtr<IWICImagingFactory> _wicFactory;
         MFTIME _timeOffset;
         bool _started;
