@@ -14,9 +14,6 @@ using namespace Windows::Storage::Streams;
 
 IAsyncAction^ MediaSampleEncoder::SaveToFileAsync(
     _In_ MediaSample^ sample,
-    _In_ MediaPixelFormat format,
-    _In_ int width,
-    _In_ int height,
     _In_ Windows::Storage::IStorageFile^ file,
     _In_ ContainerFormat container
     )
@@ -24,20 +21,17 @@ IAsyncAction^ MediaSampleEncoder::SaveToFileAsync(
     CHKNULL(file);
     CHKNULL(sample);
 
-    return create_async([file, sample, format, width, height, container]()
+    return create_async([file, sample, container]()
     {
-        return create_task(file->OpenAsync(FileAccessMode::ReadWrite)).then([file, sample, format, width, height, container](IRandomAccessStream^ stream)
+        return create_task(file->OpenAsync(FileAccessMode::ReadWrite)).then([file, sample, container](IRandomAccessStream^ stream)
         {
-            return MediaSampleEncoder::SaveToStreamAsync(sample, format, width, height, stream, container);
+            return MediaSampleEncoder::SaveToStreamAsync(sample, stream, container);
         });
     });
 }
 
 IAsyncAction^ MediaSampleEncoder::SaveToStreamAsync(
     _In_ MediaSample^ sample,
-    _In_ MediaPixelFormat format,
-    _In_ int width,
-    _In_ int height,
     _In_ Windows::Storage::Streams::IRandomAccessStream^ stream,
     _In_ ContainerFormat container
     )
@@ -45,7 +39,7 @@ IAsyncAction^ MediaSampleEncoder::SaveToStreamAsync(
     CHKNULL(stream);
     CHKNULL(sample);
 
-    if ((format != MediaPixelFormat::Bgra8) && (format != MediaPixelFormat::Nv12))
+    if ((sample->Format != MediaSampleFormat::Bgra8) && (sample->Format != MediaSampleFormat::Nv12))
     {
         CHK(OriginateError(MF_E_UNSUPPORTED_FORMAT));
     }
@@ -54,14 +48,16 @@ IAsyncAction^ MediaSampleEncoder::SaveToStreamAsync(
         CHK(OriginateError(MF_E_UNSUPPORTED_FORMAT));
     }
 
-    return create_async([stream, sample, format, width, height, container]()
+    return create_async([stream, sample, container]()
     {
         ComPtr<IMFSample> sampleMf = sample->GetSample();
         ComPtr<IMFMediaBuffer> buffer;
         CHK(sampleMf->GetBufferByIndex(0, &buffer));
+        int width = sample->Width;
+        int height = sample->Height;
 
         // For Bgra8 use regular BitmapEncoder
-        if (format == MediaPixelFormat::Bgra8)
+        if (sample->Format == MediaSampleFormat::Bgra8)
         {
             return create_task(BitmapEncoder::CreateAsync(BitmapEncoder::JpegEncoderId, stream)).then([buffer, width, height](BitmapEncoder^ encoder)
             {

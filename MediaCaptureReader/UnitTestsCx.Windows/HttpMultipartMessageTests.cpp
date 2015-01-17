@@ -17,7 +17,7 @@ public:
     // and cannot be automatically dismissed from within the tests
     //
 
-    TEST_METHOD(CX_W_HMM_ShortBoundary)
+    TEST_METHOD(CX_W_HttpMultipartMessage_ShortBoundary)
     {
         HttpMultipartMessage msg;
 
@@ -99,7 +99,7 @@ public:
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("MSG")));
     }
 
-    TEST_METHOD(CX_W_HMM_MyBoundaryHyphenIssue)
+    TEST_METHOD(CX_W_HttpMultipartMessage_MyBoundaryHyphenIssue)
     {
         HttpMultipartMessage msg;
 

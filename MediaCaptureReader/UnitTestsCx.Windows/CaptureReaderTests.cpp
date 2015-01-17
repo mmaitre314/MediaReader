@@ -10,7 +10,7 @@ using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Media::Imaging;
 
-TEST_CLASS(MediaCaptureReaderTests)
+TEST_CLASS(CaptureReaderTests)
 {
 public:
 
@@ -19,7 +19,7 @@ public:
     // and cannot be automatically dismissed from within the tests
     //
 
-    TEST_METHOD(CX_W_N_Basic)
+    TEST_METHOD(CX_W_CaptureReader_Basic)
     {
         Await(CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
             CoreDispatcherPriority::Normal,
@@ -63,7 +63,7 @@ public:
 
             for (int n = 0; n < 3; n++)
             {
-                Logger::WriteMessage("Displaying frame");
+                Log() << "Displaying frame";
                 MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
                 swapChainPresenter->Present(sample);
                 imagePresenter->Present(sample);
@@ -71,7 +71,7 @@ public:
         })));
     }
 
-    TEST_METHOD(CX_W_N_SaveBgra8ToJpeg)
+    TEST_METHOD(CX_W_CaptureReader_SaveBgra8ToJpeg)
     {
         auto capture = NullMediaCapture::Create();
         Await(capture->InitializeAsync());
@@ -87,13 +87,15 @@ public:
 
         auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
 
-        Logger::WriteMessage("Saving sample");
+        Log() << "Saving sample";
         MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
-        StorageFile^ file = Await(KnownFolders::PicturesLibrary->CreateFileAsync(L"CX_W_N_SaveBgra8ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
-        Await(MediaSampleEncoder::SaveToFileAsync(sample, MediaPixelFormat::Bgra8, previewProps->Width, previewProps->Height, file, ContainerFormat::Jpeg));
+        auto folder = Await(KnownFolders::PicturesLibrary->CreateFolderAsync(L"MediaCaptureReaderTests", CreationCollisionOption::OpenIfExists));
+        auto file = Await(folder->CreateFileAsync(L"CX_W_CaptureReader_SaveBgra8ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
+        Await(MediaSampleEncoder::SaveToFileAsync(sample, file, ContainerFormat::Jpeg));
+        Log() << L"Saved " << file->Path->Data();
     }
 
-    TEST_METHOD(CX_W_N_SaveNv12ToJpeg)
+    TEST_METHOD(CX_W_CaptureReader_SaveNv12ToJpeg)
     {
         auto capture = NullMediaCapture::Create();
         Await(capture->InitializeAsync());
@@ -109,10 +111,12 @@ public:
 
         auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
 
-        Logger::WriteMessage("Saving sample");
+        Log() << "Saving sample";
         MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
-        StorageFile^ file = Await(KnownFolders::PicturesLibrary->CreateFileAsync(L"CX_W_N_SaveNv12ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
-        Await(MediaSampleEncoder::SaveToFileAsync(sample, MediaPixelFormat::Nv12, previewProps->Width, previewProps->Height, file, ContainerFormat::Jpeg));
+        auto folder = Await(KnownFolders::PicturesLibrary->CreateFolderAsync(L"MediaCaptureReaderTests", CreationCollisionOption::OpenIfExists));
+        auto file = Await(folder->CreateFileAsync(L"CX_W_CaptureReader_SaveNv12ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
+        Await(MediaSampleEncoder::SaveToFileAsync(sample, file, ContainerFormat::Jpeg));
+        Log() << L"Saved " << file->Path->Data();
     }
 
 };

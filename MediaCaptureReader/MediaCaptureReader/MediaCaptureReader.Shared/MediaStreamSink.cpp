@@ -120,7 +120,7 @@ HRESULT MediaStreamSink::ProcessSample(__in_opt IMFSample *sample)
             CHK(sample->GetBufferByIndex(0, &buffer1D));
             if (SUCCEEDED(buffer1D.As(&buffer2D)))
             {
-                mediaSample->Format = _subType.Data1;
+                mediaSample->Format = MediaSample::GetFormatFromMfSubType(_subType);
                 mediaSample->Width = _width;
                 mediaSample->Height = _height;
                 mediaSample->GraphicsDevice = _graphicsDevice;

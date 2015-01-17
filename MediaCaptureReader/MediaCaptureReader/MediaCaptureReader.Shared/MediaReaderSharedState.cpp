@@ -424,7 +424,7 @@ void MediaReaderSharedState::OnReadSample(
                 unsigned int height;
                 CHK(MFGetAttributeSize(mt.Get(), MF_MT_FRAME_SIZE, &width, &height));
 
-                mediaSample->Format = subtype.Data1;
+                mediaSample->Format = MediaSample::GetFormatFromMfSubType(subtype);
                 mediaSample->Width = width;
                 mediaSample->Height = height;
                 mediaSample->GraphicsDevice = _graphicsDevice;

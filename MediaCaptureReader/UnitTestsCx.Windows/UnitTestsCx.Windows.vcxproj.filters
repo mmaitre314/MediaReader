@@ -14,8 +14,9 @@
   <ItemGroup>
     <ClCompile Include="MediaGraphicsDeviceTests.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="MediaCaptureReaderTests.cpp" />
     <ClCompile Include="HttpMultipartMessageTests.cpp" />
+    <ClCompile Include="CaptureReaderTests.cpp" />
+    <ClCompile Include="MediaReaderTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\UnitTestLogo.scale-100.png">
@@ -36,5 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Content\Car.mp4" />
   </ItemGroup>
 </Project>
