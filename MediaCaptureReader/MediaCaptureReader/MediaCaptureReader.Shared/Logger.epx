@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventProvider
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://mmaitre314.github.io/EventProvider.xsd"
+    Name="MMaitre-MediaCaptureReader"
+    >
+    
+  <Event Name="Info">
+    <VarArgs Type="AnsiString" Name="Message" />
+  </Event>
+  <Event Name="Error" Level="Error">
+    <VarArgs Type="AnsiString" Name="Message" />
+  </Event>
+  
+  <Task Name="CaptureReader_LifeTime">
+    <Start>
+      <Arg Type="Pointer" Name="Object" />
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="Object" />
+    </Stop>
+  </Task>
+  <Event Name="CaptureReader_AudioSample">
+    <Arg Type="Pointer" Name="Sample" />
+  </Event>
+  <Event Name="CaptureReader_VideoSample">
+    <Arg Type="Pointer" Name="Sample" />
+  </Event>
+
+  <Task Name="HttpMjpegCaptureSource_LifeTime">
+    <Start>
+      <Arg Type="Pointer" Name="Object" />
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="Object" />
+    </Stop>
+  </Task>
+  <Task Name="HttpMjpegCaptureSource_DecodeMjpeg">
+    <Start>
+      <Arg Type="Pointer" Name="Object" />
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="Object" />
+    </Stop>
+  </Task>
+  
+</EventProvider>

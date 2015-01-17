@@ -8,10 +8,14 @@ namespace MediaCaptureReader
 
         static MediaGraphicsDevice^ CreateFromMediaCapture(_In_ WMC::MediaCapture^ capture);
 
+        MediaGraphicsDevice();
+
         // IClosable
         virtual ~MediaGraphicsDevice();
 
     internal:
+
+        MediaGraphicsDevice(_In_ const MW::ComPtr<IMFDXGIDeviceManager>& deviceManager);
 
         MW::ComPtr<IMFDXGIDeviceManager> GetDeviceManager() const
         {
@@ -21,5 +25,6 @@ namespace MediaCaptureReader
     private:
 
         MW::ComPtr<IMFDXGIDeviceManager> _deviceManager;
+        unsigned int _deviceResetToken; // Non-null if device owned by this object
     };
 }

@@ -81,3 +81,6 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 /MediaCaptureReader/UnitTestsCx.Windows/Debug
 /MediaCaptureReader/UnitTestsCx.Windows/Release
 /MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.Windows/Assets/Thumbs.db
+/MediaCaptureReader/MediaCaptureReader/MediaCaptureReader.Windows/Events
+/MediaCaptureReader/MediaCaptureReader/MediaCaptureReader.WindowsPhone/Events
+/MediaCaptureReader/UnitTestsCx.WindowsPhone/Release

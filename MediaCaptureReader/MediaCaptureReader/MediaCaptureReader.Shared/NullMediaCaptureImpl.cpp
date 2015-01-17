@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "NullMediaCaptureImpl.h"
 #include "NullVideoDeviceController.h"
+#include "MediaGraphicsDevice.h"
 
 using namespace ABI::Windows::Foundation;
 using namespace ABI::Windows::Foundation::Collections;
@@ -9,44 +10,14 @@ using namespace ABI::Windows::Media::Capture;
 using namespace ABI::Windows::Media::Devices;
 using namespace ABI::Windows::Media::MediaProperties;
 using namespace concurrency;
+using namespace MediaCaptureReader;
 using namespace Microsoft::WRL;
 
 NullMediaCaptureImpl::NullMediaCaptureImpl()
-    : _deviceResetToken(0)
-    , _previewStartTime(0)
+    : _previewStartTime(0)
     , _previewFourCC(0)
 {
-    CHK(MFCreateDXGIDeviceManager(&_deviceResetToken, &_device));
-
-    D3D_FEATURE_LEVEL level;
-    static const D3D_FEATURE_LEVEL levels[] =
-    {
-        D3D_FEATURE_LEVEL_11_1,
-        D3D_FEATURE_LEVEL_11_0,
-        D3D_FEATURE_LEVEL_10_1,
-        D3D_FEATURE_LEVEL_10_0,
-        D3D_FEATURE_LEVEL_9_3,
-        D3D_FEATURE_LEVEL_9_2,
-        D3D_FEATURE_LEVEL_9_1
-    };
-
-    ComPtr<ID3D11Device> device;
-    CHK(D3D11CreateDevice(
-        nullptr,
-        D3D_DRIVER_TYPE_HARDWARE,
-        nullptr,
-        D3D11_CREATE_DEVICE_VIDEO_SUPPORT | D3D11_CREATE_DEVICE_BGRA_SUPPORT, // DEVICE_VIDEO needed for MF, BGRA for SurfaceImageSource
-        levels,
-        ARRAYSIZE(levels),
-        D3D11_SDK_VERSION,
-        &device,
-        &level,
-        nullptr
-        ));
-
-    As<ID3D10Multithread>(device)->SetMultithreadProtected(true);
-
-    CHK(_device->ResetDevice(device.Get(), _deviceResetToken));
+    _deviceManager = (ref new MediaGraphicsDevice())->GetDeviceManager();
 
     _videoDeviceController = Make<NullVideoDeviceController>();
     CHKOOM(_videoDeviceController);
@@ -116,7 +87,7 @@ STDMETHODIMP NullMediaCaptureImpl::GetDirectxDeviceManager(_COM_Outptr_ IMFDXGID
         auto lock = _lock.LockExclusive();
 
         CHKNULL(value);
-        CHK(_device.CopyTo(value));
+        CHK(_deviceManager.CopyTo(value));
     });
 }
 

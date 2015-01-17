@@ -15,11 +15,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMultipartMessage.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)D3D11DeviceLock.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DebuggerLogger.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderReadResult.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderSharedState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderStreams.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.h" />
@@ -30,13 +35,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCaptureImpl.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)pch.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReaderSharedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SampleFormatter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SourceReaderCallback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebuggerLogger.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderReadResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderSharedState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderStreams.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSamplePresenter.cpp" />

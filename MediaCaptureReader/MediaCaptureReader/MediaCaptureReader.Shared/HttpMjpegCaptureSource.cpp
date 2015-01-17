@@ -22,6 +22,8 @@ HttpMjpegCaptureSource::HttpMjpegCaptureSource()
     , _timeOffset(0)
     , _discontinuity(false)
 {
+    Logger.HttpMjpegCaptureSource_LifeTimeStart((void*)this);
+
     CHK(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&_wicFactory)));
 }
 
@@ -42,6 +44,8 @@ HttpMjpegCaptureSource::~HttpMjpegCaptureSource()
     _source = nullptr;
     _streamReadBuffer = nullptr;
     _message.Clear();
+
+    Logger.HttpMjpegCaptureSource_LifeTimeStop((void*)this);
 }
 
 IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriAsync(_In_ Uri^ uri)
@@ -220,6 +224,8 @@ void HttpMjpegCaptureSource::_ReadFramesAsync()
             // Decode the JPEG buffer to NV12 if the platform does not have an MJPEG decoder
             if (_decodeMJPEG)
             {
+                Logger.HttpMjpegCaptureSource_DecodeMjpegStart((void*)this);
+
                 ComPtr<IWICStream> stream;
                 ComPtr<IWICBitmapDecoder> decoder;
                 ComPtr<IWICBitmapFrameDecode> frame;
@@ -252,6 +258,8 @@ void HttpMjpegCaptureSource::_ReadFramesAsync()
                     planes,
                     2
                     ));
+
+                Logger.HttpMjpegCaptureSource_DecodeMjpegStop((void*)this);
             }
 
             auto sample = MediaStreamSample::CreateFromBuffer(buffer, { time });

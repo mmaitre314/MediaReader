@@ -54,6 +54,8 @@ CaptureReader::CaptureReader(
     , _streamType(streamType)
     , _capture(capture)
 {
+    Logger.CaptureReader_LifeTimeStart((void*)this);
+
     _mediaSink = Make<MediaSink>(
         profile->Audio, 
         profile->Video, 
@@ -86,6 +88,8 @@ CaptureReader::~CaptureReader()
     }
     _mediaExtension = nullptr;
     _capture = nullptr;
+
+    Logger.CaptureReader_LifeTimeStop((void*)this);
 }
 
 IAsyncAction^ CaptureReader::FinishAsync()
@@ -179,6 +183,8 @@ void CaptureReader::ProcessAudioSample(_In_ MediaSample^ sample)
         _videoSampleRequestQueue.pop();
     }
 
+    Logger.CaptureReader_AudioSample((void*)sample);
+
     // Dispatch without the lock taken to avoid deadlocks
     t.set(sample);
 }
@@ -195,6 +201,8 @@ void CaptureReader::ProcessVideoSample(_In_ MediaSample^ sample)
         t = _videoSampleRequestQueue.front();
         _videoSampleRequestQueue.pop();
     }
+
+    Logger.CaptureReader_VideoSample((void*)sample);
 
     // Dispatch without the lock taken to avoid deadlocks
     t.set(sample);

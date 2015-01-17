@@ -12,12 +12,14 @@ MediaStreamSink::MediaStreamSink(
     __in const ComPtr<IMFMediaSink>& sink,
     __in DWORD id,
     __in const ComPtr<IMFMediaType>& mt,
-    __in MediaSampleHandler^ sampleHandler
+    __in MediaSampleHandler^ sampleHandler,
+    __in_opt MediaGraphicsDevice^ graphicsDevice /*= nullptr*/
     )
     : _shutdown(false)
     , _id(-1)
     , _width(0)
     , _height(0)
+    , _graphicsDevice(graphicsDevice)
 {
     CHK(MFCreateEventQueue(&_eventQueue));
     CHK(MFCreateMediaType(&_curMT));
@@ -102,6 +104,28 @@ HRESULT MediaStreamSink::ProcessSample(__in_opt IMFSample *sample)
             }
 
             mediaSample = ref new MediaSample(sample);
+
+            long long time = 0;
+            (void)sample->GetSampleTime(&time);
+            mediaSample->Timestamp = TimeSpan{ time };
+
+            long long duration = 0;
+            (void)sample->GetSampleDuration(&duration);
+            mediaSample->Duration = TimeSpan{ duration };
+
+            Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
+
+            ComPtr<IMF2DBuffer2> buffer2D;
+            ComPtr<IMFMediaBuffer> buffer1D;
+            CHK(sample->GetBufferByIndex(0, &buffer1D));
+            if (SUCCEEDED(buffer1D.As(&buffer2D)))
+            {
+                mediaSample->Format = _subType.Data1;
+                mediaSample->Width = _width;
+                mediaSample->Height = _height;
+                mediaSample->GraphicsDevice = _graphicsDevice;
+            }
+
             sampleHandler = _sampleHandler;
         }
 
@@ -339,6 +363,7 @@ void MediaStreamSink::Shutdown()
     _curMT = nullptr;
     _sink = nullptr;
     _sampleHandler = nullptr;
+    _graphicsDevice = nullptr;
 }
 
 bool MediaStreamSink::_IsMediaTypeSupported(__in const ComPtr<IMFMediaType>& mt) const

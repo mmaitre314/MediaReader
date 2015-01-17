@@ -239,12 +239,11 @@ private:
     MW::ComPtr<IMFSample> _CreateVideoSampleBgra8(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time);
     MW::ComPtr<IMFSample> _CreateVideoSampleNv12(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time);
 
-    MW::ComPtr<IMFDXGIDeviceManager> _device;
+    MW::ComPtr<IMFDXGIDeviceManager> _deviceManager;
     MW::ComPtr<AWMD::IVideoDeviceController> _videoDeviceController;
     MW::ComPtr<IMFStreamSink> _audioStreamSink;
     MW::ComPtr<IMFStreamSink> _videoStreamSink;
 
-    unsigned int _deviceResetToken;
     MFTIME _previewStartTime;
     unsigned int _previewFourCC;
 

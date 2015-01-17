@@ -26,6 +26,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EventProvider Include="..\MediaCaptureReader.Shared\Logger.epx" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{076b7278-9f5a-450d-91c9-1aefc086afe1}</ProjectGuid>
     <RootNamespace>MediaCaptureReader</RootNamespace>
@@ -90,7 +96,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="UserMacros">
+    <NuGetPackageImportStamp>a15f64c1</NuGetPackageImportStamp>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
@@ -124,7 +132,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib;OleAut32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -143,7 +151,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib;OleAut32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -162,7 +170,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib;OleAut32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -181,7 +189,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib;OleAut32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -200,7 +208,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib;OleAut32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -219,11 +227,18 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>runtimeobject.lib;%(AdditionalDependencies);mfuuid.lib;mfplat.lib;d3d11.lib;shcore.lib;Advapi32.lib;OleAut32.lib</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets" Condition="Exists('..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets'))" />
+  </Target>
 </Project>

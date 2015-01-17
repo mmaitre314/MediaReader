@@ -18,6 +18,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMultipartMessage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderSharedState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderStreams.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReaderSharedState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SourceReaderCallback.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderReadResult.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -36,5 +43,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NullVideoDeviceController.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSampleEncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderSharedState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderStreams.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderReadResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.cpp" />
   </ItemGroup>
 </Project>

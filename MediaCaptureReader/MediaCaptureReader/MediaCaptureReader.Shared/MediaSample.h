@@ -2,9 +2,20 @@
 
 namespace MediaCaptureReader
 {
+    ref class MediaGraphicsDevice;
+
     public ref class MediaSample sealed
     {
     public:
+
+        property WF::TimeSpan Timestamp;
+        property WF::TimeSpan Duration;
+
+        // Only for 2D samples
+        property uint32 Format;
+        property uint32 Width;
+        property uint32 Height;
+        property MediaGraphicsDevice^ GraphicsDevice;
 
         // IClosable
         virtual ~MediaSample();

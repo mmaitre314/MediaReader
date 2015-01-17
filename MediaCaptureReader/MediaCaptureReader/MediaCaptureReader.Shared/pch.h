@@ -18,6 +18,7 @@
 #include <mfapi.h>
 #include <mfidl.h>
 #include <Mferror.h>
+#include <mfreadwrite.h>
 
 #include <wincodec.h>
 #include <shcore.h>
@@ -25,7 +26,45 @@
 #include <windows.media.capture.h>
 #include <windows.ui.xaml.media.dxinterop.h>
 
+#include "Events\Logger.h"
 #include "DebuggerLogger.h"
+
+#ifndef NDEBUG
+#define NT_ASSERT(expr) if (!(expr)) { __debugbreak(); }
+#else
+#define NT_ASSERT(expr)
+#endif
+
+
+#define Trace(format, ...) { \
+    if(s_logger.IsEnabled(LogLevel::Information)) { s_logger.Log(__FUNCTION__, LogLevel::Information, format, __VA_ARGS__); } \
+    Logger.Info("%s " ## format, __FUNCTION__, __VA_ARGS__); \
+}
+#define TraceError(format, ...) { \
+    if(s_logger.IsEnabled(LogLevel::Error)) { s_logger.Log(__FUNCTION__, LogLevel::Error, format, __VA_ARGS__); } \
+    Logger.Error("%s " ## format, __FUNCTION__, __VA_ARGS__); \
+}
+
+#define TraceScope(obj) \
+    class TraceScope \
+    { \
+    public: \
+        TraceScope(_In_ LPCSTR function, _In_ void* object) \
+            : _function(function) \
+            , _object(object) \
+        { \
+            Logger.Info("%s @%p - enter", function, object); \
+        } \
+        ~TraceScope() \
+        { \
+            Logger.Info("%s @%p - exit", _function, _object); \
+        } \
+    private: \
+        const void* _object; \
+        const LPCSTR _function; \
+    } _traceScope(__FUNCTION__, reinterpret_cast<void*>(obj)); \
+
+#define TraceScopeCx(obj) TraceScope(obj)
 
 namespace AWF = ::ABI::Windows::Foundation;
 namespace AWFC = ::ABI::Windows::Foundation::Collections;
@@ -38,11 +77,13 @@ namespace MW = ::Microsoft::WRL;
 namespace MWD = ::Microsoft::WRL::Details;
 namespace MWW = ::Microsoft::WRL::Wrappers;
 namespace WF = ::Windows::Foundation;
+namespace WFC = ::Windows::Foundation::Collections;
 namespace WFM = ::Windows::Foundation::Metadata;
 namespace WM = ::Windows::Media;
 namespace WMC = ::Windows::Media::Capture;
 namespace WMCo = ::Windows::Media::Core;
 namespace WMMp = ::Windows::Media::MediaProperties;
+namespace WS = ::Windows::Storage;
 namespace WSS = ::Windows::Storage::Streams;
 namespace WUXMI = ::Windows::UI::Xaml::Media::Imaging;
 namespace WUXC = ::Windows::UI::Xaml::Controls;

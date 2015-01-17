@@ -18,6 +18,12 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EventProvider Include="..\MediaCaptureReader.Shared\Logger.epx" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{190bc414-8267-4090-905a-28f522f7a544}</ProjectGuid>
     <RootNamespace>MediaCaptureReader</RootNamespace>
@@ -27,6 +33,7 @@
     <ApplicationType>Windows Phone</ApplicationType>
     <ApplicationTypeRevision>8.1</ApplicationTypeRevision>
     <ConvergedProjectType>CodeSharingWindowsRuntimeComponent</ConvergedProjectType>
+    <NuGetPackageImportStamp>7dcae39e</NuGetPackageImportStamp>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -147,5 +154,12 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets" Condition="Exists('..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MMaitre.TraceEtw.1.0.24\build\native\MMaitre.TraceEtw.targets'))" />
+  </Target>
 </Project>
