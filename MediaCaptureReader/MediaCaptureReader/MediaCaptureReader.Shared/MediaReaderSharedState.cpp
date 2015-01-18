@@ -86,17 +86,17 @@ ComPtr<IMFAttributes> MediaReaderSharedState::_CreateSourceReaderAttributes(
 }
 
 void MediaReaderSharedState::CreateStreams(
-    IVectorView<MediaReaderAudioStream^>^* audioStreams,
-    IVectorView<MediaReaderVideoStream^>^* videoStreams,
-    IVectorView<MediaReaderOtherStream^>^* otherStreams
+    _Outptr_ MediaReaderAudioStream^* audioStream,
+    _Outptr_ MediaReaderVideoStream^* videoStream,
+    _Outptr_ IVectorView<IMediaReaderStream^>^* allStreams
     )
 {
     auto lock = _lock.LockExclusive();
     TraceScopeCx(this);
 
-    auto audioStreamsTemp = ref new Vector<MediaReaderAudioStream^>();
-    auto videoStreamsTemp = ref new Vector<MediaReaderVideoStream^>();
-    auto otherStreamsTemp = ref new Vector<MediaReaderOtherStream^>();
+    MediaReaderAudioStream^ audioStreamTemp;
+    MediaReaderVideoStream^ videoStreamTemp;
+    auto allStreamsTemp = ref new Vector<IMediaReaderStream^>();
 
     ComPtr<IMFMediaType> currentMediaType;
     unsigned int streamIndex = 0;
@@ -107,17 +107,25 @@ void MediaReaderSharedState::CreateStreams(
         if (type == MFMediaType_Audio)
         {
             auto stream = ref new MediaReaderAudioStream(streamIndex, this);
-            audioStreamsTemp->Append(stream);
+            allStreamsTemp->Append(stream);
+            if (audioStreamTemp == nullptr)
+            {
+                audioStreamTemp = stream;
+            }
         }
         else if (type == MFMediaType_Video)
         {
             auto stream = ref new MediaReaderVideoStream(streamIndex, this);
-            videoStreamsTemp->Append(stream);
+            allStreamsTemp->Append(stream);
+            if (videoStreamTemp == nullptr)
+            {
+                videoStreamTemp = stream;
+            }
         }
         else if (type == MFMediaType_Image)
         {
             auto stream = ref new MediaReaderOtherStream(streamIndex, this);
-            otherStreamsTemp->Append(stream);
+            allStreamsTemp->Append(stream);
         }
         else
         {
@@ -131,9 +139,9 @@ void MediaReaderSharedState::CreateStreams(
 
     _sampleRequestQueues.resize(_streamCount);
 
-    *audioStreams = audioStreamsTemp->GetView();
-    *videoStreams = videoStreamsTemp->GetView();
-    *otherStreams = otherStreamsTemp->GetView();
+    *audioStream = audioStreamTemp;
+    *videoStream = videoStreamTemp;
+    *allStreams = allStreamsTemp->GetView();
 }
 
 void MediaReaderSharedState::GetMetadata(WF::TimeSpan* duration, bool* canSeek)

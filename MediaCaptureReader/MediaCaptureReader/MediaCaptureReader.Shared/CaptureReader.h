@@ -12,6 +12,7 @@ namespace MediaCaptureReader
         Record
     };
 
+    [WFM::Deprecated("Use MediaReader instead", WFM::DeprecationType::Deprecate, 0x0)]
     public ref class CaptureReader sealed
     {
     public:

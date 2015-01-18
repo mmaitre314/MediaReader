@@ -27,7 +27,7 @@ namespace MediaCaptureReaderTestApp
     public sealed partial class MainPage : Page
     {
         MediaCapture _capture;
-        CaptureReader _captureReader;
+        MediaReader _mediaReader;
         MediaSample2DPresenter _imagePresenter;
         MediaSample2DPresenter _swapChainPresenter;
 
@@ -76,15 +76,7 @@ namespace MediaCaptureReaderTestApp
 
             TextLog.Text += "Creating CaptureReader\n";
 
-            var readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
-            readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
-            readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
-
-            _captureReader = await CaptureReader.CreateAsync(
-                _capture, new MediaEncodingProfile
-                {
-                    Video = readerProps
-                });
+            _mediaReader = await MediaReader.CreateFromMediaCaptureAsync(_capture);
 
             TextLog.Text += "Starting video loop\n";
 
@@ -100,7 +92,8 @@ namespace MediaCaptureReaderTestApp
         {
             while (true)
             {
-                var sample = (MediaSample2D)await _captureReader.GetVideoSampleAsync().AsTask().ConfigureAwait(false);
+                var result = await _mediaReader.VideoStream.ReadAsync().AsTask().ConfigureAwait(false);
+                var sample = (MediaSample2D)result.Sample;
 
                 _swapChainPresenter.Present(sample);
 

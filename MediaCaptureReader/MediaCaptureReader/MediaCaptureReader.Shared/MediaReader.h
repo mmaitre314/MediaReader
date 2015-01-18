@@ -196,33 +196,33 @@ namespace MediaCaptureReader
 
         void Seek(WF::TimeSpan position);
 
-        /// <summary>The list of audio streams in the file. May be empty.</summary>
-        property WF::Collections::IVectorView<MediaReaderAudioStream^>^ AudioStreams
+        /// <summary>The first audio stream. Null if no audio.</summary>
+        property MediaReaderAudioStream^ AudioStream
         {
-            WF::Collections::IVectorView<MediaReaderAudioStream^>^ get()
+            MediaReaderAudioStream^ get()
             {
-                auto lock = _lock.LockExclusive();
-                return _audioStreams;
+                auto lock = _lock.LockShared();
+                return _audioStream;
             };
         }
 
-        /// <summary>The list of video streams in the file. May be empty.</summary>
-        property WF::Collections::IVectorView<MediaReaderVideoStream^>^ VideoStreams
+        /// <summary>The first video stream. Null if no video.</summary>
+        property MediaReaderVideoStream^ VideoStream
         {
-            WF::Collections::IVectorView<MediaReaderVideoStream^>^ get()
+            MediaReaderVideoStream^ get()
             {
-                auto lock = _lock.LockExclusive();
-                return _videoStreams;
+                auto lock = _lock.LockShared();
+                return _videoStream;
             };
         }
 
-        /// <summary>The list of non-audio/video streams in the file. May be empty.</summary>
-        property WF::Collections::IVectorView<MediaReaderOtherStream^>^ OtherStreams
+        /// <summary>The list of all streams..</summary>
+        property WFC::IVectorView<IMediaReaderStream^>^ AllStreams
         {
-            WF::Collections::IVectorView<MediaReaderOtherStream^>^ get()
+            WFC::IVectorView<IMediaReaderStream^>^ get()
             {
-                auto lock = _lock.LockExclusive();
-                return _otherStreams;
+                auto lock = _lock.LockShared();
+                return _allStreams;
             };
         }
 
@@ -231,7 +231,7 @@ namespace MediaCaptureReader
         {
             MediaGraphicsDevice^ get()
             {
-                auto lock = _lock.LockExclusive();
+                auto lock = _lock.LockShared();
                 return _state == nullptr ? nullptr : _state->GetGraphicsDevice();
             }
         }
@@ -272,9 +272,9 @@ namespace MediaCaptureReader
             }
         }
 
-        WF::Collections::IVectorView<MediaReaderVideoStream^>^ _videoStreams;
-        WF::Collections::IVectorView<MediaReaderAudioStream^>^ _audioStreams;
-        WF::Collections::IVectorView<MediaReaderOtherStream^>^ _otherStreams;
+        MediaReaderVideoStream^ _videoStream;
+        MediaReaderAudioStream^ _audioStream;
+        WFC::IVectorView<IMediaReaderStream^>^ _allStreams;
 
         WF::TimeSpan _duration;
         bool _canSeek;

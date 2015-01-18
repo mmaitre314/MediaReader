@@ -8,15 +8,16 @@ namespace MediaCaptureReader
     ref class MediaReaderOtherStream;
     ref struct MediaReaderInitializationSettings;
     class SourceReaderCallback;
+    interface class IMediaReaderStream;
 
     private ref class MediaReaderSharedState sealed : public IReaderSharedState
     {
     public:
 
         void CreateStreams(
-            WFC::IVectorView<MediaReaderAudioStream^>^* audioStreams,
-            WFC::IVectorView<MediaReaderVideoStream^>^* videoStreams,
-            WFC::IVectorView<MediaReaderOtherStream^>^* otherStreams
+            _Outptr_ MediaReaderAudioStream^* audioStream,
+            _Outptr_ MediaReaderVideoStream^* videoStream,
+            _Outptr_ WFC::IVectorView<IMediaReaderStream^>^* allStreams
             );
 
         void GetMetadata(WF::TimeSpan* duration, bool* canSeek);

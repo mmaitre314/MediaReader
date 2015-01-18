@@ -9,15 +9,16 @@ namespace MediaCaptureReader
     ref struct MediaReaderCaptureInitializationSettings;
     ref class MediaReaderReadResult;
     class MediaSink;
+    interface class IMediaReaderStream;
 
     private ref class CaptureReaderSharedState sealed : public IReaderSharedState
     {
     public:
 
-        virtual void CreateStreams(
-            _Outptr_ WFC::IVectorView<MediaReaderAudioStream^>^* audioStreams,
-            _Outptr_ WFC::IVectorView<MediaReaderVideoStream^>^* videoStreams,
-            _Outptr_ WFC::IVectorView<MediaReaderOtherStream^>^* otherStreams
+        void CreateStreams(
+            _Outptr_ MediaReaderAudioStream^* audioStream,
+            _Outptr_ MediaReaderVideoStream^* videoStream,
+            _Outptr_ WFC::IVectorView<IMediaReaderStream^>^* allStreams
             );
 
         virtual WF::IAsyncAction^ CompleteInitializationAsync();

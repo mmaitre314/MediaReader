@@ -168,33 +168,33 @@ IAsyncAction^ CaptureReaderSharedState::FinishAsync()
 }
 
 void CaptureReaderSharedState::CreateStreams(
-    IVectorView<MediaReaderAudioStream^>^* audioStreams,
-    IVectorView<MediaReaderVideoStream^>^* videoStreams,
-    IVectorView<MediaReaderOtherStream^>^* otherStreams
+    _Outptr_ MediaReaderAudioStream^* audioStream,
+    _Outptr_ MediaReaderVideoStream^* videoStream,
+    _Outptr_ IVectorView<IMediaReaderStream^>^* allStreams
     )
 {
     auto lock = _lock.LockExclusive();
     TraceScopeCx(this);
 
-    auto audioStreamsTemp = ref new Vector<MediaReaderAudioStream^>();
-    auto videoStreamsTemp = ref new Vector<MediaReaderVideoStream^>();
-    auto otherStreamsTemp = ref new Vector<MediaReaderOtherStream^>();
+    MediaReaderAudioStream^ audioStreamTemp;
+    MediaReaderVideoStream^ videoStreamTemp;
+    auto allStreamsTemp = ref new Vector<IMediaReaderStream^>();
 
     switch (_capture->MediaCaptureSettings->StreamingCaptureMode)
     {
     case StreamingCaptureMode::Audio:
-        audioStreamsTemp->Append(ref new MediaReaderAudioStream(0, this));
+        audioStreamTemp = ref new MediaReaderAudioStream(0, this);
         _streamCount = 1;
         break;
 
     case StreamingCaptureMode::Video:
-        videoStreamsTemp->Append(ref new MediaReaderVideoStream(0, this));
+        videoStreamTemp = ref new MediaReaderVideoStream(0, this);
         _streamCount = 1;
         break;
 
     case StreamingCaptureMode::AudioAndVideo:
-        audioStreamsTemp->Append(ref new MediaReaderAudioStream(0, this));
-        videoStreamsTemp->Append(ref new MediaReaderVideoStream(1, this));
+        audioStreamTemp = ref new MediaReaderAudioStream(0, this);
+        videoStreamTemp = ref new MediaReaderVideoStream(1, this);
         _streamCount = 2;
         break;
 
@@ -202,9 +202,9 @@ void CaptureReaderSharedState::CreateStreams(
         NT_ASSERT(false); throw ref new COMException(E_UNEXPECTED);
     }
 
-    *audioStreams = audioStreamsTemp->GetView();
-    *videoStreams = videoStreamsTemp->GetView();
-    *otherStreams = otherStreamsTemp->GetView();
+    *audioStream = audioStreamTemp;
+    *videoStream = videoStreamTemp;
+    *allStreams = allStreamsTemp->GetView();
 }
 
 IAsyncOperation<MediaReaderReadResult^>^ CaptureReaderSharedState::ReadAudioAsync(unsigned int /*streamIndex*/)

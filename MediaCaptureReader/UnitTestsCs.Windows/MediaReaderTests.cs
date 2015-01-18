@@ -28,7 +28,7 @@ namespace UnitTestsCs.Windows
             };
 
             using (var mediaReader = await MediaReader.CreateFromPathAsync("ms-appx:///QR_12345678.mp4", AudioInitialization.Deselected, VideoInitialization.Bgra8))
-            using (var mediaResult = await mediaReader.VideoStreams[0].ReadAsync())
+            using (var mediaResult = await mediaReader.VideoStream.ReadAsync())
             {
                 var sample = (MediaSample2D)mediaResult.Sample;
                 Assert.AreEqual(MediaSample2DFormat.Bgra8, sample.Format);
@@ -54,9 +54,9 @@ namespace UnitTestsCs.Windows
         public async Task CS_W_MediaReader_TestLumiaEffect()
         {
             using (var mediaReader = await MediaReader.CreateFromPathAsync("ms-appx:///car.mp4", AudioInitialization.Deselected, VideoInitialization.Nv12))
-            using (var mediaResult = await mediaReader.VideoStreams[0].ReadAsync())
+            using (var mediaResult = await mediaReader.VideoStream.ReadAsync())
             {
-                var streamProperties = mediaReader.VideoStreams[0].GetCurrentStreamProperties();
+                var streamProperties = mediaReader.VideoStream.GetCurrentStreamProperties();
                 int width = (int)streamProperties.Width;
                 int height = (int)streamProperties.Height;
                 Assert.AreEqual(320, width);

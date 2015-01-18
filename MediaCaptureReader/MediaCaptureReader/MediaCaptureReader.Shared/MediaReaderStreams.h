@@ -7,15 +7,23 @@ namespace MediaCaptureReader
     ref class MediaReaderOtherStream;
     interface class IReaderSharedState;
 
+    public interface class IMediaReaderStream
+    {
+        WF::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
+
+        void SetSelection(bool selected);
+        property bool IsSelected { bool get(); }
+    };
+
     //
     // MediaReaderAudioStream
     //
 
-    public ref class MediaReaderAudioStream sealed
+    public ref class MediaReaderAudioStream sealed : public IMediaReaderStream
     {
     public:
 
-        WF::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
+        virtual WF::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
 
         WMMp::AudioEncodingProperties^ GetCurrentStreamProperties();
         WF::IAsyncAction^ SetCurrentStreamPropertiesAsync(WMMp::AudioEncodingProperties^ properties);
@@ -23,8 +31,8 @@ namespace MediaCaptureReader
         WFC::IVectorView<WMMp::AudioEncodingProperties^>^ GetNativeStreamProperties();
         WF::IAsyncAction^ SetNativeStreamPropertiesAsync(WMMp::AudioEncodingProperties^ properties);
 
-        void SetSelection(bool selected);
-        property bool IsSelected { bool get(); }
+        virtual void SetSelection(bool selected);
+        virtual property bool IsSelected { bool get(); }
 
     internal:
 
@@ -51,20 +59,20 @@ namespace MediaCaptureReader
     // MediaReaderVideoStream
     //
 
-    public ref class MediaReaderVideoStream sealed
+    public ref class MediaReaderVideoStream sealed : public IMediaReaderStream
     {
     public:
 
-        ::Windows::Foundation::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
+        virtual WF::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
 
         WMMp::VideoEncodingProperties^ GetCurrentStreamProperties();
-        ::Windows::Foundation::IAsyncAction^ SetCurrentStreamPropertiesAsync(WMMp::VideoEncodingProperties^ properties);
+        WF::IAsyncAction^ SetCurrentStreamPropertiesAsync(WMMp::VideoEncodingProperties^ properties);
 
         WFC::IVectorView<WMMp::VideoEncodingProperties^>^ GetNativeStreamProperties();
-        ::Windows::Foundation::IAsyncAction^ SetNativeStreamPropertiesAsync(WMMp::VideoEncodingProperties^ properties);
+        WF::IAsyncAction^ SetNativeStreamPropertiesAsync(WMMp::VideoEncodingProperties^ properties);
 
-        void SetSelection(bool selected);
-        property bool IsSelected { bool get(); }
+        virtual void SetSelection(bool selected);
+        virtual property bool IsSelected { bool get(); }
 
     internal:
 
@@ -91,20 +99,20 @@ namespace MediaCaptureReader
     // MediaReaderOtherStream
     //
 
-    public ref class MediaReaderOtherStream sealed
+    public ref class MediaReaderOtherStream sealed : public IMediaReaderStream
     {
     public:
 
-        ::Windows::Foundation::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
+        virtual WF::IAsyncOperation<MediaReaderReadResult^>^ ReadAsync();
 
         WMMp::IMediaEncodingProperties^ GetCurrentStreamProperties();
-        ::Windows::Foundation::IAsyncAction^ SetCurrentStreamPropertiesAsync(WMMp::IMediaEncodingProperties^ properties);
+        WF::IAsyncAction^ SetCurrentStreamPropertiesAsync(WMMp::IMediaEncodingProperties^ properties);
 
         WFC::IVectorView<WMMp::IMediaEncodingProperties^>^ GetNativeStreamProperties();
-        ::Windows::Foundation::IAsyncAction^ SetNativeStreamPropertiesAsync(WMMp::IMediaEncodingProperties^ properties);
+        WF::IAsyncAction^ SetNativeStreamPropertiesAsync(WMMp::IMediaEncodingProperties^ properties);
 
-        void SetSelection(bool selected);
-        property bool IsSelected { bool get(); }
+        virtual void SetSelection(bool selected);
+        virtual property bool IsSelected { bool get(); }
 
     internal:
 

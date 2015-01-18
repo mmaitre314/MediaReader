@@ -128,7 +128,7 @@ MediaReader::MediaReader(IRandomAccessStream^ stream, MediaReaderInitializationS
 
     auto state = ref new MediaReaderSharedState(streamNative, settings);
 
-    state->CreateStreams(&_audioStreams, &_videoStreams, &_otherStreams);
+    state->CreateStreams(&_audioStream, &_videoStream, &_allStreams);
     state->GetMetadata(&_duration, &_canSeek);
 
     _state = static_cast<IReaderSharedState^>(state);
@@ -146,7 +146,7 @@ MediaReader::MediaReader(IMediaSource^ source, MediaReaderInitializationSettings
 
     auto state = ref new MediaReaderSharedState(sourceNative, settings);
 
-    state->CreateStreams(&_audioStreams, &_videoStreams, &_otherStreams);
+    state->CreateStreams(&_audioStream, &_videoStream, &_allStreams);
     state->GetMetadata(&_duration, &_canSeek);
 
     _state = static_cast<IReaderSharedState^>(state);
@@ -159,7 +159,7 @@ MediaReader::MediaReader(MediaCapture^ capture, MediaReaderCaptureInitialization
 
     auto state = ref new CaptureReaderSharedState(capture, settings);
 
-    state->CreateStreams(&_audioStreams, &_videoStreams, &_otherStreams);
+    state->CreateStreams(&_audioStream, &_videoStream, &_allStreams);
 
     _state = static_cast<IReaderSharedState^>(state);
 }
@@ -169,17 +169,24 @@ MediaReader::~MediaReader()
     auto lock = _lock.LockExclusive();
     TraceScopeCx(this);
 
-    for each (auto stream in _videoStreams)
+    for (auto stream : _allStreams)
     {
-        stream->Close();
-    }
-    for each (auto stream in _audioStreams)
-    {
-        stream->Close();
-    }
-    for each (auto stream in _otherStreams)
-    {
-        stream->Close();
+        auto audioStream = dynamic_cast<MediaReaderAudioStream^>(stream);
+        auto videoStream = dynamic_cast<MediaReaderVideoStream^>(stream);
+        auto otherStream = dynamic_cast<MediaReaderOtherStream^>(stream);
+
+        if (audioStream != nullptr)
+        {
+            audioStream->Close();
+        }
+        if (videoStream != nullptr)
+        {
+            videoStream->Close();
+        }
+        if (otherStream != nullptr)
+        {
+            otherStream->Close();
+        }
     }
 
     if (_state != nullptr)
@@ -197,15 +204,7 @@ IAsyncAction^ MediaReader::_InitializeAsync(
     TraceScopeCx(this);
 
     // Deselect all the streams
-    for (auto stream : _audioStreams)
-    {
-        stream->SetSelection(false);
-    }
-    for (auto stream : _videoStreams)
-    {
-        stream->SetSelection(false);
-    }
-    for (auto stream : _otherStreams)
+    for (auto stream : _allStreams)
     {
         stream->SetSelection(false);
     }
@@ -214,7 +213,7 @@ IAsyncAction^ MediaReader::_InitializeAsync(
     {
         // Update the audio output
         task<void> taskAudio;
-        if (_audioStreams->Size == 0)
+        if (_audioStream == nullptr)
         {
             taskAudio = task_from_result();
         }
@@ -224,16 +223,15 @@ IAsyncAction^ MediaReader::_InitializeAsync(
             {
             case AudioInitialization::Pcm:
                 {
-                    auto stream = _audioStreams->GetAt(0);
-                    stream->SetSelection(true);
-                    auto props = stream->GetCurrentStreamProperties();
+                    _audioStream->SetSelection(true);
+                    auto props = _audioStream->GetCurrentStreamProperties();
                     auto newProps = AudioEncodingProperties::CreatePcm(props->SampleRate, props->ChannelCount, 16);
-                    taskAudio = create_task(stream->SetCurrentStreamPropertiesAsync(newProps));
+                    taskAudio = create_task(_audioStream->SetCurrentStreamPropertiesAsync(newProps));
                 }
                 break;
 
             case AudioInitialization::PassThrough:
-                _audioStreams->GetAt(0)->SetSelection(true);
+                _audioStream->SetSelection(true);
                 taskAudio = task_from_result();
                 break;
 
@@ -249,7 +247,7 @@ IAsyncAction^ MediaReader::_InitializeAsync(
         {
             // Update the video output
             task<void> taskVideo;
-            if (_videoStreams->Size == 0)
+            if (_videoStream == nullptr)
             {
                 taskVideo = task_from_result();
             }
@@ -259,30 +257,28 @@ IAsyncAction^ MediaReader::_InitializeAsync(
                 {
                 case VideoInitialization::Nv12:
                     {
-                        auto stream = _videoStreams->GetAt(0);
-                        stream->SetSelection(true);
-                        auto props = stream->GetCurrentStreamProperties();
+                        _videoStream->SetSelection(true);
+                        auto props = _videoStream->GetCurrentStreamProperties();
                         auto newProps = VideoEncodingProperties::CreateUncompressed(MediaEncodingSubtypes::Nv12, props->Width, props->Height);
                         newProps->FrameRate->Numerator = props->FrameRate->Numerator;
                         newProps->FrameRate->Denominator = props->FrameRate->Denominator;
-                        taskVideo = create_task(stream->SetCurrentStreamPropertiesAsync(newProps));
+                        taskVideo = create_task(_videoStream->SetCurrentStreamPropertiesAsync(newProps));
                     }
                     break;
 
                 case VideoInitialization::Bgra8:
                     {
-                        auto stream = _videoStreams->GetAt(0);
-                        stream->SetSelection(true);
-                        auto props = stream->GetCurrentStreamProperties();
+                        _videoStream->SetSelection(true);
+                        auto props = _videoStream->GetCurrentStreamProperties();
                         auto newProps = VideoEncodingProperties::CreateUncompressed(MediaEncodingSubtypes::Bgra8, props->Width, props->Height);
                         newProps->FrameRate->Numerator = props->FrameRate->Numerator;
                         newProps->FrameRate->Denominator = props->FrameRate->Denominator;
-                        taskVideo = create_task(stream->SetCurrentStreamPropertiesAsync(newProps));
+                        taskVideo = create_task(_videoStream->SetCurrentStreamPropertiesAsync(newProps));
                     }
                     break;
 
                 case VideoInitialization::PassThrough:
-                    _videoStreams->GetAt(0)->SetSelection(true);
+                    _videoStream->SetSelection(true);
                     taskVideo = task_from_result();
                     break;
 

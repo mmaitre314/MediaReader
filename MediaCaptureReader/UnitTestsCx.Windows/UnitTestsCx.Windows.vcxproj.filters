@@ -17,6 +17,7 @@
     <ClCompile Include="HttpMultipartMessageTests.cpp" />
     <ClCompile Include="CaptureReaderTests.cpp" />
     <ClCompile Include="MediaReaderTests.cpp" />
+    <ClCompile Include="MediaSampleTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\UnitTestLogo.scale-100.png">
