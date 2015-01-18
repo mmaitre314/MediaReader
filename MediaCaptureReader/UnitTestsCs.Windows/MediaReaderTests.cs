@@ -20,7 +20,7 @@ namespace UnitTestsCs.Windows
     public class MediaReaderTests
     {
         [TestMethod]
-        public async Task CS_W_MediaReader_TestZXing()
+        public async Task CS_W_MediaReader_ZXing()
         {
             var barcodeReader = new BarcodeReader
             {
@@ -51,7 +51,7 @@ namespace UnitTestsCs.Windows
         }
 
         [TestMethod]
-        public async Task CS_W_MediaReader_TestLumiaEffect()
+        public async Task CS_W_MediaReader_LumiaEffect()
         {
             using (var mediaReader = await MediaReader.CreateFromPathAsync("ms-appx:///car.mp4", AudioInitialization.Deselected, VideoInitialization.Nv12))
             using (var mediaResult = await mediaReader.VideoStream.ReadAsync())

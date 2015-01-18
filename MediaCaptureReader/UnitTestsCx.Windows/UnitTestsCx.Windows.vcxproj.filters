@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
