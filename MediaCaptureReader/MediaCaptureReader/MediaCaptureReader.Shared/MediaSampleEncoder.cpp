@@ -88,7 +88,7 @@ IAsyncAction^ MediaSampleEncoder::SaveToStreamAsync(
         unsigned char *ignore = nullptr;
         long stride;
         unsigned long length;
-        CHK(buffer2D->Lock2DSize(MF2DBuffer_LockFlags_Write, &ignore, &stride, &data, &length));
+        CHK(buffer2D->Lock2DSize(MF2DBuffer_LockFlags_Read, &ignore, &stride, &data, &length));
         OnScopeExit([buffer2D]()
         {
             (void)buffer2D->Unlock2D();
