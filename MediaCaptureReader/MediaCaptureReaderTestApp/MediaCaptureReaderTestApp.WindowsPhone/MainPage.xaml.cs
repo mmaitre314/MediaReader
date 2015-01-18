@@ -27,8 +27,8 @@ namespace MediaCaptureReaderTestApp
     {
         MediaCapture _capture;
         CaptureReader _captureReader;
-        MediaSamplePresenter _imagePresenter;
-        MediaSamplePresenter _swapChainPresenter;
+        MediaSample2DPresenter _imagePresenter;
+        MediaSample2DPresenter _swapChainPresenter;
 
         public MainPage()
         {
@@ -57,11 +57,11 @@ namespace MediaCaptureReaderTestApp
 
             var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
             ImagePreview.Source = image;
-            _imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
+            _imagePresenter = MediaSample2DPresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
 
             TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
 
-            _swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
+            _swapChainPresenter = MediaSample2DPresenter.CreateFromSwapChainPanel(
                 SwapChainPreview,
                 graphicsDevice,
                 (int)previewProps.Width,
@@ -89,7 +89,7 @@ namespace MediaCaptureReaderTestApp
         {
             while (true)
             {
-                MediaSample sample = await _captureReader.GetVideoSampleAsync().AsTask().ConfigureAwait(false);
+                var sample = (MediaSample2D)await _captureReader.GetVideoSampleAsync().AsTask().ConfigureAwait(false);
 
                 _swapChainPresenter.Present(sample);
 

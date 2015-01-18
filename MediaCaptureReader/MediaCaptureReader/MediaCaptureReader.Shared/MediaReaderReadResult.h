@@ -3,6 +3,7 @@
 namespace MediaCaptureReader
 {
     ref class MediaSample;
+    interface class IMediaSample;
 
     [WFM::GCPressure(amount = WFM::GCPressureAmount::High)]
     public ref class MediaReaderReadResult sealed
@@ -23,16 +24,16 @@ namespace MediaCaptureReader
         }
 
         ///<summary>The data read.</summary>
-        property MediaSample^ Sample
+        property IMediaSample^ Sample
         {
-            MediaSample^ get()
+            IMediaSample^ get()
             {
                 return _sample;
             }
         }
 
         ///<summary>Keep using the sample after MediaReaderReadResult is destroyed.</summary>
-        MediaSample^ DetachSample()
+        IMediaSample^ DetachSample()
         {
             auto sample = _sample;
             _sample = nullptr;
@@ -102,7 +103,7 @@ namespace MediaCaptureReader
             HRESULT hr,
             MF_SOURCE_READER_FLAG streamFlags,
             LONGLONG timestamp,
-            _In_opt_ MediaSample^ sample
+            _In_opt_ IMediaSample^ sample
             )
             : _hr(hr)
             , _streamFlags(streamFlags)
@@ -116,7 +117,7 @@ namespace MediaCaptureReader
         const HRESULT _hr;
         const MF_SOURCE_READER_FLAG _streamFlags;
         const LONGLONG _timestamp;
-        MediaSample^ _sample;
+        IMediaSample^ _sample;
     };
 
 }

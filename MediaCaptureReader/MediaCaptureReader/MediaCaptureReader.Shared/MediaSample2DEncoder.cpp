@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "MediaSampleEncoder.h"
+#include "MediaSample2DEncoder.h"
 #include "MediaSample.h"
 
 using namespace concurrency;
@@ -12,43 +12,43 @@ using namespace Windows::Media::MediaProperties;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
 
-IAsyncAction^ MediaSampleEncoder::SaveToFileAsync(
-    _In_ MediaSample^ sample,
+IAsyncAction^ MediaSample2DEncoder::SaveToFileAsync(
+    _In_ MediaSample2D^ sample,
     _In_ Windows::Storage::IStorageFile^ file,
-    _In_ ContainerFormat container
+    _In_ ImageCompression compression
     )
 {
     CHKNULL(file);
     CHKNULL(sample);
 
-    return create_async([file, sample, container]()
+    return create_async([file, sample, compression]()
     {
-        return create_task(file->OpenAsync(FileAccessMode::ReadWrite)).then([file, sample, container](IRandomAccessStream^ stream)
+        return create_task(file->OpenAsync(FileAccessMode::ReadWrite)).then([file, sample, compression](IRandomAccessStream^ stream)
         {
-            return MediaSampleEncoder::SaveToStreamAsync(sample, stream, container);
+            return MediaSample2DEncoder::SaveToStreamAsync(sample, stream, compression);
         });
     });
 }
 
-IAsyncAction^ MediaSampleEncoder::SaveToStreamAsync(
-    _In_ MediaSample^ sample,
+IAsyncAction^ MediaSample2DEncoder::SaveToStreamAsync(
+    _In_ MediaSample2D^ sample,
     _In_ Windows::Storage::Streams::IRandomAccessStream^ stream,
-    _In_ ContainerFormat container
+    _In_ ImageCompression compression
     )
 {
     CHKNULL(stream);
     CHKNULL(sample);
 
-    if ((sample->Format != MediaSampleFormat::Bgra8) && (sample->Format != MediaSampleFormat::Nv12))
+    if ((sample->Format != MediaSample2DFormat::Bgra8) && (sample->Format != MediaSample2DFormat::Nv12))
     {
         CHK(OriginateError(MF_E_UNSUPPORTED_FORMAT));
     }
-    if (container != ContainerFormat::Jpeg)
+    if (compression != ImageCompression::Jpeg)
     {
         CHK(OriginateError(MF_E_UNSUPPORTED_FORMAT));
     }
 
-    return create_async([stream, sample, container]()
+    return create_async([stream, sample, compression]()
     {
         ComPtr<IMFSample> sampleMf = sample->GetSample();
         ComPtr<IMFMediaBuffer> buffer;
@@ -57,7 +57,7 @@ IAsyncAction^ MediaSampleEncoder::SaveToStreamAsync(
         int height = sample->Height;
 
         // For Bgra8 use regular BitmapEncoder
-        if (sample->Format == MediaSampleFormat::Bgra8)
+        if (sample->Format == MediaSample2DFormat::Bgra8)
         {
             return create_task(BitmapEncoder::CreateAsync(BitmapEncoder::JpegEncoderId, stream)).then([buffer, width, height](BitmapEncoder^ encoder)
             {

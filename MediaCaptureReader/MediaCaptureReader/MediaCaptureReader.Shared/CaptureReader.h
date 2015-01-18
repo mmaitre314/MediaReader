@@ -4,7 +4,7 @@ class MediaSink;
 
 namespace MediaCaptureReader
 {
-    ref class MediaSample;
+    interface class IMediaSample;
 
     public enum class CaptureStreamType
     {
@@ -34,8 +34,8 @@ namespace MediaCaptureReader
             _In_ CaptureStreamType streamType
             );
 
-        WF::IAsyncOperation<MediaSample^>^ GetAudioSampleAsync();
-        WF::IAsyncOperation<MediaSample^>^ GetVideoSampleAsync();
+        WF::IAsyncOperation<IMediaSample^>^ GetAudioSampleAsync();
+        WF::IAsyncOperation<IMediaSample^>^ GetVideoSampleAsync();
 
         WF::IAsyncAction^ FinishAsync();
 
@@ -47,8 +47,8 @@ namespace MediaCaptureReader
             CaptureStreamType streamType
             );
 
-        void ProcessAudioSample(_In_ MediaSample^ sample);
-        void ProcessVideoSample(_In_ MediaSample^ sample);
+        void ProcessAudioSample(_In_ IMediaSample^ sample);
+        void ProcessVideoSample(_In_ IMediaSample^ sample);
 
         Platform::Agile<WMC::MediaCapture> _capture;
         WM::IMediaExtension^ _mediaExtension;
@@ -65,8 +65,8 @@ namespace MediaCaptureReader
             Closed
         } _state;
 
-        std::queue<concurrency::task_completion_event<MediaSample^>> _audioSampleRequestQueue;
-        std::queue<concurrency::task_completion_event<MediaSample^>> _videoSampleRequestQueue;
+        std::queue<concurrency::task_completion_event<IMediaSample^>> _audioSampleRequestQueue;
+        std::queue<concurrency::task_completion_event<IMediaSample^>> _videoSampleRequestQueue;
 
         AutoMF _mf;
         MWW::SRWLock _lock;

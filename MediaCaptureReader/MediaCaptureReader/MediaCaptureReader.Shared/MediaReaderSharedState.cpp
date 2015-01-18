@@ -389,12 +389,10 @@ void MediaReaderSharedState::OnReadSample(
 
     try
     {
-        MediaSample^ mediaSample;
+        IMediaSample^ mediaSample;
 
         if (sample != nullptr)
         {
-            mediaSample = ref new MediaSample(sample);
-
             long long duration = 0;
             (void)sample->GetSampleDuration(&duration);
 
@@ -405,9 +403,6 @@ void MediaReaderSharedState::OnReadSample(
 #endif
 
             Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
-
-            mediaSample->Duration = TimeSpan{ duration };
-            mediaSample->Timestamp = TimeSpan{ time };
 
             ComPtr<IMF2DBuffer2> buffer2D;
             ComPtr<IMFMediaBuffer> buffer1D;
@@ -424,11 +419,22 @@ void MediaReaderSharedState::OnReadSample(
                 unsigned int height;
                 CHK(MFGetAttributeSize(mt.Get(), MF_MT_FRAME_SIZE, &width, &height));
 
-                mediaSample->Format = MediaSample::GetFormatFromMfSubType(subtype);
-                mediaSample->Width = width;
-                mediaSample->Height = height;
-                mediaSample->GraphicsDevice = _graphicsDevice;
+                auto mediaSample2D = ref new MediaSample2D(
+                    sample,
+                    MediaSample2D::GetFormatFromSubType(subtype),
+                    (int)width,
+                    (int)height,
+                    _graphicsDevice
+                    );
+                mediaSample = mediaSample2D;
             }
+            else
+            {
+                mediaSample = ref new MediaSample1D(sample);
+            }
+
+            mediaSample->Duration = TimeSpan{ duration };
+            mediaSample->Timestamp = TimeSpan{ time };
         }
         else
         {

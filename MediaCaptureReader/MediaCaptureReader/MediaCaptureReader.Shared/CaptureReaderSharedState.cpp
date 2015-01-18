@@ -461,7 +461,7 @@ bool CaptureReaderSharedState::GetVideoSelection(unsigned int /*streamIndex*/)
     return _videoSelected;
 }
 
-void CaptureReaderSharedState::ProcessAudioSample(_In_ MediaSample^ sample)
+void CaptureReaderSharedState::ProcessAudioSample(_In_ IMediaSample^ sample)
 {
     auto lock = _lock.LockExclusive();
     TraceScopeCx(this);
@@ -486,7 +486,7 @@ void CaptureReaderSharedState::ProcessAudioSample(_In_ MediaSample^ sample)
     _audioSampleRequestQueue.pop();
 }
 
-void CaptureReaderSharedState::ProcessVideoSample(_In_ MediaSample^ sample)
+void CaptureReaderSharedState::ProcessVideoSample(_In_ IMediaSample^ sample)
 {
     auto lock = _lock.LockExclusive();
     TraceScopeCx(this);

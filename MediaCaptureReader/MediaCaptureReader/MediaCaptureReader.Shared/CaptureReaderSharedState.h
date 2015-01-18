@@ -97,8 +97,8 @@ namespace MediaCaptureReader
 
         ~CaptureReaderSharedState();
 
-        void ProcessAudioSample(_In_ MediaSample^ sample);
-        void ProcessVideoSample(_In_ MediaSample^ sample);
+        void ProcessAudioSample(_In_ IMediaSample^ sample);
+        void ProcessVideoSample(_In_ IMediaSample^ sample);
 
         void _VerifyNotClosed()
         {

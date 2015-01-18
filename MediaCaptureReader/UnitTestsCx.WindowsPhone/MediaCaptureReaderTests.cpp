@@ -13,7 +13,7 @@ TEST_CLASS(MediaCaptureReaderTests)
 {
 public:
 
-    TEST_METHOD(CX_WP_N_Basic)
+    TEST_METHOD(CX_WP_MediaCaptureReader_Basic)
     {
         Await(CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
             CoreDispatcherPriority::Normal,
@@ -31,7 +31,7 @@ public:
 
             auto image = ref new SurfaceImageSource(previewProps->Width, previewProps->Height);
 
-            auto imagePresenter = MediaSamplePresenter::CreateFromSurfaceImageSource(
+            auto imagePresenter = MediaSample2DPresenter::CreateFromSurfaceImageSource(
                 image,
                 graphicsDevice,
                 previewProps->Width,
@@ -39,7 +39,7 @@ public:
                 );
 
             auto panel = ref new SwapChainPanel();
-            auto swapChainPresenter = MediaSamplePresenter::CreateFromSwapChainPanel(
+            auto swapChainPresenter = MediaSample2DPresenter::CreateFromSwapChainPanel(
                 panel,
                 graphicsDevice,
                 previewProps->Width,
@@ -55,7 +55,7 @@ public:
 
             auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
 
-            MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
+            auto sample = safe_cast<MediaSample2D^>(Await(captureReader->GetVideoSampleAsync()));
             swapChainPresenter->Present(sample);
             imagePresenter->Present(sample);
         })));

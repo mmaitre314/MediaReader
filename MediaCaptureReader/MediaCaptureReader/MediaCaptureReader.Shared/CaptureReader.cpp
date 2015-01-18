@@ -130,7 +130,7 @@ IAsyncAction^ CaptureReader::FinishAsync()
     });
 }
 
-IAsyncOperation<MediaSample^>^ CaptureReader::GetAudioSampleAsync()
+IAsyncOperation<IMediaSample^>^ CaptureReader::GetAudioSampleAsync()
 {
     auto lock = _lock.LockExclusive();
 
@@ -141,7 +141,7 @@ IAsyncOperation<MediaSample^>^ CaptureReader::GetAudioSampleAsync()
 
     _mediaSink->RequestAudioSample();
 
-    task_completion_event<MediaSample^> taskEvent;
+    task_completion_event<IMediaSample^> taskEvent;
     _audioSampleRequestQueue.push(taskEvent);
 
     return create_async([taskEvent]()
@@ -150,7 +150,7 @@ IAsyncOperation<MediaSample^>^ CaptureReader::GetAudioSampleAsync()
     });
 }
 
-IAsyncOperation<MediaSample^>^ CaptureReader::GetVideoSampleAsync()
+IAsyncOperation<IMediaSample^>^ CaptureReader::GetVideoSampleAsync()
 {
     auto lock = _lock.LockExclusive();
 
@@ -161,7 +161,7 @@ IAsyncOperation<MediaSample^>^ CaptureReader::GetVideoSampleAsync()
 
     _mediaSink->RequestVideoSample();
 
-    task_completion_event<MediaSample^> taskEvent;
+    task_completion_event<IMediaSample^> taskEvent;
     _videoSampleRequestQueue.push(taskEvent);
 
     return create_async([taskEvent]()
@@ -170,9 +170,9 @@ IAsyncOperation<MediaSample^>^ CaptureReader::GetVideoSampleAsync()
     });
 }
 
-void CaptureReader::ProcessAudioSample(_In_ MediaSample^ sample)
+void CaptureReader::ProcessAudioSample(_In_ IMediaSample^ sample)
 {
-    task_completion_event<MediaSample^> t;
+    task_completion_event<IMediaSample^> t;
 
     assert(sample != nullptr);
 
@@ -189,9 +189,9 @@ void CaptureReader::ProcessAudioSample(_In_ MediaSample^ sample)
     t.set(sample);
 }
 
-void CaptureReader::ProcessVideoSample(_In_ MediaSample^ sample)
+void CaptureReader::ProcessVideoSample(_In_ IMediaSample^ sample)
 {
-    task_completion_event<MediaSample^> t;
+    task_completion_event<IMediaSample^> t;
 
     assert(sample != nullptr);
 

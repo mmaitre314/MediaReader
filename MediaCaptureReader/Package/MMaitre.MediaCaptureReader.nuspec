@@ -22,7 +22,9 @@
     <file src="ARM\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.dll" target="build\native\Windows\Arm\" />
     <file src="Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.dll" target="build\native\WindowsPhone\x86\" />
     <file src="ARM\Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.dll" target="build\native\WindowsPhone\Arm\" />
-
+    <file src="Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.dll" target="lib\netcore451\" />
+    <file src="Release\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.dll" target="lib\wpa81\" />
+    
     <!-- metadata -->
     <file src="Release\MediaCaptureReader.Windows\MediaCaptureReader.winmd" target="build\native\Windows\x86\" />
     <file src="Release\MediaCaptureReader.Windows\MediaCaptureReader.winmd" target="build\native\Windows\x64\" />
@@ -36,6 +38,8 @@
     <file src="Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.xml" target="build\native\Windows\Arm\MediaCaptureReader.xml" />
     <file src="Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.xml" target="build\native\WindowsPhone\x86\MediaCaptureReader.xml" />
     <file src="Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.xml" target="build\native\WindowsPhone\Arm\MediaCaptureReader.xml" />
+    <file src="Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.xml" target="lib\netcore451\" />
+    <file src="Release\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.xml" target="lib\wpa81\" />
 
     <!-- build -->
     <file src="MMaitre.MediaCaptureReader.native.targets" target="build\native\MMaitre.MediaCaptureReader.targets" />

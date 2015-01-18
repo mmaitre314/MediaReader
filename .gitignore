@@ -85,3 +85,11 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 /MediaCaptureReader/MediaCaptureReader/MediaCaptureReader.WindowsPhone/Events
 /MediaCaptureReader/UnitTestsCx.WindowsPhone/Release
 /MediaCaptureReader/Content/Thumbs.db
+/MediaCaptureReader/MediaCaptureReaderExtensions.Windows/bin/x86/Debug
+/MediaCaptureReader/MediaCaptureReaderExtensions.Windows/obj/x86/Debug
+/MediaCaptureReader/MediaCaptureReaderExtensions.Windows/MediaCaptureReaderExtensions.Windows.xml
+/MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/bin/x86/Debug
+/MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/obj
+/MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/MediaCaptureReaderExtensions.WindowsPhone.xml
+/MediaCaptureReader/UnitTestsCs.Windows/bin/x86/Debug
+/MediaCaptureReader/UnitTestsCs.Windows/obj

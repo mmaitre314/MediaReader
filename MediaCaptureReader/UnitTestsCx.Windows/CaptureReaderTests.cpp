@@ -37,7 +37,7 @@ public:
 
             auto image = ref new SurfaceImageSource(previewProps->Width, previewProps->Height);
 
-            auto imagePresenter = MediaSamplePresenter::CreateFromSurfaceImageSource(
+            auto imagePresenter = MediaSample2DPresenter::CreateFromSurfaceImageSource(
                 image,
                 graphicsDevice,
                 previewProps->Width,
@@ -45,7 +45,7 @@ public:
                 );
 
             auto panel = ref new SwapChainPanel();
-            auto swapChainPresenter = MediaSamplePresenter::CreateFromSwapChainPanel(
+            auto swapChainPresenter = MediaSample2DPresenter::CreateFromSwapChainPanel(
                 panel,
                 graphicsDevice,
                 previewProps->Width,
@@ -64,7 +64,7 @@ public:
             for (int n = 0; n < 3; n++)
             {
                 Log() << "Displaying frame";
-                MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
+                auto sample = safe_cast<MediaSample2D^>(Await(captureReader->GetVideoSampleAsync()));
                 swapChainPresenter->Present(sample);
                 imagePresenter->Present(sample);
             }
@@ -88,10 +88,10 @@ public:
         auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
 
         Log() << "Saving sample";
-        MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
+        auto sample = safe_cast<MediaSample2D^>(Await(captureReader->GetVideoSampleAsync()));
         auto folder = Await(KnownFolders::PicturesLibrary->CreateFolderAsync(L"MediaCaptureReaderTests", CreationCollisionOption::OpenIfExists));
         auto file = Await(folder->CreateFileAsync(L"CX_W_CaptureReader_SaveBgra8ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
-        Await(MediaSampleEncoder::SaveToFileAsync(sample, file, ContainerFormat::Jpeg));
+        Await(MediaSample2DEncoder::SaveToFileAsync(sample, file, ImageCompression::Jpeg));
         Log() << L"Saved " << file->Path->Data();
     }
 
@@ -112,10 +112,10 @@ public:
         auto captureReader = Await(CaptureReader::CreateAsync(capture, profile));
 
         Log() << "Saving sample";
-        MediaSample^ sample = Await(captureReader->GetVideoSampleAsync());
+        auto sample = safe_cast<MediaSample2D^>(Await(captureReader->GetVideoSampleAsync()));
         auto folder = Await(KnownFolders::PicturesLibrary->CreateFolderAsync(L"MediaCaptureReaderTests", CreationCollisionOption::OpenIfExists));
         auto file = Await(folder->CreateFileAsync(L"CX_W_CaptureReader_SaveNv12ToJpeg.jpg", CreationCollisionOption::ReplaceExisting));
-        Await(MediaSampleEncoder::SaveToFileAsync(sample, file, ContainerFormat::Jpeg));
+        Await(MediaSample2DEncoder::SaveToFileAsync(sample, file, ImageCompression::Jpeg));
         Log() << L"Saved " << file->Path->Data();
     }
 

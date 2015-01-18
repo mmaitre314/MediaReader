@@ -2,34 +2,34 @@
 
 namespace MediaCaptureReader
 {
-    ref class MediaSample;
+    ref class MediaSample2D;
 
-    public enum class ContainerFormat
+    public enum class ImageCompression
     {
         Jpeg = 0
     };
 
-    public ref class MediaSampleEncoder sealed
+    public ref class MediaSample2DEncoder sealed
     {
     public:
 
         ///<summary>Save an uncompressed video sample to file</summary>
         static Windows::Foundation::IAsyncAction^ SaveToFileAsync(
-            _In_ MediaSample^ sample,
+            _In_ MediaSample2D^ sample,
             _In_ Windows::Storage::IStorageFile^ file,
-            _In_ ContainerFormat container
+            _In_ ImageCompression compression
             );
 
         ///<summary>Save an uncompressed video sample to stream</summary>
         static Windows::Foundation::IAsyncAction^ SaveToStreamAsync(
-            _In_ MediaSample^ sample,
+            _In_ MediaSample2D^ sample,
             _In_ Windows::Storage::Streams::IRandomAccessStream^ stream,
-            _In_ ContainerFormat container
+            _In_ ImageCompression compression
             );
 
     private:
 
-        MediaSampleEncoder()
+        MediaSample2DEncoder()
         {
         }
     };

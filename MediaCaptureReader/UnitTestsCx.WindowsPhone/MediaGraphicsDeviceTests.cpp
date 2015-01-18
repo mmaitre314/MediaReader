@@ -10,7 +10,7 @@ TEST_CLASS(MediaGraphicsDeviceTests)
 {
 public:
 
-    TEST_METHOD(CX_WP_MGD_Basic)
+    TEST_METHOD(CX_WP_MediaGraphicsDevice_Basic)
     {
         Await(CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(
             CoreDispatcherPriority::Normal,

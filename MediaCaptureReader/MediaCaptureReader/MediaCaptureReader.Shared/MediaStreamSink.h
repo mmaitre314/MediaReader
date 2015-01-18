@@ -4,8 +4,9 @@ namespace MediaCaptureReader
 {
     ref class MediaSample;
     ref class MediaGraphicsDevice;
+    interface class IMediaSample;
 
-    delegate void MediaSampleHandler(MediaCaptureReader::MediaSample^ sample);
+    delegate void MediaSampleHandler(IMediaSample^ sample);
 
     class MediaStreamSink WrlSealed :
         public Microsoft::WRL::RuntimeClass <

@@ -91,7 +91,7 @@ HRESULT MediaStreamSink::ProcessSample(__in_opt IMFSample *sample)
     return ExceptionBoundary([this, sample]()
     {
         MediaSampleHandler^ sampleHandler;
-        MediaSample^ mediaSample;
+        IMediaSample^ mediaSample;
 
         {
             auto lock = _lock.LockExclusive();
@@ -103,15 +103,11 @@ HRESULT MediaStreamSink::ProcessSample(__in_opt IMFSample *sample)
                 return;
             }
 
-            mediaSample = ref new MediaSample(sample);
-
             long long time = 0;
             (void)sample->GetSampleTime(&time);
-            mediaSample->Timestamp = TimeSpan{ time };
 
             long long duration = 0;
             (void)sample->GetSampleDuration(&duration);
-            mediaSample->Duration = TimeSpan{ duration };
 
             Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
 
@@ -120,11 +116,22 @@ HRESULT MediaStreamSink::ProcessSample(__in_opt IMFSample *sample)
             CHK(sample->GetBufferByIndex(0, &buffer1D));
             if (SUCCEEDED(buffer1D.As(&buffer2D)))
             {
-                mediaSample->Format = MediaSample::GetFormatFromMfSubType(_subType);
-                mediaSample->Width = _width;
-                mediaSample->Height = _height;
-                mediaSample->GraphicsDevice = _graphicsDevice;
+                auto mediaSample2D = ref new MediaSample2D(
+                    sample,
+                    MediaSample2D::GetFormatFromSubType(_subType),
+                    (int)_width,
+                    (int)_height,
+                    _graphicsDevice
+                    );
+                mediaSample = mediaSample2D;
             }
+            else
+            {
+                mediaSample = ref new MediaSample1D(sample);
+            }
+
+            mediaSample->Timestamp = TimeSpan{ time };
+            mediaSample->Duration = TimeSpan{ duration };
 
             sampleHandler = _sampleHandler;
         }

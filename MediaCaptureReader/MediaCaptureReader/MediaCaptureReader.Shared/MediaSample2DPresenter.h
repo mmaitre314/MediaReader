@@ -3,12 +3,12 @@
 namespace MediaCaptureReader
 {
     [WFM::WebHostHidden]
-    public ref class MediaSamplePresenter sealed
+    public ref class MediaSample2DPresenter sealed
     {
     public:
 
         ///<summary>Creates a sample presenter with format Bgra8.</summary>
-        static MediaSamplePresenter^ CreateFromSurfaceImageSource(
+        static MediaSample2DPresenter^ CreateFromSurfaceImageSource(
             _In_ WUXMI::SurfaceImageSource^ image,
             _In_ MediaGraphicsDevice^ device,
             _In_ int width,
@@ -16,7 +16,7 @@ namespace MediaCaptureReader
             );
 
         ///<summary>Creates a sample presenter with format Bgra8 and resolution SwapChainPanel.Width x SwapChainPanel.Height.</summary>
-        static MediaSamplePresenter^ CreateFromSwapChainPanel(
+        static MediaSample2DPresenter^ CreateFromSwapChainPanel(
             _In_ WUXC::SwapChainPanel^ panel,
             _In_ MediaGraphicsDevice^ device,
             _In_ int width,
@@ -24,13 +24,13 @@ namespace MediaCaptureReader
             );
         
         // IClosable
-        virtual ~MediaSamplePresenter();
+        virtual ~MediaSample2DPresenter();
 
-        void Present(MediaSample^ sample);
+        void Present(MediaSample2D^ sample);
 
     private:
 
-        MediaSamplePresenter(_In_ int width, _In_ int height)
+        MediaSample2DPresenter(_In_ int width, _In_ int height)
             : _width(width)
             , _height(height)
         {

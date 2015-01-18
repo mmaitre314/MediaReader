@@ -9,7 +9,8 @@ using namespace Microsoft::WRL;
 
 MediaReaderReadResult::~MediaReaderReadResult()
 {
-    delete _sample;
+    delete dynamic_cast<MediaSample1D^>(_sample);
+    delete dynamic_cast<MediaSample2D^>(_sample);
     _sample = nullptr;
 }
 
