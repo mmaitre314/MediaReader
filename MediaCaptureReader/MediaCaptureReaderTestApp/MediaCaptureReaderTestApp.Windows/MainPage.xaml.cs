@@ -74,9 +74,9 @@ namespace MediaCaptureReaderTestApp
                 (int)previewProps.Height
                 );
 
-            TextLog.Text += "Creating CaptureReader\n";
+            TextLog.Text += "Creating MediaReader\n";
 
-            _mediaReader = await MediaReader.CreateFromMediaCaptureAsync(_capture);
+            _mediaReader = await MediaReader.CreateFromMediaCaptureAsync(_capture, AudioInitialization.Deselected, VideoInitialization.Bgra8);
 
             TextLog.Text += "Starting video loop\n";
 

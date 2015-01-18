@@ -1,5 +1,9 @@
 #pragma once
 
+class NullAudioDeviceController;
+class NullVideoDeviceController;
+class NullMediaCaptureSettings;
+
 class NullMediaCaptureImpl WrlSealed :
     public Microsoft::WRL::RuntimeClass <
     MW::RuntimeClassFlags<MW::RuntimeClassType::WinRtClassicComMix>,
@@ -150,15 +154,9 @@ public:
         return OriginateError(E_NOTIMPL);
     }
 
-    STDMETHOD(get_MediaCaptureSettings)(_COM_Outptr_ AWMC::IMediaCaptureSettings **value) override
-    {
-        return OriginateError(E_NOTIMPL);
-    }
+    STDMETHOD(get_MediaCaptureSettings)(_COM_Outptr_ AWMC::IMediaCaptureSettings **value) override;
 
-    STDMETHOD(get_AudioDeviceController)(_COM_Outptr_ AWMD::IAudioDeviceController **value) override
-    {
-        return OriginateError(E_NOTIMPL);
-    }
+    STDMETHOD(get_AudioDeviceController)(_COM_Outptr_ AWMD::IAudioDeviceController **value) override;
 
     STDMETHOD(get_VideoDeviceController)(_COM_Outptr_ AWMD::IVideoDeviceController **value) override;
 
@@ -240,7 +238,9 @@ private:
     MW::ComPtr<IMFSample> _CreateVideoSampleNv12(_In_ unsigned int width, _In_ unsigned int height, _In_ MFTIME time);
 
     MW::ComPtr<IMFDXGIDeviceManager> _deviceManager;
-    MW::ComPtr<AWMD::IVideoDeviceController> _videoDeviceController;
+    MW::ComPtr<NullAudioDeviceController> _audioDeviceController;
+    MW::ComPtr<NullVideoDeviceController> _videoDeviceController;
+    MW::ComPtr<NullMediaCaptureSettings> _mediaCaptureSettings;
     MW::ComPtr<IMFStreamSink> _audioStreamSink;
     MW::ComPtr<IMFStreamSink> _videoStreamSink;
 

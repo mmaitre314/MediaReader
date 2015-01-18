@@ -97,6 +97,11 @@ void MediaSample2DPresenter::Present(MediaSample2D^ sample)
 {
     CHKNULL(sample);
 
+    if (sample->Format != MediaSample2DFormat::Bgra8)
+    {
+        throw ref new InvalidArgumentException(L"Only Bgra8 supported");
+    }
+
     ComPtr<IMFMediaBuffer> buffer;
     CHK(sample->GetSample()->GetBufferByIndex(0, &buffer));
 

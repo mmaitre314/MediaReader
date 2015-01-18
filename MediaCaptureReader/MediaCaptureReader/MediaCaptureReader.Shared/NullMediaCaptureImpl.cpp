@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "NullMediaCaptureImpl.h"
+#include "NullAudioDeviceController.h"
 #include "NullVideoDeviceController.h"
+#include "NullMediaCaptureSettings.h"
 #include "MediaGraphicsDevice.h"
 
 using namespace ABI::Windows::Foundation;
@@ -19,8 +21,14 @@ NullMediaCaptureImpl::NullMediaCaptureImpl()
 {
     _deviceManager = (ref new MediaGraphicsDevice())->GetDeviceManager();
 
+    _audioDeviceController = Make<NullAudioDeviceController>();
+    CHKOOM(_audioDeviceController);
+
     _videoDeviceController = Make<NullVideoDeviceController>();
     CHKOOM(_videoDeviceController);
+
+    _mediaCaptureSettings = Make<NullMediaCaptureSettings>();
+    CHKOOM(_mediaCaptureSettings);
 }
 
 NullMediaCaptureImpl::~NullMediaCaptureImpl()
@@ -32,8 +40,6 @@ STDMETHODIMP NullMediaCaptureImpl::InitializeAsync(_COM_Outptr_ IAsyncAction **a
     return ExceptionBoundary([=]()
     {
         auto lock = _lock.LockExclusive();
-
-        CHKNULL(asyncInfo);
         *asyncInfo = nullptr;
 
         Windows::Foundation::IAsyncAction^ action = create_async([]()
@@ -54,11 +60,13 @@ STDMETHODIMP NullMediaCaptureImpl::InitializeWithSettingsAsync(
     return ExceptionBoundary([=]()
     {
         auto lock = _lock.LockExclusive();
-
-        CHKNULL(asyncInfo);
         *asyncInfo = nullptr;
 
         CHKNULL(mediaCaptureInitializationSettings);
+
+        StreamingCaptureMode mode;
+        CHK(mediaCaptureInitializationSettings->get_StreamingCaptureMode(&mode));
+        _mediaCaptureSettings->InitializeStreamingCaptureMode(mode);
 
         Windows::Foundation::IAsyncAction^ action = create_async([]()
         {
@@ -74,7 +82,6 @@ STDMETHODIMP NullMediaCaptureImpl::GetAdvancedMediaCaptureSettings(_COM_Outptr_ 
 {
     return ExceptionBoundary([=]()
     {
-        CHKNULL(value);
         *value = this;
         (*value)->AddRef();
     });
@@ -84,10 +91,17 @@ STDMETHODIMP NullMediaCaptureImpl::GetDirectxDeviceManager(_COM_Outptr_ IMFDXGID
 {
     return ExceptionBoundary([=]()
     {
-        auto lock = _lock.LockExclusive();
-
-        CHKNULL(value);
+        auto lock = _lock.LockShared();
         CHK(_deviceManager.CopyTo(value));
+    });
+}
+
+STDMETHODIMP NullMediaCaptureImpl::get_AudioDeviceController(_COM_Outptr_ IAudioDeviceController **value)
+{
+    return ExceptionBoundary([=]()
+    {
+        auto lock = _lock.LockShared();
+        CHK(_audioDeviceController.CopyTo(value));
     });
 }
 
@@ -95,10 +109,17 @@ STDMETHODIMP NullMediaCaptureImpl::get_VideoDeviceController(_COM_Outptr_ IVideo
 {
     return ExceptionBoundary([=]()
     {
-        auto lock = _lock.LockExclusive();
-
-        CHKNULL(value);
+        auto lock = _lock.LockShared();
         CHK(_videoDeviceController.CopyTo(value));
+    });
+}
+
+STDMETHODIMP NullMediaCaptureImpl::get_MediaCaptureSettings(_COM_Outptr_ AWMC::IMediaCaptureSettings **value)
+{
+    return ExceptionBoundary([=]()
+    {
+        auto lock = _lock.LockShared();
+        CHK(_mediaCaptureSettings.CopyTo(value));
     });
 }
 
@@ -111,8 +132,6 @@ STDMETHODIMP NullMediaCaptureImpl::StartPreviewToCustomSinkAsync(
     return ExceptionBoundary([=]()
     {
         auto lock = _lock.LockExclusive();
-
-        CHKNULL(asyncInfo);
         *asyncInfo = nullptr;
 
         CHKNULL(customMediaSink);
@@ -124,35 +143,62 @@ STDMETHODIMP NullMediaCaptureImpl::StartPreviewToCustomSinkAsync(
 
         auto mediaSink = As<IMFMediaSink>(customMediaSink);
 
-        unsigned long count;
-        CHK(mediaSink->GetStreamSinkCount(&count));
-        if (count != 1)
+        unsigned long streamCount;
+        CHK(mediaSink->GetStreamSinkCount(&streamCount));
+        if ((streamCount == 0) || (streamCount > 2))
         {
-            CHK(OriginateError(E_INVALIDARG));
+            CHK(OriginateError(E_INVALIDARG, L"Invalid sink stream count"));
         }
 
-        ComPtr<IMFStreamSink> videoStreamSink;
-        ComPtr<IMFMediaTypeHandler> handler;
-        ComPtr<IMFMediaType> type;
-        CHK(mediaSink->GetStreamSinkByIndex(0, &videoStreamSink));
-        CHK(videoStreamSink->GetMediaTypeHandler(&handler));
-        CHK(handler->GetCurrentMediaType(&type));
-
-        // Validate media type
-        GUID majorType;
-        GUID subType;
-        CHK(type->GetGUID(MF_MT_MAJOR_TYPE, &majorType));
-        CHK(type->GetGUID(MF_MT_SUBTYPE, &subType));
-        if (majorType != MFMediaType_Video)
+        for (unsigned int streamIndex = 0; streamIndex < streamCount; streamIndex++)
         {
-            CHK(OriginateError(E_INVALIDARG));
-        }
-        if ((subType != MFVideoFormat_ARGB32) && (subType != MFVideoFormat_NV12))
-        {
-            CHK(OriginateError(E_INVALIDARG));
+            ComPtr<IMFStreamSink> streamSink;
+            ComPtr<IMFMediaTypeHandler> handler;
+            ComPtr<IMFMediaType> type;
+            CHK(mediaSink->GetStreamSinkByIndex(streamIndex, &streamSink));
+            CHK(streamSink->GetMediaTypeHandler(&handler));
+            CHK(handler->GetCurrentMediaType(&type));
+
+            GUID majorType;
+            GUID subType;
+            CHK(type->GetGUID(MF_MT_MAJOR_TYPE, &majorType));
+            CHK(type->GetGUID(MF_MT_SUBTYPE, &subType));
+
+            if (majorType == MFMediaType_Audio)
+            {
+                if (_audioStreamSink != nullptr)
+                {
+                    CHK(OriginateError(E_INVALIDARG, L"Multiple audio streams on sink"));
+                }
+
+                if (subType != MFAudioFormat_PCM)
+                {
+                    CHK(OriginateError(E_INVALIDARG, L"Audio subtype"));
+                }
+
+                _audioStreamSink = streamSink;
+            }
+            else if (majorType == MFMediaType_Video)
+            {
+                if (_videoStreamSink != nullptr)
+                {
+                    CHK(OriginateError(E_INVALIDARG, L"Multiple video streams on sink"));
+                }
+
+                if ((subType != MFVideoFormat_ARGB32) && (subType != MFVideoFormat_NV12))
+                {
+                    CHK(OriginateError(E_INVALIDARG, L"Video subtype"));
+                }
+
+                _previewFourCC = subType.Data1;
+                _videoStreamSink = streamSink;
+            }
+            else
+            {
+                CHK(OriginateError(E_INVALIDARG, L"Sink steam type"));
+            }
         }
 
-        _previewFourCC = subType.Data1;
         _previewStartTime = MFGetSystemTime();
 
         ComPtr<NullMediaCaptureImpl> spThis(this);
@@ -166,8 +212,6 @@ STDMETHODIMP NullMediaCaptureImpl::StartPreviewToCustomSinkAsync(
             return task_from_result();
         });
 
-        _videoStreamSink = videoStreamSink;
-
         *asyncInfo = reinterpret_cast<IAsyncAction*>(action);
         (*asyncInfo)->AddRef();
     });
@@ -178,8 +222,6 @@ STDMETHODIMP NullMediaCaptureImpl::StopPreviewAsync(_COM_Outptr_ IAsyncAction **
     return ExceptionBoundary([=]()
     {
         auto lock = _lock.LockExclusive();
-
-        CHKNULL(asyncInfo);
         *asyncInfo = nullptr;
 
         if ((_audioStreamSink == nullptr) && (_videoStreamSink == nullptr))
@@ -204,18 +246,22 @@ void NullMediaCaptureImpl::_HandlePreviewSinkRequests()
 {
     while (true)
     {
+        ComPtr<IMFStreamSink> audioStreamSink;
         ComPtr<IMFStreamSink> videoStreamSink;
         MFTIME previewStartTime;
         {
             auto lock = _lock.LockExclusive();
+            audioStreamSink = _audioStreamSink;
             videoStreamSink = _videoStreamSink;
-            if (videoStreamSink == nullptr)
+            if ((audioStreamSink == nullptr) && (videoStreamSink == nullptr))
             {
                 break;
             }
 
             previewStartTime = _previewStartTime;
         }
+
+        // TODO: handle audio sample requests
 
         ComPtr<IMFMediaEvent> event;
         HRESULT hr = videoStreamSink->GetEvent(0, &event);

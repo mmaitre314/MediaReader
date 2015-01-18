@@ -27,6 +27,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample2DEncoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaBuffer2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WinRTBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCaptureSettings.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -51,5 +53,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample2DPresenter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample2DEncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaBuffer2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCaptureSettings.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.cpp" />
   </ItemGroup>
 </Project>

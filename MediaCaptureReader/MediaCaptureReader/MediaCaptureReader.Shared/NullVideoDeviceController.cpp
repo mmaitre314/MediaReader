@@ -19,7 +19,6 @@ STDMETHODIMP NullVideoDeviceController::GetMediaStreamProperties(
 {
     return ExceptionBoundary([=]()
     {
-        CHKNULL(value);
         *value = nullptr;
 
         if ((mediaStreamType == MediaStreamType_VideoPreview) ||
