@@ -64,3 +64,29 @@ MediaGraphicsDevice^ MediaGraphicsDevice::CreateFromMediaCapture(_In_ Windows::M
 MediaGraphicsDevice::~MediaGraphicsDevice()
 {
 }
+
+bool MediaGraphicsDevice::IsNv12Supported::get()
+{
+    // Get the DX device
+    ComPtr<ID3D11Device> device;
+    HANDLE handle;
+    CHK(_deviceManager->OpenDeviceHandle(&handle));
+    HRESULT hr = _deviceManager->GetVideoService(handle, IID_PPV_ARGS(&device));
+    CHK(_deviceManager->CloseDeviceHandle(handle));
+    CHK(hr);
+
+    // Verify the DX device supports NV12 pixel shaders
+    D3D_FEATURE_LEVEL level = device->GetFeatureLevel();
+    if (level < D3D_FEATURE_LEVEL_10_0)
+    {
+        // Windows Phone 8.1 added NV12 texture shader support on Feature Level 9.3
+        unsigned int result;
+        CHK(device->CheckFormatSupport(DXGI_FORMAT_NV12, &result));
+        if (!(result & D3D11_FORMAT_SUPPORT_TEXTURE2D) || !(result & D3D11_FORMAT_SUPPORT_RENDER_TARGET))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}

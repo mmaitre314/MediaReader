@@ -27,8 +27,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderSharedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderStreams.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample2DEncoder.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample2DPresenter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaEncoder2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaPresenter2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaStreamSink.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.h" />
@@ -41,6 +41,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ReaderSharedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SampleFormatter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SourceReaderCallback.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaProcessor2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WinRTBuffer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -55,8 +56,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderSharedState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderStreams.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample2DEncoder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample2DPresenter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaEncoder2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaPresenter2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaProcessor2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaStreamSink.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaTypeFormatter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.cpp" />

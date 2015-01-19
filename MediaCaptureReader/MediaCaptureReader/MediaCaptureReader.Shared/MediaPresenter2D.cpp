@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MediaGraphicsDevice.h"
 #include "MediaSample.h"
-#include "MediaSample2DPresenter.h"
+#include "MediaPresenter2D.h"
 
 using namespace MediaCaptureReader;
 using namespace Microsoft::WRL;
@@ -9,7 +9,7 @@ using namespace Platform;
 using namespace Windows::UI::Xaml::Media::Imaging;
 using namespace Windows::UI::Xaml::Controls;
 
-MediaSample2DPresenter^ MediaSample2DPresenter::CreateFromSurfaceImageSource(
+MediaPresenter2D^ MediaPresenter2D::CreateFromSurfaceImageSource(
     _In_ SurfaceImageSource^ image,
     _In_ MediaGraphicsDevice^ device,
     _In_ int width,
@@ -19,7 +19,7 @@ MediaSample2DPresenter^ MediaSample2DPresenter::CreateFromSurfaceImageSource(
     CHKNULL(image);
     CHKNULL(device);
 
-    auto presenter = ref new MediaSample2DPresenter(width, height);
+    auto presenter = ref new MediaPresenter2D(width, height);
 
     // Get the DXGI device
     HANDLE deviceHandle = nullptr;
@@ -36,7 +36,7 @@ MediaSample2DPresenter^ MediaSample2DPresenter::CreateFromSurfaceImageSource(
     return presenter;
 }
 
-MediaSample2DPresenter^ MediaSample2DPresenter::CreateFromSwapChainPanel(
+MediaPresenter2D^ MediaPresenter2D::CreateFromSwapChainPanel(
     _In_ SwapChainPanel^ panel,
     _In_ MediaGraphicsDevice^ device,
     _In_ int width,
@@ -46,7 +46,7 @@ MediaSample2DPresenter^ MediaSample2DPresenter::CreateFromSwapChainPanel(
     CHKNULL(panel);
     CHKNULL(device);
 
-    auto presenter = ref new MediaSample2DPresenter(width, height);
+    auto presenter = ref new MediaPresenter2D(width, height);
 
     // Get the DXGI device
     HANDLE deviceHandle = nullptr;
@@ -89,11 +89,11 @@ MediaSample2DPresenter^ MediaSample2DPresenter::CreateFromSwapChainPanel(
     return presenter;
 }
 
-MediaSample2DPresenter::~MediaSample2DPresenter()
+MediaPresenter2D::~MediaPresenter2D()
 {
 }
 
-void MediaSample2DPresenter::Present(MediaSample2D^ sample)
+void MediaPresenter2D::Present(MediaSample2D^ sample)
 {
     CHKNULL(sample);
 
@@ -144,7 +144,7 @@ void MediaSample2DPresenter::Present(MediaSample2D^ sample)
     }
 }
 
-void MediaSample2DPresenter::_PresentToSurfaceImageSource(const ComPtr<IMFDXGIBuffer>& dxgiBuffer)
+void MediaPresenter2D::_PresentToSurfaceImageSource(const ComPtr<IMFDXGIBuffer>& dxgiBuffer)
 {
     ComPtr<ID3D11Texture2D> texture;
     unsigned int subresource;
@@ -170,7 +170,7 @@ void MediaSample2DPresenter::_PresentToSurfaceImageSource(const ComPtr<IMFDXGIBu
     CHK(_image->EndDraw());
 }
 
-void MediaSample2DPresenter::_PresentToSwapChainPanel(const ComPtr<IMFDXGIBuffer>& dxgiBuffer)
+void MediaPresenter2D::_PresentToSwapChainPanel(const ComPtr<IMFDXGIBuffer>& dxgiBuffer)
 {
     ComPtr<ID3D11Texture2D> texture;
     unsigned int subresource;

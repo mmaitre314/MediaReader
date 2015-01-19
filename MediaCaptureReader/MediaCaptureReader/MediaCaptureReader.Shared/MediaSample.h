@@ -111,15 +111,15 @@ namespace MediaCaptureReader
             return MediaSample2DFormat::Unknown;
         }
 
-        static uint32 GetFourCcFromFormat(_In_ MediaSample2DFormat format)
+        static GUID GetSubtypeFromFormat(_In_ MediaSample2DFormat format)
         {
             switch (format)
             {
-            case MediaSample2DFormat::Nv12: return MFVideoFormat_NV12.Data1;
-            case MediaSample2DFormat::Bgra8: return MFVideoFormat_RGB32.Data1;
-            case MediaSample2DFormat::Yuy2: return MFVideoFormat_YUY2.Data1;
-            case MediaSample2DFormat::Yv12: return MFVideoFormat_YV12.Data1;
-            default: return 0;
+            case MediaSample2DFormat::Nv12: return MFVideoFormat_NV12;
+            case MediaSample2DFormat::Bgra8: return MFVideoFormat_RGB32;
+            case MediaSample2DFormat::Yuy2: return MFVideoFormat_YUY2;
+            case MediaSample2DFormat::Yv12: return MFVideoFormat_YV12;
+            default: return GUID_NULL;
             }
         }
 

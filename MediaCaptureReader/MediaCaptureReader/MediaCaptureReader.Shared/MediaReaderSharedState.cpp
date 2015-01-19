@@ -37,7 +37,6 @@ MediaReaderSharedState::MediaReaderSharedState(
     auto attr = _CreateSourceReaderAttributes(settings, _graphicsDevice, callback);
 
     ComPtr<IMFReadWriteClassFactory> readerFactory;
-    ComPtr<IMFSourceReaderEx> sourceReader;
     CHK(CoCreateInstance(CLSID_MFReadWriteClassFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&readerFactory)));
     CHK(readerFactory->CreateInstanceFromObject(CLSID_MFSourceReader, source.Get(), attr.Get(), IID_PPV_ARGS(&_sourceReader)));
 }

@@ -5,6 +5,7 @@
 using namespace MediaCaptureReader;
 using namespace Microsoft::WRL;
 using namespace Platform;
+using namespace Windows::Foundation;
 
 MediaSample1D::MediaSample1D(_In_ const MW::ComPtr<IMFSample>& sample)
     : _sample(sample)
@@ -30,12 +31,20 @@ MediaSample2D::MediaSample2D(
     , _graphicsDevice(graphicsDevice)
 {
     assert(sample != nullptr);
+
+    int64 time = 0;
+    (void)sample->GetSampleTime(&time);
+    Timestamp = TimeSpan{ time };
+
+    int64 duration = 0;
+    (void)sample->GetSampleDuration(&duration);
+    Duration = TimeSpan{ duration };
 }
 
 MediaSample2D::MediaSample2D(_In_ MediaSample2DFormat format, _In_ int width, _In_ int height)
 {
     ComPtr<IMFMediaBuffer> buffer;
-    CHK(MFCreate2DMediaBuffer(width, height, GetFourCcFromFormat(format), /*fBottomUp*/false, &buffer));
+    CHK(MFCreate2DMediaBuffer(width, height, GetSubtypeFromFormat(format).Data1, /*fBottomUp*/false, &buffer));
 
     // Avoid issues with SinkWriter
     unsigned long length;

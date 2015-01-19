@@ -18,6 +18,7 @@
     <ClCompile Include="CaptureReaderTests.cpp" />
     <ClCompile Include="MediaReaderTests.cpp" />
     <ClCompile Include="MediaSampleTests.cpp" />
+    <ClCompile Include="MediaProcessor2DTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\UnitTestLogo.scale-100.png">
@@ -36,6 +37,7 @@
   <ItemGroup>
     <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="$(MSBuildThisFileDirectory)\..\..\content\$(MappedPlatformToolset)\Help\Lumia Imaging SDK.chm" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

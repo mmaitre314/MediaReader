@@ -10,6 +10,8 @@ namespace MediaCaptureReader
 
         MediaGraphicsDevice();
 
+        property bool IsNv12Supported { bool get(); }
+
         // IClosable
         virtual ~MediaGraphicsDevice();
 

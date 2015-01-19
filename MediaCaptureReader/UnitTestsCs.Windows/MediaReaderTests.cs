@@ -14,7 +14,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using MediaCaptureReaderExtensions;
 using Windows.Storage.Streams;
 
-namespace UnitTestsCs.Windows
+namespace UnitTestsCs
 {
     [TestClass]
     public class MediaReaderTests

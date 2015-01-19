@@ -12,18 +12,18 @@ namespace MediaCaptureReaderExtensions
     /// <summary>
     /// Extension methods on MediaSample encoding single images
     /// </summary>
-    static public class MediaSample2DEncoderExtensions
+    static public class MediaEncoder2DExtensions
     {
         /// <summary></summary>
         public static async Task SaveToFileAsync(this MediaSample2D sample, IStorageFile file, ImageCompression compression)
         {
-            await MediaSample2DEncoder.SaveToFileAsync(sample, file, compression);
+            await MediaEncoder2D.SaveToFileAsync(sample, file, compression);
         }
 
         /// <summary></summary>
         public static async Task SaveToStreamAsync(this MediaSample2D sample, IRandomAccessStream stream, ImageCompression compression)
         {
-            await MediaSample2DEncoder.SaveToStreamAsync(sample, stream, compression);
+            await MediaEncoder2D.SaveToStreamAsync(sample, stream, compression);
         }
     }
 }

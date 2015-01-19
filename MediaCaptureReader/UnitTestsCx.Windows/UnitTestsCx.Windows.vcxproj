@@ -227,6 +227,7 @@
   <ItemGroup>
     <ClCompile Include="HttpMultipartMessageTests.cpp" />
     <ClCompile Include="CaptureReaderTests.cpp" />
+    <ClCompile Include="MediaProcessor2DTests.cpp" />
     <ClCompile Include="MediaReaderTests.cpp" />
     <ClCompile Include="MediaSampleTests.cpp" />
     <ClCompile Include="pch.cpp">

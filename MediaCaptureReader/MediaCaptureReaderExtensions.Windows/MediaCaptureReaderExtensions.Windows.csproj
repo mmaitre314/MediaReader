@@ -125,7 +125,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BufferExtensions.cs" />
-    <Compile Include="MediaSample2DEncoderExtensions.cs" />
+    <Compile Include="MediaCaptureInitializationSettingsExtensions.cs" />
+    <Compile Include="MediaEncoder2DExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

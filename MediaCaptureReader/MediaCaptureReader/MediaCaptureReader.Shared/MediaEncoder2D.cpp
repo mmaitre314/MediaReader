@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "MediaSample2DEncoder.h"
+#include "MediaEncoder2D.h"
 #include "MediaSample.h"
 
 using namespace concurrency;
@@ -12,7 +12,7 @@ using namespace Windows::Media::MediaProperties;
 using namespace Windows::Storage;
 using namespace Windows::Storage::Streams;
 
-IAsyncAction^ MediaSample2DEncoder::SaveToFileAsync(
+IAsyncAction^ MediaEncoder2D::SaveToFileAsync(
     _In_ MediaSample2D^ sample,
     _In_ Windows::Storage::IStorageFile^ file,
     _In_ ImageCompression compression
@@ -25,12 +25,12 @@ IAsyncAction^ MediaSample2DEncoder::SaveToFileAsync(
     {
         return create_task(file->OpenAsync(FileAccessMode::ReadWrite)).then([file, sample, compression](IRandomAccessStream^ stream)
         {
-            return MediaSample2DEncoder::SaveToStreamAsync(sample, stream, compression);
+            return MediaEncoder2D::SaveToStreamAsync(sample, stream, compression);
         });
     });
 }
 
-IAsyncAction^ MediaSample2DEncoder::SaveToStreamAsync(
+IAsyncAction^ MediaEncoder2D::SaveToStreamAsync(
     _In_ MediaSample2D^ sample,
     _In_ Windows::Storage::Streams::IRandomAccessStream^ stream,
     _In_ ImageCompression compression

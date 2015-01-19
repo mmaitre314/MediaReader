@@ -23,12 +23,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SourceReaderCallback.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaReaderReadResult.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample2DPresenter.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaSample2DEncoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaBuffer2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WinRTBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCaptureSettings.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaProcessor2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaPresenter2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MediaEncoder2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -50,10 +51,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderStreams.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaReaderReadResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample2DPresenter.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaSample2DEncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaBuffer2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCaptureSettings.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaProcessor2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaPresenter2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MediaEncoder2D.cpp" />
   </ItemGroup>
 </Project>

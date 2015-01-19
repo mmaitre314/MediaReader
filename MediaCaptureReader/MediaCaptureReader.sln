@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderExtension
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderExtensions.WindowsPhone", "MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.csproj", "{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaCaptureReaderExtensions", "MediaCaptureReaderExtensions", "{9F74D49B-6A6D-4938-985A-02C5F99F359C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{076b7278-9f5a-450d-91c9-1aefc086afe1}*SharedItemsImports = 4
@@ -398,5 +400,7 @@ Global
 		{751E3C0F-451A-4FB3-897F-CC4E9F231781} = {7D0EF2C4-404D-49D1-9FEF-5DA31014F1DF}
 		{7DB8D248-B230-48A8-B372-64EACF7BB2C7} = {7D0EF2C4-404D-49D1-9FEF-5DA31014F1DF}
 		{C382EC3B-D2FA-487E-AE89-B04BF926DEF9} = {7D0EF2C4-404D-49D1-9FEF-5DA31014F1DF}
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A} = {9F74D49B-6A6D-4938-985A-02C5F99F359C}
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE} = {9F74D49B-6A6D-4938-985A-02C5F99F359C}
 	EndGlobalSection
 EndGlobal

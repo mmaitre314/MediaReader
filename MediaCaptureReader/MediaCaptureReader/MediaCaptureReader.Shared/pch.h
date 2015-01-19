@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <sstream>
 #include <queue>
+#include <chrono>
 
 #include <collection.h>
 #include <ppltasks.h>
@@ -79,6 +80,7 @@ namespace MWW = ::Microsoft::WRL::Wrappers;
 namespace WF = ::Windows::Foundation;
 namespace WFC = ::Windows::Foundation::Collections;
 namespace WFM = ::Windows::Foundation::Metadata;
+namespace WGI = ::Windows::Graphics::Imaging;
 namespace WM = ::Windows::Media;
 namespace WMC = ::Windows::Media::Capture;
 namespace WMCo = ::Windows::Media::Core;
