@@ -81,6 +81,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <ProjectReference Include="..\..\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.csproj">
+      <Project>{ec6c9854-2c46-4165-8fe7-7b12d0474fee}</Project>
+      <Name>MediaCaptureReaderExtensions.WindowsPhone</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\MediaCaptureReader\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.vcxproj">
       <Project>{190bc414-8267-4090-905a-28f522f7a544}</Project>
       <Name>MediaCaptureReader.WindowsPhone</Name>

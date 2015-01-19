@@ -1,4 +1,5 @@
 ﻿using MediaCaptureReader;
+using MediaCaptureReaderExtensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,12 +42,14 @@ namespace MediaCaptureReaderTestApp
         {
             DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
 
-            _capture = new MediaCapture();
-            await _capture.InitializeAsync(new MediaCaptureInitializationSettings
+            var settings = new MediaCaptureInitializationSettings
             {
-                VideoDeviceId = await GetBackOrDefaulCameraIdAsync(),
                 StreamingCaptureMode = StreamingCaptureMode.Video
-            });
+            };
+            await settings.SelectVideoDeviceAsync(VideoDeviceSelection.BackOrFirst);
+
+            _capture = new MediaCapture();
+            await _capture.InitializeAsync(settings);
 
             var graphicsDevice = MediaGraphicsDevice.CreateFromMediaCapture(_capture);
 
@@ -99,25 +102,6 @@ namespace MediaCaptureReaderTestApp
                     sample.Dispose();
                 });
             }
-        }
-
-        public static async Task<string> GetBackOrDefaulCameraIdAsync()
-        {
-            var devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
-
-            string deviceId = "";
-
-            foreach (var device in devices)
-            {
-                if ((device.EnclosureLocation != null) &&
-                    (device.EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Back))
-                {
-                    deviceId = device.Id;
-                    break;
-                }
-            }
-
-            return deviceId;
         }
     }
 }
