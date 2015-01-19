@@ -1,12 +1,102 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ix4eud7pf2w9p0gt?svg=true)](https://ci.appveyor.com/project/mmaitre314/mediacapturereader)
 [![NuGet package](http://mmaitre314.github.io/images/nuget.png)](https://www.nuget.org/packages/MMaitre.MediaCaptureReader/)
 
-MediaCapture Reader
-===================
+Media Reader
+============
 
-Reads audio/video samples from cameras and microphone using MediaCapture. Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available [here](http://www.nuget.org/packages/MMaitre.MediaCaptureReader/).
+Reads audio/video data from files (`StorageFile`, `IRandomAccessStream`, path), cameras and microphone (`MediaCapture`) and generic sources (`IMediaSource`). Universal Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available [here](http://www.nuget.org/packages/MMaitre.MediaCaptureReader/).
 
-The following code snippet reads a video sample in Bgra8 format from the default camera:
+## Create MediaReader
+
+### From file
+
+TODO: code snippet
+
+### From stream
+
+TODO: code snippet
+
+### From path
+
+TODO: code snippet
+
+### From camera/microphone
+
+TODO: code snippet
+
+camera selection
+
+TODO: code snippet
+
+### From generic sources
+
+TODO: code snippet
+
+## Read audio/video data
+
+Default format: Nv12, Pcm
+Compressed/uncompressed audio streams and compressed video streams: MediaSample1D
+Uncompressed video streams: MediaStream2D
+
+### Read uncompressed audio samples
+
+### Read uncompressed video samples
+    
+## Process 2D samples
+
+`MediaProcessor2D` provides methods to convert the format/width/height of 2D samples and rotate them.
+
+### Convert
+
+TODO: code snippet
+
+### Rotate
+
+TODO: code snippet
+
+## Save 2D samples
+
+`MediaEncoder2D`
+
+Also: C# extension method
+
+## Display 2D samples
+
+`MediaPresenter2D` provides methods to display 2D samples in XAML using either `SurfaceImageSource`
+
+```c#
+var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
+var imagePresenter = MediaPresenter2D.CreateFromSurfaceImageSource(image, graphicsDevice);
+var imagePresenter.Present(sample);
+```
+
+or `SwapChainPanel`
+
+```c#
+var swapChainPresenter = MediaPresenter2D.CreateFromSwapChainPanel(
+    SwapChainPreview,
+    graphicsDevice,
+    (int)previewProps.Width,
+    (int)previewProps.Height
+    );
+swapChainPresenter.Present(sample);
+```
+
+## Scenarios
+
+### Detect QR codes using ZXing.Net
+
+### Apply effects using Lumia Imaging SDK
+
+### Pixel data access
+
+### Stream MJPEG videos from IP cameras
+
+TODO: code snippet
+
+## CaptureReader (deprecated)
+
+`CaptureReader` reads audio/video samples from `MediaCapture`. The following code snippet reads a video sample in Bgra8 format from the default camera:
 
 ```c#
 # Create MediaCapture
@@ -27,24 +117,4 @@ var captureReader = await CaptureReader.CreateAsync(
         Video = readerProps
     });
 MediaSample sample = await captureReader.GetVideoSampleAsync();
-```
-
-The component also provides methods to display video samples in XAML using either SurfaceImageSource
-
-```c#
-var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
-var imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice);
-var imagePresenter.Present(sample);
-```
-
-or SwapChainPanel
-
-```c#
-var swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
-    SwapChainPreview,
-    graphicsDevice,
-    (int)previewProps.Width,
-    (int)previewProps.Height
-    );
-swapChainPresenter.Present(sample);
 ```
