@@ -30,7 +30,14 @@ TODO: code snippet
 
 ### From generic sources
 
-TODO: code snippet
+`CreateFromMediaSourceAsync`
+
+```c#
+using (var source = await HttpMjpegCaptureSource.CreateFromUriAsync("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480"))
+using (var mediaReader = await MediaReader.CreateFromMediaSourceAsync(source.Source))
+```
+
+![Airport](http://mmaitre314.github.io/images/CS_W_MediaReader_IpCam.jpg)
 
 ## Read audio/video data
 
