@@ -8,7 +8,34 @@ Media Reader
 
 Reads audio/video data from files (`StorageFile`, `IRandomAccessStream`, path), cameras and microphone (`MediaCapture`) and generic sources (`IMediaSource`). Universal Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available [here](http://www.nuget.org/packages/MMaitre.MediaCaptureReader/).
 
-TODO: basic code snippet reading 1 frame from a video and saving it to disk
+Save all the frames of a video to JPEG files:
+
+![Photos](http://mmaitre314.github.io/images/CS_W_MediaReader_SaveAllFrameAsJpeg.JPG)
+
+```c#
+using (var reader = await MediaReader.CreateFromPathAsync("ms-appx:///car.mp4"))
+{
+    while (true)
+    {
+        using (var result = await reader.VideoStream.ReadAsync())
+        {
+            if (result.EndOfStream || result.Error)
+            {
+                break;
+            }
+
+            var sample = (MediaSample2D)result.Sample;
+            if (sample == null)
+            {
+                continue;
+            }
+
+            var file = await folder.CreateFileAsync(((int)sample.Timestamp.TotalMilliseconds).ToString("D6") + ".jpg");
+            await sample.SaveToFileAsync(file, ImageCompression.Jpeg);
+        }
+    }
+}
+```
 
 ## Create MediaReader
 
