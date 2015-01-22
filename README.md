@@ -6,7 +6,7 @@ Media Reader
 
 `MediaReader` reads audio/video data from files (`StorageFile`, `IRandomAccessStream`, path), cameras and microphone (`MediaCapture`), and generic sources (`IMediaSource`). Universal Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available [here](http://www.nuget.org/packages/MMaitre.MediaCaptureReader/).
 
-For instance, `MediaReader` allows reading video frames from an MP4 file and saving them as a series of JPEG images:
+`MediaReader` allows for instance reading video frames from an MP4 file and saving them as a series of JPEG images:
 
 ![Photos](http://mmaitre314.github.io/images/CS_W_MediaReader_SaveAllFrameAsJpeg.JPG)
 
@@ -39,7 +39,7 @@ using (var reader = await MediaReader.CreateFromPathAsync("ms-appx:///car.mp4"))
 
 ### From files
 
-Three static methods are available to create `MediaReader` from `StorageFile`, `IRandomAccessStream`, and path respectively: `CreateFromFileAsync()`, `CreateFromStreamAsync()`, and `CreateFromPathAsync()`. `CreateFromPathAsync` in particular is useful to read files in the app package using the `ms-appx` scheme:
+Three static methods are available to create `MediaReader` from `StorageFile`, `IRandomAccessStream`, and path: `CreateFromFileAsync()`, `CreateFromStreamAsync()`, and `CreateFromPathAsync()` respectively. `CreateFromPathAsync` in particular is useful to read files in the app package using the `ms-appx` scheme:
 
 ```c#
 var reader = await MediaReader.CreateFromPathAsync("ms-appx:///car.mp4");
