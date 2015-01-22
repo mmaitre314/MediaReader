@@ -32,7 +32,7 @@
       <section>
         <div id="title">
           <h1>MediaCapture Reader</h1>
-          <p>Reads audio/video media samples from cameras and microphone using MediaCapture</p>
+          <p>Reads audio/video data from files, cameras, microphone, and generic media sources</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/mmaitre314">mmaitre314</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
@@ -41,9 +41,283 @@
         <p><a href="https://ci.appveyor.com/project/mmaitre314/mediacapturereader"><img src="https://ci.appveyor.com/api/projects/status/ix4eud7pf2w9p0gt?svg=true" alt="Build status"></a>
 <a href="https://www.nuget.org/packages/MMaitre.MediaCaptureReader/"><img src="http://mmaitre314.github.io/images/nuget.png" alt="NuGet package"></a></p>
 
-<p>Reads audio/video samples from cameras and microphone using MediaCapture. Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available <a href="http://www.nuget.org/packages/MMaitre.MediaCaptureReader/">here</a>.</p>
+<p><code>MediaReader</code> reads audio/video data from files (<code>StorageFile</code>, <code>IRandomAccessStream</code>, path), cameras and microphone (<code>MediaCapture</code>), and generic sources (<code>IMediaSource</code>). Universal Store apps targeting either Windows or Windows Phone are supported. A NuGet package is available <a href="http://www.nuget.org/packages/MMaitre.MediaCaptureReader/">here</a>.</p>
 
-<p>The following code snippet reads a video sample in Bgra8 format from the default camera:</p>
+<p><code>MediaReader</code> allows for instance reading video frames from an MP4 file and saving them as a series of JPEG images:</p>
+
+<p><img src="http://mmaitre314.github.io/images/CS_W_MediaReader_SaveAllFrameAsJpeg.JPG" alt="Photos"></p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> (<span class="pl-k">var</span> reader = await MediaReader.CreateFromPathAsync(<span class="pl-s1"><span class="pl-pds">"</span>ms-appx:///car.mp4<span class="pl-pds">"</span></span>))
+{
+    <span class="pl-k">while</span> (<span class="pl-c1">true</span>)
+    {
+        <span class="pl-k">using</span> (<span class="pl-k">var</span> result = await reader.VideoStream.ReadAsync())
+        {
+            <span class="pl-k">if</span> (result.EndOfStream || result.Error)
+            {
+                <span class="pl-k">break</span>;
+            }
+
+            <span class="pl-k">var</span> sample = (MediaSample2D)result.Sample;
+            <span class="pl-k">if</span> (sample == <span class="pl-c1">null</span>)
+            {
+                <span class="pl-k">continue</span>;
+            }
+
+            <span class="pl-k">var</span> file = await folder.CreateFileAsync(((<span class="pl-st">int</span>)sample.Timestamp.TotalMilliseconds).ToString(<span class="pl-s1"><span class="pl-pds">"</span>D6<span class="pl-pds">"</span></span>) + <span class="pl-s1"><span class="pl-pds">"</span>.jpg<span class="pl-pds">"</span></span>);
+            await sample.SaveToFileAsync(file, ImageCompression.Jpeg);
+        }
+    }
+}</pre></div>
+
+<h2>
+<a id="creating-mediareader" class="anchor" href="#creating-mediareader" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating MediaReader</h2>
+
+<h3>
+<a id="from-files" class="anchor" href="#from-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>From files</h3>
+
+<p>Three static methods are available to create <code>MediaReader</code> from <code>StorageFile</code>, <code>IRandomAccessStream</code>, and path: <code>CreateFromFileAsync()</code>, <code>CreateFromStreamAsync()</code>, and <code>CreateFromPathAsync()</code> respectively. <code>CreateFromPathAsync</code> in particular is useful to read files in the app package using the <code>ms-appx</code> scheme:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> reader = await MediaReader.CreateFromPathAsync(<span class="pl-s1"><span class="pl-pds">"</span>ms-appx:///car.mp4<span class="pl-pds">"</span></span>);</pre></div>
+
+<h3>
+<a id="from-cameras-and-microphones" class="anchor" href="#from-cameras-and-microphones" aria-hidden="true"><span class="octicon octicon-link"></span></a>From cameras and microphones</h3>
+
+<p>Data from cameras and microphones is read by creating <code>MediaCapture</code> and passing it to <code>MediaReader.CreateFromMediaCaptureAsync()</code>:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> capture = <span class="pl-s">new</span> MediaCapture();
+await capture.InitializeAsync();
+
+<span class="pl-k">var</span> reader = await MediaReader.CreateFromMediaCaptureAsync(capture);</pre></div>
+
+<p>A <code>SelectVideoDeviceAsync()</code> extension method is provided on <code>MediaCaptureInitializationSettings</code> to simplify selecting the back and front cameras:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> MediaCaptureReaderExtensions;
+
+<span class="pl-k">var</span> settings = <span class="pl-s">new</span> MediaCaptureInitializationSettings
+{
+    <span class="pl-c">// Video-only capture</span>
+    StreamingCaptureMode = StreamingCaptureMode.Video
+};
+<span class="pl-k">if</span> (!await settings.SelectVideoDeviceAsync(VideoDeviceSelection.BackOrFirst))
+{
+    <span class="pl-c">// No camera</span>
+    <span class="pl-k">return</span>;
+}
+
+<span class="pl-k">var</span> capture = <span class="pl-s">new</span> MediaCapture();
+await _capture.InitializeAsync(settings);</pre></div>
+
+<p><code>SelectVideoDeviceAsync()</code> returns <code>false</code> if no camera is present.</p>
+
+<h3>
+<a id="from-generic-media-sources" class="anchor" href="#from-generic-media-sources" aria-hidden="true"><span class="octicon octicon-link"></span></a>From generic media sources</h3>
+
+<p><code>MediaReader</code> can also read data from <code>IMediaSource</code> using <code>CreateFromMediaSourceAsync()</code>. This can be used in conjunction with the <code>HttpMjpegCaptureSource</code> class in the same package, a media source streaming MJPEG videos from IP cameras:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> source = await HttpMjpegCaptureSource.CreateFromUriAsync(<span class="pl-s1"><span class="pl-pds">"</span>http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&amp;resolution=640x480<span class="pl-pds">"</span></span>);
+<span class="pl-k">var</span> reader = await MediaReader.CreateFromMediaSourceAsync(source.Source);</pre></div>
+
+<p><img src="http://mmaitre314.github.io/images/CS_W_MediaReader_IpCam.jpg" alt="Airport"></p>
+
+<h2>
+<a id="reading-audiovideo-data" class="anchor" href="#reading-audiovideo-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading audio/video data</h2>
+
+<h3>
+<a id="selecting-the-stream-format" class="anchor" href="#selecting-the-stream-format" aria-hidden="true"><span class="octicon octicon-link"></span></a>Selecting the stream format</h3>
+
+<p>The <code>AudioInitialization</code> and <code>VideoInitialization</code> enumerations control data processing in <code>MediaReader</code>. They can be used for instance to read the video data as Bgra8 while ignoring the audio data:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> reader = await MediaReader.CreateFromFileAsync(file, AudioInitialization.Deselected, VideoInitialization.Bgra8);</pre></div>
+
+<p>Audio streams can be initialized as <code>Pcm</code>, <code>PassThrough</code>, or <code>Deselected</code>, while video streams can be initialized as <code>Nv12</code>, <code>Bgra8</code>, <code>PassThrough</code>, or <code>Deselected</code>. The defaults are <code>Nv12</code> and <code>Pcm</code>. In <code>PassThrough</code> mode the data is provided in the format it is stored in the file, which is typically compressed (say H.264 and AAC).</p>
+
+<h3>
+<a id="reading-data-samples" class="anchor" href="#reading-data-samples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading data samples</h3>
+
+<p>The <code>AudioStream</code> and <code>VideoStream</code> properties on <code>MediaReader</code> provide <code>ReadAsync()</code> methods to read samples from the first audio and video streams in the file. The properties are null if the file has no audio or no video data. An <code>AllStreams</code> property also gives access to all the available streams.</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> (<span class="pl-k">var</span> result = await _mediaReader.VideoStream.ReadAsync())</pre></div>
+
+<p>The <code>ReadAsync()</code> methods return <code>MediaReaderReadResult</code> objects which provide information about the stream state (<code>EndOfStream</code>, <code>Error</code>, etc. properties) and give out the data just read (<code>Sample</code> property). The <code>Sample</code> property is of type <code>IMediaSample</code>. As-is it gives access to the sample time and duration. It can also be cast to <code>MediaSample2D</code> when reading uncompressed video and <code>MediaSample1D</code> when reading compressed video or either compressed or uncompressed audio. The <code>LockBuffer()</code> methods on those two classes give access to the sample data.</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> (<span class="pl-k">var</span> reader = await MediaReader.CreateFromPathAsync(<span class="pl-s1"><span class="pl-pds">"</span>ms-appx:///Recording.m4a<span class="pl-pds">"</span></span>))
+{
+    <span class="pl-k">while</span> (<span class="pl-c1">true</span>)
+    {
+        <span class="pl-k">using</span> (<span class="pl-k">var</span> result = await reader.AudioStream.ReadAsync())
+        {
+            <span class="pl-k">if</span> (result.EndOfStream || result.Error)
+            {
+                <span class="pl-k">break</span>;
+            }
+
+            <span class="pl-k">var</span> sample = (MediaSample1D)result.Sample;
+            <span class="pl-k">if</span> (sample == <span class="pl-c1">null</span>)
+            {
+                <span class="pl-k">continue</span>;
+            }
+
+            <span class="pl-c">// Use audio data here</span>
+        }
+    }
+}</pre></div>
+
+<h2>
+<a id="processing-2d-samples" class="anchor" href="#processing-2d-samples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Processing 2D samples</h2>
+
+<p><code>ImageProcessor</code> provides methods to convert the format/width/height of 2D samples and rotate them:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> processor = <span class="pl-s">new</span> ImageProcessor();
+
+<span class="pl-k">var</span> sample1 = <span class="pl-s">new</span> MediaSample2D(MediaSample2DFormat.Nv12, <span class="pl-c1">320</span>, <span class="pl-c1">240</span>);
+<span class="pl-k">var</span> sample2 = processor.Rotate(sample1, BitmapRotation.Clockwise90Degrees);
+<span class="pl-k">var</span> sample3 = processor.Convert(sample2, MediaSample2DFormat.Bgra8, <span class="pl-c1">480</span>, <span class="pl-c1">640</span>);</pre></div>
+
+<h2>
+<a id="saving-2d-samples" class="anchor" href="#saving-2d-samples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Saving 2D samples</h2>
+
+<p><code>ImageEncoder</code> encodes 2D samples to JPEG:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> file = await KnownFolders.PicturesLibrary.CreateFileAsync(<span class="pl-s1"><span class="pl-pds">"</span>Image.jpg<span class="pl-pds">"</span></span>);
+await ImageEncoder.SaveToFileAsync(sample, file, ImageCompression.Jpeg);</pre></div>
+
+<p>To simplify that code a bit, extension methods on <code>MediaSample2D</code> are also provided:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> MediaCaptureReaderExtensions;
+
+await sample.SaveToFileAsync(file, ImageCompression.Jpeg);</pre></div>
+
+<h2>
+<a id="displaying-2d-samples" class="anchor" href="#displaying-2d-samples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Displaying 2D samples</h2>
+
+<p><code>ImagePresenter</code> displays 2D samples in XAML using either <code>SurfaceImageSource</code></p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> image = <span class="pl-s">new</span> SurfaceImageSource((<span class="pl-st">int</span>)previewProps.Width, (<span class="pl-st">int</span>)previewProps.Height);
+<span class="pl-k">var</span> imagePresenter = ImagePresenter.CreateFromSurfaceImageSource(image, graphicsDevice);
+<span class="pl-k">var</span> imagePresenter.Present(sample);</pre></div>
+
+<p>or <code>SwapChainPanel</code></p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> swapChainPresenter = ImagePresenter.CreateFromSwapChainPanel(
+    SwapChainPreview,
+    graphicsDevice,
+    (<span class="pl-st">int</span>)previewProps.Width,
+    (<span class="pl-st">int</span>)previewProps.Height
+    );
+swapChainPresenter.Present(sample);</pre></div>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<h3>
+<a id="detecting-qr-codes-using-zxingnet" class="anchor" href="#detecting-qr-codes-using-zxingnet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Detecting QR codes using <a href="http://www.nuget.org/packages/ZXing.Net/">ZXing.Net</a>
+</h3>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> barcodeReader = <span class="pl-s">new</span> BarcodeReader
+{
+    PossibleFormats = <span class="pl-s">new</span> BarcodeFormat[] { BarcodeFormat.QR_CODE }
+};
+
+<span class="pl-k">using</span> (<span class="pl-k">var</span> mediaReader = await MediaReader.CreateFromPathAsync(<span class="pl-s1"><span class="pl-pds">"</span>ms-appx:///QR_12345678.mp4<span class="pl-pds">"</span></span>, AudioInitialization.Deselected, VideoInitialization.Bgra8))
+<span class="pl-k">using</span> (<span class="pl-k">var</span> mediaResult = await mediaReader.VideoStream.ReadAsync())
+{
+    <span class="pl-k">var</span> sample = (MediaSample2D)mediaResult.Sample;
+
+    <span class="pl-k">using</span> (<span class="pl-k">var</span> buffer = sample.LockBuffer(BufferAccessMode.Read))
+    {
+        <span class="pl-k">var</span> barcodeResult = barcodeReader.Decode(
+            buffer.Planes[<span class="pl-c1">0</span>].Buffer.ToArray(),
+            buffer.Width,
+            buffer.Height,
+            BitmapFormat.BGR32
+            );
+
+        ...
+    }
+}</pre></div>
+
+<h3>
+<a id="applying-effects-using-the-lumia-imaging-sdk" class="anchor" href="#applying-effects-using-the-lumia-imaging-sdk" aria-hidden="true"><span class="octicon octicon-link"></span></a>Applying effects using the <a href="http://www.nuget.org/packages/LumiaImagingSDK/">Lumia Imaging SDK</a>
+</h3>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> (<span class="pl-k">var</span> mediaReader = await MediaReader.CreateFromPathAsync(<span class="pl-s1"><span class="pl-pds">"</span>ms-appx:///car.mp4<span class="pl-pds">"</span></span>, AudioInitialization.Deselected, VideoInitialization.Nv12))
+<span class="pl-k">using</span> (<span class="pl-k">var</span> mediaResult = await mediaReader.VideoStream.ReadAsync())
+{
+    <span class="pl-k">var</span> inputSample = (MediaSample2D)mediaResult.Sample;
+
+    <span class="pl-k">using</span> (<span class="pl-k">var</span> outputSample = <span class="pl-s">new</span> MediaSample2D(MediaSample2DFormat.Nv12, inputSample.Width, inputSample.Height))
+    <span class="pl-k">using</span> (<span class="pl-k">var</span> inputBuffer = inputSample.LockBuffer(BufferAccessMode.Read))
+    <span class="pl-k">using</span> (<span class="pl-k">var</span> outputBuffer = outputSample.LockBuffer(BufferAccessMode.Write))
+    {
+        <span class="pl-c">// Wrap MediaBuffer2D in Bitmap</span>
+        <span class="pl-k">var</span> inputBitmap = <span class="pl-s">new</span> Bitmap(
+            <span class="pl-s">new</span> Size(inputSample.Width, inputSample.Height), 
+            ColorMode.Yuv420Sp,
+            <span class="pl-s">new</span> <span class="pl-st">uint</span>[] { inputBuffer.Planes[<span class="pl-c1">0</span>].Pitch, inputBuffer.Planes[<span class="pl-c1">1</span>].Pitch },
+            <span class="pl-s">new</span> IBuffer[] { inputBuffer.Planes[<span class="pl-c1">0</span>].Buffer, inputBuffer.Planes[<span class="pl-c1">1</span>].Buffer }
+            );
+        <span class="pl-k">var</span> outputBitmap = <span class="pl-s">new</span> Bitmap(
+            <span class="pl-s">new</span> Size(inputSample.Width, inputSample.Height),
+            ColorMode.Yuv420Sp,
+            <span class="pl-s">new</span> <span class="pl-st">uint</span>[] { outputBuffer.Planes[<span class="pl-c1">0</span>].Pitch, outputBuffer.Planes[<span class="pl-c1">1</span>].Pitch },
+            <span class="pl-s">new</span> IBuffer[] { outputBuffer.Planes[<span class="pl-c1">0</span>].Buffer, outputBuffer.Planes[<span class="pl-c1">1</span>].Buffer }
+            );
+
+        <span class="pl-c">// Apply effect</span>
+        <span class="pl-k">var</span> effect = <span class="pl-s">new</span> FilterEffect();
+        effect.Filters = <span class="pl-s">new</span> IFilter[] { <span class="pl-s">new</span> WatercolorFilter() };
+        effect.Source = <span class="pl-s">new</span> BitmapImageSource(inputBitmap);
+        <span class="pl-k">var</span> renderer = <span class="pl-s">new</span> BitmapRenderer(effect, outputBitmap);
+        await renderer.RenderAsync();
+    }
+}</pre></div>
+
+<h3>
+<a id="accessing-pixel-data" class="anchor" href="#accessing-pixel-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Accessing pixel data</h3>
+
+<p>For efficiency, a <code>GetData()</code> extension method is added on <code>IBuffer</code>. <code>GetData()</code> returns an 'unsafe' <code>byte*</code> pointing to the <code>IBuffer</code> data. This requires methods calling <code>GetData()</code> to be marked using the <code>unsafe</code> keyword and to check the 'Allow unsafe code' checkbox in the project build properties.</p>
+
+<p>The following code snippet reads RGB values and doubles them:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> MediaCaptureReaderExtensions;
+
+<span class="pl-s">private</span> <span class="pl-s">unsafe</span> <span class="pl-st">void</span> ProcessSample(MediaSample2D sample)
+{
+    <span class="pl-k">using</span> (<span class="pl-k">var</span> buffer = sample.LockBuffer(BufferAccessMode.ReadWrite))
+    {
+        <span class="pl-st">int</span> width = buffer.Width;
+        <span class="pl-st">int</span> height = buffer.Height;
+        <span class="pl-st">int</span> pitch = (<span class="pl-st">int</span>)buffer.Planes[<span class="pl-c1">0</span>].Pitch;
+        <span class="pl-st">byte</span>* data = buffer.Planes[<span class="pl-c1">0</span>].Buffer.GetData();
+
+        <span class="pl-k">for</span> (<span class="pl-st">int</span> i = <span class="pl-c1">0</span>; i &lt; height; i++)
+        {
+            <span class="pl-k">for</span> (<span class="pl-st">int</span> j = <span class="pl-c1">0</span>; j &lt; width; j++)
+            {
+                <span class="pl-st">int</span> pos = i * pitch + <span class="pl-c1">4</span> * j;
+                data[pos + <span class="pl-c1">0</span>] = (<span class="pl-st">byte</span>)Math.Min(<span class="pl-c1">255</span>, <span class="pl-c1">2</span> * data[pos + <span class="pl-c1">0</span>]); <span class="pl-c">// B</span>
+                data[pos + <span class="pl-c1">1</span>] = (<span class="pl-st">byte</span>)Math.Min(<span class="pl-c1">255</span>, <span class="pl-c1">2</span> * data[pos + <span class="pl-c1">1</span>]); <span class="pl-c">// G</span>
+                data[pos + <span class="pl-c1">2</span>] = (<span class="pl-st">byte</span>)Math.Min(<span class="pl-c1">255</span>, <span class="pl-c1">2</span> * data[pos + <span class="pl-c1">2</span>]); <span class="pl-c">// R</span>
+            }
+        }
+    }
+}</pre></div>
+
+<h3>
+<a id="streaming-mjpeg-videos-from-ip-cameras" class="anchor" href="#streaming-mjpeg-videos-from-ip-cameras" aria-hidden="true"><span class="octicon octicon-link"></span></a>Streaming MJPEG videos from IP cameras</h3>
+
+<p>The <code>HttpMjpegCaptureSource</code> class streams MJPEG video from IP cameras. It can for instance be passed to XAML's <code>&lt;MediaElement&gt;</code> to preview the video stream:</p>
+
+<div class="highlight highlight-xml"><pre>    &lt;<span class="pl-ent">MediaElement</span> <span class="pl-e">Name</span>=<span class="pl-s1"><span class="pl-pds">"</span>VideoPreview<span class="pl-pds">"</span></span> <span class="pl-e">AutoPlay</span>=<span class="pl-s1"><span class="pl-pds">"</span>True<span class="pl-pds">"</span></span> <span class="pl-e">RealTimePlayback</span>=<span class="pl-s1"><span class="pl-pds">"</span>True<span class="pl-pds">"</span></span> /&gt;</pre></div>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> source = await HttpMjpegCaptureSource.CreateFromUriAsync(<span class="pl-s1"><span class="pl-pds">"</span>http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&amp;resolution=640x480<span class="pl-pds">"</span></span>);
+VideoPreview.SetMediaStreamSource(source.Source);</pre></div>
+
+<h2>
+<a id="capturereader-deprecated" class="anchor" href="#capturereader-deprecated" aria-hidden="true"><span class="octicon octicon-link"></span></a>CaptureReader (deprecated)</h2>
+
+<p><code>CaptureReader</code> reads audio/video samples from <code>MediaCapture</code>. The following code snippet reads a video sample in Bgra8 format from the default camera:</p>
 
 <div class="highlight highlight-c#"><pre># Create MediaCapture
 <span class="pl-k">var</span> capture = <span class="pl-s">new</span> MediaCapture();
@@ -63,22 +337,6 @@ readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
         Video = readerProps
     });
 MediaSample sample = await captureReader.GetVideoSampleAsync();</pre></div>
-
-<p>The component also provides methods to display video samples in XAML using either SurfaceImageSource</p>
-
-<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> image = <span class="pl-s">new</span> SurfaceImageSource((<span class="pl-st">int</span>)previewProps.Width, (<span class="pl-st">int</span>)previewProps.Height);
-<span class="pl-k">var</span> imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(image, graphicsDevice);
-<span class="pl-k">var</span> imagePresenter.Present(sample);</pre></div>
-
-<p>or SwapChainPanel</p>
-
-<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
-    SwapChainPreview,
-    graphicsDevice,
-    (<span class="pl-st">int</span>)previewProps.Width,
-    (<span class="pl-st">int</span>)previewProps.Height
-    );
-swapChainPresenter.Present(sample);</pre></div>
       </section>
 
     </div>
