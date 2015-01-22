@@ -29,8 +29,8 @@ namespace MediaCaptureReaderTestApp
     {
         MediaCapture _capture;
         MediaReader _mediaReader;
-        MediaPresenter2D _imagePresenter;
-        MediaPresenter2D _swapChainPresenter;
+        ImagePresenter _imagePresenter;
+        ImagePresenter _swapChainPresenter;
 
         public MainPage()
         {
@@ -66,11 +66,11 @@ namespace MediaCaptureReaderTestApp
 
             var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
             ImagePreview.Source = image;
-            _imagePresenter = MediaPresenter2D.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
+            _imagePresenter = ImagePresenter.CreateFromSurfaceImageSource(image, graphicsDevice, (int)previewProps.Width, (int)previewProps.Height);
 
             TextLog.Text += "Creating MediaSamplePresenter from SwapChainPanel\n";
 
-            _swapChainPresenter = MediaPresenter2D.CreateFromSwapChainPanel(
+            _swapChainPresenter = ImagePresenter.CreateFromSwapChainPanel(
                 SwapChainPreview,
                 graphicsDevice,
                 (int)previewProps.Width,
