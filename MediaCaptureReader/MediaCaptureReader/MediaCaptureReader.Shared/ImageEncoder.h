@@ -9,7 +9,7 @@ namespace MediaCaptureReader
         Jpeg = 0
     };
 
-    public ref class MediaEncoder2D sealed
+    public ref class ImageEncoder sealed
     {
     public:
 
@@ -29,7 +29,7 @@ namespace MediaCaptureReader
 
     private:
 
-        MediaEncoder2D()
+        ImageEncoder()
         {
         }
     };

@@ -31,7 +31,7 @@ public:
 
             auto image = ref new SurfaceImageSource(previewProps->Width, previewProps->Height);
 
-            auto imagePresenter = MediaPresenter2D::CreateFromSurfaceImageSource(
+            auto imagePresenter = ImagePresenter::CreateFromSurfaceImageSource(
                 image,
                 graphicsDevice,
                 previewProps->Width,
@@ -39,7 +39,7 @@ public:
                 );
 
             auto panel = ref new SwapChainPanel();
-            auto swapChainPresenter = MediaPresenter2D::CreateFromSwapChainPanel(
+            auto swapChainPresenter = ImagePresenter::CreateFromSwapChainPanel(
                 panel,
                 graphicsDevice,
                 previewProps->Width,

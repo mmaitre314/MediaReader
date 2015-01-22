@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MediaSample.h"
-#include "MediaProcessor2D.h"
+#include "ImageProcessor.h"
 #include "MediaGraphicsDevice.h"
 
 using namespace MediaCaptureReader;
@@ -138,7 +138,7 @@ public:
     }
 };
 
-MediaProcessor2D::MediaProcessor2D()
+ImageProcessor::ImageProcessor()
     : _inputFormat(MediaSample2DFormat::Unknown)
     , _outputFormat(MediaSample2DFormat::Unknown)
     , _rotation(BitmapRotation::None)
@@ -153,7 +153,7 @@ MediaProcessor2D::MediaProcessor2D()
     _CreateVideoProcessor();
 }
 
-void MediaProcessor2D::_CreateVideoProcessor()
+void ImageProcessor::_CreateVideoProcessor()
 {
     //
     // Create two different formats to force the SourceReader to create a video processor
@@ -223,7 +223,7 @@ void MediaProcessor2D::_CreateVideoProcessor()
     }
 }
 
-MediaSample2D^ MediaProcessor2D::Convert(
+MediaSample2D^ ImageProcessor::Convert(
     _In_ MediaSample2D^ sample,
     _In_ MediaSample2DFormat format,
     _In_ int width,
@@ -273,7 +273,7 @@ MediaSample2D^ MediaProcessor2D::Convert(
     return _Process(sample);
 }
 
-MediaSample2D^ MediaProcessor2D::Rotate(
+MediaSample2D^ ImageProcessor::Rotate(
     _In_ MediaSample2D^ sample,
     _In_ BitmapRotation rotation
     )
@@ -325,7 +325,7 @@ MediaSample2D^ MediaProcessor2D::Rotate(
     return _Process(sample);
 }
 
-void MediaProcessor2D::_InitializeVideoProcessor()
+void ImageProcessor::_InitializeVideoProcessor()
 {
     // Create input media type
     ComPtr<IMFMediaType> inputType;
@@ -388,7 +388,7 @@ void MediaProcessor2D::_InitializeVideoProcessor()
     CHK(_processor->GetOutputStreamInfo(0, &_outputStreamInfo));
 }
 
-MediaSample2D^ MediaProcessor2D::_Process(_In_ MediaSample2D^ sample) const
+MediaSample2D^ ImageProcessor::_Process(_In_ MediaSample2D^ sample) const
 {
     ComPtr<IMFMediaBuffer> inputBuffer1D;
     CHK(sample->GetSample()->GetBufferByIndex(0, &inputBuffer1D));

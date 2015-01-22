@@ -106,5 +106,20 @@ namespace UnitTestsCs
                 }
             }
         }
+
+        [TestMethod]
+        public async Task CS_W_MediaReader_IpCam()
+        {
+            using (var source = await HttpMjpegCaptureSource.CreateFromUriAsync("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480"))
+            using (var mediaReader = await MediaReader.CreateFromMediaSourceAsync(source.Source))
+            using (var result = await mediaReader.VideoStream.ReadAsync())
+            {
+                // Save the file
+                var folder = await KnownFolders.PicturesLibrary.CreateFolderAsync("MediaCaptureReaderTests", CreationCollisionOption.OpenIfExists);
+                var file = await folder.CreateFileAsync("CS_W_MediaReader_IpCam.jpg", CreationCollisionOption.ReplaceExisting);
+                await ((MediaSample2D)result.Sample).SaveToFileAsync(file, ImageCompression.Jpeg);
+                Logger.LogMessage("Saved {0}", file.Path);
+            }
+        }
     }
 }

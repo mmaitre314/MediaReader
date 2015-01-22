@@ -2,11 +2,11 @@
 
 namespace MediaCaptureReader
 {
-    public ref class MediaProcessor2D sealed
+    public ref class ImageProcessor sealed
     {
     public:
 
-        MediaProcessor2D();
+        ImageProcessor();
 
         MediaSample2D^ Convert(
             _In_ MediaSample2D^ sample,
@@ -43,5 +43,6 @@ namespace MediaCaptureReader
 
         MW::ComPtr<IMFTransform> _processor;
         MWW::SRWLock _lock;
+        AutoMF _mf;
     };
 }

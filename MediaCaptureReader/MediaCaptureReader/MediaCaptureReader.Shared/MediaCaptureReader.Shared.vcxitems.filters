@@ -27,9 +27,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WinRTBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullMediaCaptureSettings.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaProcessor2D.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaPresenter2D.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MediaEncoder2D.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ImageProcessor.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ImagePresenter.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ImageEncoder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -54,8 +54,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaBuffer2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullMediaCaptureSettings.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NullAudioDeviceController.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaProcessor2D.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaPresenter2D.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MediaEncoder2D.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ImageProcessor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ImagePresenter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ImageEncoder.cpp" />
   </ItemGroup>
 </Project>
