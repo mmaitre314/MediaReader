@@ -15,5 +15,9 @@
       <HintPath>$(MSBuildThisFileDirectory)\..\Native\Windows\$(PlatformTarget)\MediaCaptureReader.winmd</HintPath>
       <Implementation>MediaCaptureReader.Windows.dll</Implementation>
     </Reference>
+    <Reference Include="MediaCaptureReaderExtensions.Windows">
+      <HintPath>$(MSBuildThisFileDirectory)\..\Native\Windows\$(PlatformTarget)\MediaCaptureReaderExtensions.Windows.dll</HintPath>
+      <Implementation>MediaCaptureReaderExtensions.Windows.dll</Implementation>
+    </Reference>
   </ItemGroup>
 </Project>

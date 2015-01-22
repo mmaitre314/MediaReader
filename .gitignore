@@ -98,3 +98,11 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 /MediaCaptureReader/MediaCaptureReaderExtensions.Windows/obj/x86/Release
 /MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/bin/x86/Release
 /MediaCaptureReader/UnitTestsCs.Windows/bin/x86/Release
+/MediaCaptureReader/MediaCaptureReaderExtensions.Windows/MediaCaptureReaderExtensions.Windows
+/MediaCaptureReader/MediaCaptureReaderExtensions.Windows/bin
+/MediaCaptureReader/MediaCaptureReaderExtensions.Windows/obj
+/MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/bin/ARM/Release
+/MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/extensions.win
+/MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/MediaCaptureReaderExtensions.WindowsPhone
+/MediaCaptureReader/Package/Win32/Release
+/MediaCaptureReader/Package/x86/Release

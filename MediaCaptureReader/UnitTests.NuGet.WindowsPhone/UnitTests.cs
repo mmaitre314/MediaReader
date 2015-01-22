@@ -1,4 +1,5 @@
 ﻿using MediaCaptureReader;
+using MediaCaptureReaderExtensions;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System;
 using System.Threading;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -32,7 +34,7 @@ namespace UnitTests.NuGet.WindowsPhone
 
                     var image = new SurfaceImageSource((int)previewProps.Width, (int)previewProps.Height);
 
-                    var imagePresenter = MediaSamplePresenter.CreateFromSurfaceImageSource(
+                    var imagePresenter = ImagePresenter.CreateFromSurfaceImageSource(
                         image, 
                         graphicsDevice,
                         (int)previewProps.Width,
@@ -40,7 +42,7 @@ namespace UnitTests.NuGet.WindowsPhone
                         );
 
                     var panel = new SwapChainPanel();
-                    var swapChainPresenter = MediaSamplePresenter.CreateFromSwapChainPanel(
+                    var swapChainPresenter = ImagePresenter.CreateFromSwapChainPanel(
                         panel,
                         graphicsDevice,
                         (int)previewProps.Width,
@@ -57,10 +59,14 @@ namespace UnitTests.NuGet.WindowsPhone
                             Video = readerProps
                         });
 
-                    using (MediaSample sample = await captureReader.GetVideoSampleAsync())
+                    using (MediaSample2D sample = (MediaSample2D)await captureReader.GetVideoSampleAsync())
                     {
                         swapChainPresenter.Present(sample);
                         imagePresenter.Present(sample);
+
+                        var folder = await KnownFolders.PicturesLibrary.CreateFolderAsync("MediaCaptureReaderTests", CreationCollisionOption.OpenIfExists);
+                        var file = await folder.CreateFileAsync("CS_WP_N_Basic.jpg", CreationCollisionOption.ReplaceExisting);
+                        await sample.SaveToFileAsync(file, ImageCompression.Jpeg);
                     }
                 });
         }

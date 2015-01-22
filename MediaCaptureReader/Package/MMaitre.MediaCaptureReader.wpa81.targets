@@ -15,5 +15,9 @@
       <HintPath>$(MSBuildThisFileDirectory)\..\Native\WindowsPhone\$(PlatformTarget)\MediaCaptureReader.winmd</HintPath>
       <Implementation>MediaCaptureReader.WindowsPhone.dll</Implementation>
     </Reference>
+    <Reference Include="MediaCaptureReaderExtensions.WindowsPhone">
+      <HintPath>$(MSBuildThisFileDirectory)\..\Native\WindowsPhone\$(PlatformTarget)\MediaCaptureReaderExtensions.WindowsPhone.dll</HintPath>
+      <Implementation>MediaCaptureReaderExtensions.WindowsPhone.dll</Implementation>
+    </Reference>
   </ItemGroup>
 </Project>

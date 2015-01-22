@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MediaCaptureReader.Windows"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MediaCaptureReader.WindowsPhone", "..\MediaCaptureReader\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.vcxproj", "{190BC414-8267-4090-905A-28F522F7A544}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderExtensions.Windows", "..\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.csproj", "{512A8B6E-04D5-4914-AA3D-11E35BBC173A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderExtensions.WindowsPhone", "..\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.csproj", "{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{076b7278-9f5a-450d-91c9-1aefc086afe1}*SharedItemsImports = 4
@@ -66,6 +70,29 @@ Global
 		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Win32.Build.0 = Release|Win32
 		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|Win32.Deploy.0 = Release|Win32
 		{4ECF25E6-50C2-449A-868B-F9B2DC22D0D2}.Release|x64.ActiveCfg = Release|Win32
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|ARM.ActiveCfg = Release|ARM
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|ARM.Build.0 = Release|ARM
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|Win32.ActiveCfg = Release|x86
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|Win32.Build.0 = Release|x86
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|x64.ActiveCfg = Release|x64
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|x64.Build.0 = Release|x64
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|x86.ActiveCfg = Release|x86
+		{512A8B6E-04D5-4914-AA3D-11E35BBC173A}.Release|x86.Build.0 = Release|x86
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|ARM.ActiveCfg = Release|ARM
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|ARM.Build.0 = Release|ARM
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|Win32.ActiveCfg = Release|x86
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|Win32.Build.0 = Release|x86
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|x86.ActiveCfg = Release|x86
+		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
