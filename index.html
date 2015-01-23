@@ -175,7 +175,7 @@ await _capture.InitializeAsync(settings);</pre></div>
 <span class="pl-k">var</span> sample3 = processor.Convert(sample2, MediaSample2DFormat.Bgra8, <span class="pl-c1">480</span>, <span class="pl-c1">640</span>);</pre></div>
 
 <h2>
-<a id="saving-2d-samples" class="anchor" href="#saving-2d-samples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Saving 2D samples</h2>
+<a id="loading-and-saving-2d-samples-as-images" class="anchor" href="#loading-and-saving-2d-samples-as-images" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loading and saving 2D samples as images</h2>
 
 <p><code>ImageEncoder</code> encodes 2D samples to JPEG:</p>
 
@@ -187,6 +187,10 @@ await ImageEncoder.SaveToFileAsync(sample, file, ImageCompression.Jpeg);</pre></
 <div class="highlight highlight-c#"><pre><span class="pl-k">using</span> MediaCaptureReaderExtensions;
 
 await sample.SaveToFileAsync(file, ImageCompression.Jpeg);</pre></div>
+
+<p><code>ImageDecoder</code> decodes 2D samples from JPEG files:</p>
+
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> sample = await ImageDecoder.LoadFromPathAsync(<span class="pl-s1"><span class="pl-pds">"</span>ms-appx:///Car.jpg<span class="pl-pds">"</span></span>, MediaSample2DFormat.Nv12);</pre></div>
 
 <h2>
 <a id="displaying-2d-samples" class="anchor" href="#displaying-2d-samples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Displaying 2D samples</h2>
@@ -206,6 +210,17 @@ await sample.SaveToFileAsync(file, ImageCompression.Jpeg);</pre></div>
     (<span class="pl-st">int</span>)previewProps.Height
     );
 swapChainPresenter.Present(sample);</pre></div>
+
+<h2>
+<a id="debugging" class="anchor" href="#debugging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debugging</h2>
+
+<p>When debugging C++ code, the <a href="https://visualstudiogallery.msdn.microsoft.com/e682d542-7ef3-402c-b857-bbfba714f78d">Image Watch</a> debugger extension can help visualize the current content of uncompressed 2D samples:</p>
+
+<p><img src="http://mmaitre314.github.io/images/MediaReaderImageWatch.png" alt="ImageWatch"></p>
+
+<p>To enable this, install Image Watch and copy <a href="https://raw.githubusercontent.com/mmaitre314/MediaReader/master/MediaCaptureReader/MediaCaptureReader/MediaCaptureReader.Shared/MediaReader.natvis">this Natvis file</a> to the Visual Studio Visualizers folder, which is typically C:\Users\%USERNAME%\Documents\Visual Studio 2013\Visualizers.</p>
+
+<p>The content of MediaSample2D and MediaBuffer2D is displayed by clicking on the associated magnifying glasses in debugger tooltips and Autos/Locals/Watch windows.</p>
 
 <h2>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
