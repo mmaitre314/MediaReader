@@ -147,7 +147,7 @@ var sample2 = processor.Rotate(sample1, BitmapRotation.Clockwise90Degrees);
 var sample3 = processor.Convert(sample2, MediaSample2DFormat.Bgra8, 480, 640);
 ```
 
-## Saving 2D samples
+## Loading and saving 2D samples as images
 
 `ImageEncoder` encodes 2D samples to JPEG:
 
@@ -162,6 +162,12 @@ To simplify that code a bit, extension methods on `MediaSample2D` are also provi
 using MediaCaptureReaderExtensions;
 
 await sample.SaveToFileAsync(file, ImageCompression.Jpeg);
+```
+
+`ImageDecoder` decodes 2D samples from JPEG files:
+
+```c#
+var sample = await ImageDecoder.LoadFromPathAsync("ms-appx:///Car.jpg", MediaSample2DFormat.Nv12);
 ```
 
 ## Displaying 2D samples
