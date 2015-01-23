@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+
+  <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1" MenuName="Add to Image Watch"/>
+
+  <Type Name="MediaCaptureReader::MediaBuffer2D">
+    <UIVisualizer ServiceId="{A452AFEA-3DF6-46BB-9177-C0B08F318025}" Id="1" />
+  </Type>
+  
+  <Type Name="MediaCaptureReader::MediaSample2D">
+  
+    <DisplayString Condition="_format == 0">Unknown {_width,d}x{_height,d} time {Timestamp.Duration / 10000,d}ms duration {Duration.Duration / 10000,d}ms</DisplayString>
+    <DisplayString Condition="_format == 1">Nv12 {_width,d}x{_height,d} time {Timestamp.Duration / 10000,d}ms duration {Duration.Duration / 10000,d}ms</DisplayString>
+    <DisplayString Condition="_format == 2">Bgra8 {_width,d}x{_height,d} time {Timestamp.Duration / 10000,d}ms duration {Duration.Duration / 10000,d}ms</DisplayString>
+    <DisplayString Condition="_format == 3">Yuy2 {_width,d}x{_height,d} time {Timestamp.Duration / 10000,d}ms duration {Duration.Duration / 10000,d}ms</DisplayString>
+    <DisplayString Condition="_format == 4">Yv12 {_width,d}x{_height,d} time {Timestamp.Duration / 10000,d}ms duration {Duration.Duration / 10000,d}ms</DisplayString>
+    
+    <Expand>
+      <Item Name="[time (ms)]">Timestamp.Duration / 10000.f</Item>
+      <Item Name="[duration (ms)]">Duration.Duration / 10000.f</Item>
+      <Item Name="[buffer]" Condition="((mfplat.dll!CMFSample*)_sample.ptr_)->m_pBufferInfos->pBuffer != nullptr">*(((mfplat.dll!CMFSample*)_sample.ptr_)->m_pBufferInfos->pBuffer)</Item> <!-- Only display the first buffer (other virtually never used) -->
+      <Synthetic Name="[buffer]" Condition="((mfplat.dll!CMFSample*)_sample.ptr_)->m_pBufferInfos->pBuffer == nullptr"><DisplayString>none</DisplayString></Synthetic>
+    </Expand>
+    
+  </Type>
+  
+  <Type Name="MediaCaptureReader::MediaBuffer2D">
+
+    <DisplayString Condition="_format == 0">Unknown {_width,d}x{_height,d} stride {_pitch,d}</DisplayString>
+    <DisplayString Condition="_format == 1">Nv12 {_width,d}x{_height,d} stride {_pitch,d}</DisplayString>
+    <DisplayString Condition="_format == 2">Bgra8 {_width,d}x{_height,d} stride {_pitch,d}</DisplayString>
+    <DisplayString Condition="_format == 3">Yuy2 {_width,d}x{_height,d} stride {_pitch,d}</DisplayString>
+    <DisplayString Condition="_format == 4">Yv12 {_width,d}x{_height,d} stride {_pitch,d}</DisplayString>
+
+    <Expand>
+      <Synthetic Name="[type]"><DisplayString>UINT8</DisplayString></Synthetic>
+
+      <!-- Nv12 -->
+      <Synthetic Name="[channels]" Condition="_format == 1"><DisplayString>Nv12</DisplayString></Synthetic>
+      <Item Name="[planes]" Condition="_format == 1">2</Item>
+      <Item Name="[stride]" Condition="_format == 1">_pitch</Item>
+
+      <!-- Bgra8 -->
+      <Synthetic Name="[channels]" Condition="_format == 2"><DisplayString>Bgra8</DisplayString></Synthetic>
+      <Item Name="[stride]" Condition="_format == 2">_pitch</Item>
+
+      <!-- Yuy2 -->
+      <Synthetic Name="[channels]" Condition="_format == 3"><DisplayString>Yuy2</DisplayString></Synthetic>
+      <Item Name="[planes]" Condition="_format == 3">1</Item>
+      <Item Name="[stride]" Condition="_format == 3">_pitch</Item>
+
+      <!-- Yv12 -->
+      <Synthetic Name="[channels]" Condition="_format == 4"><DisplayString>Yv12</DisplayString></Synthetic>
+      <Item Name="[planes]" Condition="_format == 4">3</Item>
+      <Synthetic Name="[stride]" Condition="_format == 4">
+        <DisplayString>
+          {(int)(_pitch)}; {(int)((_pitch) / 2)}; {(int)((_pitch) / 2)}
+        </DisplayString>
+      </Synthetic>
+
+      <Item Name="[width]">_width</Item>
+      <Item Name="[height]">_height</Item>
+      <Item Name="[format]">_format</Item>
+      <Item Name="[data]">_buffer</Item>
+    </Expand>
+  </Type>
+
+</AutoVisualizer>

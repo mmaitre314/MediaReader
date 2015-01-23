@@ -135,6 +135,7 @@
     <None Include="UnitTestsCs.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Car.jpg" />
     <Content Include="Car.mp4" />
     <Content Include="Images\UnitTestLogo.scale-100.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

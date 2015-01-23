@@ -125,5 +125,11 @@ namespace UnitTestsCs
             await sample2.SaveToFileAsync(file2, ImageCompression.Jpeg);
         }
 
+        [TestMethod]
+        public async Task CS_W_ImageDecoder_LoadFromPath()
+        {
+            var sample = await ImageDecoder.LoadFromPathAsync("ms-appx:///Car.jpg", MediaSample2DFormat.Nv12);
+        }
+
     }
 }

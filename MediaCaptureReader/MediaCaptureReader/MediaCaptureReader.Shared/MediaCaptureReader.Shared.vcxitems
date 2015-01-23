@@ -76,4 +76,7 @@
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)MediaReader.natvis" />
+  </ItemGroup>
 </Project>
