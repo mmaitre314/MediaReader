@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ImageProcessor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ImagePresenter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ImageEncoder.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ImageDecoder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)pch.cpp">
@@ -57,5 +58,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ImageProcessor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ImagePresenter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ImageEncoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ImageDecoder.cpp" />
   </ItemGroup>
 </Project>

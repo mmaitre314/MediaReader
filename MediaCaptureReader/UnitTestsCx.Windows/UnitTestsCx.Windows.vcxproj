@@ -227,6 +227,7 @@
   <ItemGroup>
     <ClCompile Include="HttpMultipartMessageTests.cpp" />
     <ClCompile Include="CaptureReaderTests.cpp" />
+    <ClCompile Include="ImageDecoderTests.cpp" />
     <ClCompile Include="MediaProcessor2DTests.cpp" />
     <ClCompile Include="MediaReaderTests.cpp" />
     <ClCompile Include="MediaSampleTests.cpp" />
@@ -252,6 +253,7 @@
     <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Content\Car.jpg" />
     <Image Include="Images\UnitTestLogo.scale-100.png" />
     <Image Include="Images\UnitTestSmallLogo.scale-100.png" />
     <Image Include="Images\UnitTestSplashScreen.scale-100.png" />

@@ -19,6 +19,7 @@
     <ClCompile Include="MediaReaderTests.cpp" />
     <ClCompile Include="MediaSampleTests.cpp" />
     <ClCompile Include="MediaProcessor2DTests.cpp" />
+    <ClCompile Include="ImageDecoderTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\UnitTestLogo.scale-100.png">
@@ -31,6 +32,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Images\UnitTestStoreLogo.scale-100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Content\Car.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

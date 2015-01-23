@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HttpMultipartMessage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ImageDecoder.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaBuffer2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)D3D11DeviceLock.h" />
@@ -48,6 +49,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CaptureReaderSharedState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HttpMjpegCaptureSource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ImageDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaBuffer2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MediaGraphicsDevice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebuggerLogger.cpp" />

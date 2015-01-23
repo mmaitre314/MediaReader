@@ -6,12 +6,12 @@
     <version>$NuGetVersion$</version>
     <authors>Matthieu Maitre</authors>
     <owners>Matthieu Maitre</owners>
-    <licenseUrl>https://raw.githubusercontent.com/mmaitre314/MediaCaptureReader/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/mmaitre314/MediaCaptureReader</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/mmaitre314/MediaReader/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/mmaitre314/MediaReader</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Reads audio and video data from files, cameras, microphones, and generic media sources in Universal Store apps.</summary>
     <description>Reads audio/video data from files (StorageFile, IRandomAccessStream, path), cameras and microphone (MediaCapture), and generic sources (IMediaSource). Renders video samples to XAML's SwapChainPanel and SurfaceImageSource, rotates/converts them, saves them to JPEG. Universal Store apps targeting either Windows or Windows Phone are supported.</description>
-    <releaseNotes>Add MediaReader</releaseNotes>
+    <releaseNotes>Add ImageDecoder</releaseNotes>
     <copyright>Copyright © 2015, Matthieu Maitre. All rights reserved.</copyright>
     <tags>Native WinRT XAML MediaCapture SwapChainPanel SurfaceImageSource</tags>
   </metadata>

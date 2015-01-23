@@ -8,9 +8,13 @@ using Windows.Media.Capture;
 
 namespace MediaCaptureReaderExtensions
 {
+    /// <summary></summary>
     public enum VideoDeviceSelection
     {
+        /// <summary></summary>
         BackOrFirst,
+
+        /// <summary></summary>
         FrontOrFirst
     }
 

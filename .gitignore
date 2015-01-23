@@ -106,3 +106,5 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 /MediaCaptureReader/MediaCaptureReaderExtensions.WindowsPhone/MediaCaptureReaderExtensions.WindowsPhone
 /MediaCaptureReader/Package/Win32/Release
 /MediaCaptureReader/Package/x86/Release
+/MediaCaptureReader/Win32/Release
+/MediaCaptureReader/x86/Release
