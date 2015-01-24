@@ -122,6 +122,8 @@ MediaReader::MediaReader(IRandomAccessStream^ stream, MediaReaderInitializationS
 : _canSeek(false)
 {
     TraceScopeCx(this);
+    CHKNULL(stream);
+    CHKNULL(settings);
 
     ComPtr<IMFByteStream> streamNative;
     CHK(MFCreateMFByteStreamOnStreamEx(reinterpret_cast<IUnknown*>(stream), &streamNative));
@@ -138,6 +140,8 @@ MediaReader::MediaReader(IMediaSource^ source, MediaReaderInitializationSettings
 : _canSeek(false)
 {
     TraceScopeCx(this);
+    CHKNULL(source);
+    CHKNULL(settings);
 
     ComPtr<IMFGetService> mfService;
     ComPtr<IMFMediaSource> sourceNative;
@@ -156,6 +160,8 @@ MediaReader::MediaReader(MediaCapture^ capture, MediaReaderCaptureInitialization
 : _canSeek(false)
 {
     TraceScopeCx(this);
+    CHKNULL(capture);
+    CHKNULL(settings);
 
     auto state = ref new CaptureReaderSharedState(capture, settings);
 

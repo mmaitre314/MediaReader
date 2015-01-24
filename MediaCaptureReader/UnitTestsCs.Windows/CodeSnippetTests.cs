@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using MediaCaptureReader;
 using System.Threading.Tasks;
-using ZXing;
 using Lumia.Imaging;
 using Lumia.Imaging.Artistic;
 using Windows.Foundation;

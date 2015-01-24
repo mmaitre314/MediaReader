@@ -153,6 +153,10 @@ ImageProcessor::ImageProcessor()
     _CreateVideoProcessor();
 }
 
+ImageProcessor::~ImageProcessor()
+{
+}
+
 void ImageProcessor::_CreateVideoProcessor()
 {
     //

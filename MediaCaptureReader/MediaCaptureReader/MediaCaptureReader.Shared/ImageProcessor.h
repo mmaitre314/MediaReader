@@ -20,6 +20,9 @@ namespace MediaCaptureReader
             _In_ WGI::BitmapRotation rotation
             );
 
+        // IClosable
+        virtual ~ImageProcessor();
+
     private:
 
         void _CreateVideoProcessor();

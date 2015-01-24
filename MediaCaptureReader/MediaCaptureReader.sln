@@ -37,14 +37,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderExtension
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaCaptureReaderExtensions", "MediaCaptureReaderExtensions", "{9F74D49B-6A6D-4938-985A-02C5F99F359C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QrCodeDetector", "QrCodeDetector", "{035153F1-FBD4-4E8F-9177-FA8DFB04355C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "QrCodeDetector.Shared", "QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.shproj", "{1F08DE49-DFE0-4CEB-A659-72B621A59F73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeDetector.Windows", "QrCodeDetector\QrCodeDetector.Windows\QrCodeDetector.Windows.csproj", "{1843427E-F5D0-4D09-8A07-7CF935D34C5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeDetector.WindowsPhone", "QrCodeDetector\QrCodeDetector.WindowsPhone\QrCodeDetector.WindowsPhone.csproj", "{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{076b7278-9f5a-450d-91c9-1aefc086afe1}*SharedItemsImports = 4
+		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{1843427e-f5d0-4d09-8a07-7cf935d34c5a}*SharedItemsImports = 4
 		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{c382ec3b-d2fa-487e-ae89-b04bf926def9}*SharedItemsImports = 4
 		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{7db8d248-b230-48a8-b372-64eacf7bb2c7}*SharedItemsImports = 4
+		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{1f08de49-dfe0-4ceb-a659-72b621a59f73}*SharedItemsImports = 13
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{190bc414-8267-4090-905a-28f522f7a544}*SharedItemsImports = 4
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{071bb221-5418-434c-8706-e5f549053f03}*SharedItemsImports = 9
 		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{751e3c0f-451a-4fb3-897f-cc4e9f231781}*SharedItemsImports = 13
+		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{eda71cd7-2ef6-41c8-b1c3-adb2c33c2f5c}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -389,6 +400,74 @@ Global
 		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|x64.ActiveCfg = Release|Any CPU
 		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|x86.ActiveCfg = Release|x86
 		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE}.Release|x86.Build.0 = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|ARM.Build.0 = Debug|ARM
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|ARM.Deploy.0 = Debug|ARM
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Win32.ActiveCfg = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Win32.Build.0 = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|Win32.Deploy.0 = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|x64.ActiveCfg = Debug|x64
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|x64.Build.0 = Debug|x64
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|x64.Deploy.0 = Debug|x64
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|x86.ActiveCfg = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|x86.Build.0 = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Debug|x86.Deploy.0 = Debug|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|ARM.ActiveCfg = Release|ARM
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|ARM.Build.0 = Release|ARM
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|ARM.Deploy.0 = Release|ARM
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Win32.ActiveCfg = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Win32.Build.0 = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|Win32.Deploy.0 = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|x64.ActiveCfg = Release|x64
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|x64.Build.0 = Release|x64
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|x64.Deploy.0 = Release|x64
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|x86.ActiveCfg = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|x86.Build.0 = Release|x86
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A}.Release|x86.Deploy.0 = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|ARM.Build.0 = Debug|ARM
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Mixed Platforms.Deploy.0 = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Win32.ActiveCfg = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Win32.Build.0 = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|Win32.Deploy.0 = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|x86.ActiveCfg = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|x86.Build.0 = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Debug|x86.Deploy.0 = Debug|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|ARM.ActiveCfg = Release|ARM
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|ARM.Build.0 = Release|ARM
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|ARM.Deploy.0 = Release|ARM
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Mixed Platforms.Deploy.0 = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Win32.ActiveCfg = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Win32.Build.0 = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|Win32.Deploy.0 = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|x64.ActiveCfg = Release|Any CPU
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|x86.ActiveCfg = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|x86.Build.0 = Release|x86
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -402,5 +481,8 @@ Global
 		{C382EC3B-D2FA-487E-AE89-B04BF926DEF9} = {7D0EF2C4-404D-49D1-9FEF-5DA31014F1DF}
 		{512A8B6E-04D5-4914-AA3D-11E35BBC173A} = {9F74D49B-6A6D-4938-985A-02C5F99F359C}
 		{EC6C9854-2C46-4165-8FE7-7B12D0474FEE} = {9F74D49B-6A6D-4938-985A-02C5F99F359C}
+		{1F08DE49-DFE0-4CEB-A659-72B621A59F73} = {035153F1-FBD4-4E8F-9177-FA8DFB04355C}
+		{1843427E-F5D0-4D09-8A07-7CF935D34C5A} = {035153F1-FBD4-4E8F-9177-FA8DFB04355C}
+		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C} = {035153F1-FBD4-4E8F-9177-FA8DFB04355C}
 	EndGlobalSection
 EndGlobal
