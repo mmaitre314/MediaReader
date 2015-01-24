@@ -10,6 +10,6 @@
 
     <Grid>
         <SwapChainPanel Name="Preview" />
-        <TextBlock Name="TextLog"/>
+        <TextBlock Name="TextLog" VerticalAlignment="Bottom" FontSize="24"/>
     </Grid>
 </Page>

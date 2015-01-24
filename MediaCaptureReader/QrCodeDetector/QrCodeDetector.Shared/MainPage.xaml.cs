@@ -34,8 +34,6 @@ namespace QrCodeDetector
         MediaCapture m_capture;
         MediaReader m_reader;
         ImagePresenter m_presenter;
-        volatile MediaSample2D m_sample;
-        AutoResetEvent m_sampleReadyEvent = new AutoResetEvent(false);
 #if !WINDOWS_PHONE_APP
         SystemMediaTransportControls m_mediaControls;
 #endif
@@ -159,136 +157,72 @@ namespace QrCodeDetector
 
             var reader = await MediaReader.CreateFromMediaCaptureAsync(capture, AudioInitialization.Deselected, VideoInitialization.Bgra8);
             var presenter = ImagePresenter.CreateFromSwapChainPanel(Preview, reader.GraphicsDevice, (int)format.Width, (int)format.Height);
-            var sampleQueue = new BlockingCollection<MediaSample2D>();
 
             m_capture = capture;
             m_reader = reader;
             m_presenter = presenter;
 
             // Run preview/detection out of UI thread
-            var ignore = ThreadPool.RunAsync(PreviewLoop);
-            ignore = ThreadPool.RunAsync(AnalysisLoop);
+            var ignore = Task.Run(async () =>
+                {
+                    using (var barcodeReader = new VideoBarcodeReader())
+                    {
+                        barcodeReader.SampleDecoded += barcodeReader_SampleDecoded;
+
+                        while (true)
+                        {
+                            using (var result = await reader.VideoStream.ReadAsync())
+                            {
+                                if (result.Error)
+                                {
+                                    break;
+                                }
+
+                                var sample = (MediaSample2D)result.Sample;
+                                if (sample == null)
+                                {
+                                    continue;
+                                }
+
+                                presenter.Present(sample);
+
+                                barcodeReader.QueueSample(sample);
+                                result.DetachSample(); // Sample ownership transferred to barcodeReader
+                            }
+                        }
+
+                        barcodeReader.SampleDecoded -= barcodeReader_SampleDecoded;
+                    }
+                });
+        }
+
+        void barcodeReader_SampleDecoded(VideoBarcodeReader sender, Result e)
+        {
+            var ignore = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                TextLog.Text = e == null ? "No barcode" : e.Text;
+            });
         }
 
         private void DisposeCapture()
         {
             lock (this)
             {
-                if (m_sample != null)
+                if (m_capture != null)
                 {
-                    m_sample.Dispose();
-                    m_sample = null;
+                    m_capture.Dispose();
+                    m_capture = null;
                 }
                 if (m_reader != null)
                 {
                     m_reader.Dispose();
                     m_reader = null;
                 }
-                if (m_capture != null)
-                {
-                    m_capture.Dispose();
-                    m_capture = null;
-                }
                 if (m_presenter != null)
                 {
                     m_presenter.Dispose();
                     m_presenter = null;
                 }
-            }
-        }
-
-        private async void PreviewLoop(IAsyncAction operation)
-        {
-            var reader = m_reader;
-            var presenter = m_presenter;
-            
-            try
-            {
-                while (true)
-                {
-                    using (var result = await reader.VideoStream.ReadAsync())
-                    {
-                        if (result.Error)
-                        {
-                            break;
-                        }
-
-                        var sample = (MediaSample2D)result.Sample;
-                        if (sample == null)
-                        {
-                            continue;
-                        }
-
-                        presenter.Present(sample);
-                        
-                        lock (this)
-                        {
-                            if (m_sample == null)
-                            {
-                                m_sample = sample;
-                                result.DetachSample();
-                                m_sampleReadyEvent.Set();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        private void AnalysisLoop(IAsyncAction operation)
-        {
-            var processor = new ImageProcessor(); // TODO: dispose
-            var barcodeReader = new BarcodeReader
-            {
-                PossibleFormats = new BarcodeFormat[] { BarcodeFormat.QR_CODE }
-            };
-
-            try
-            {
-                while (true)
-                {
-                    m_sampleReadyEvent.WaitOne();
-
-                    MediaSample2D sample;
-                    lock (this)
-                    {
-                        sample = m_sample;
-                    }
-                    if (sample == null)
-                    {
-                        continue;
-                    }
-
-                    int scale = (int)Math.Round(Math.Max(sample.Width / 640.0, sample.Height / 480.0));
-
-                    using (sample)
-                    using (var scaledSample = processor.Convert(sample, MediaSample2DFormat.Bgra8, sample.Width / scale, sample.Height / scale))
-                    using (var buffer = scaledSample.LockBuffer(BufferAccessMode.Read))
-                    {
-                        var barcode = barcodeReader.Decode(
-                            buffer.Planes[0].Buffer.ToArray(),
-                            buffer.Width,
-                            buffer.Height,
-                            BitmapFormat.BGR32
-                            );
-
-                        var ignore = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                TextLog.Text = barcode == null ? "No barcode" : barcode.Text;
-                            });
-                    }
-
-                    lock (this)
-                    {
-                        m_sample = null;
-                    }
-                }
-            }
-            catch (Exception)
-            {
             }
         }
     }
