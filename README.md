@@ -192,6 +192,16 @@ var swapChainPresenter = ImagePresenter.CreateFromSwapChainPanel(
 swapChainPresenter.Present(sample);
 ```
 
+## Debugging
+
+When debugging C++ code, the [Image Watch](https://visualstudiogallery.msdn.microsoft.com/e682d542-7ef3-402c-b857-bbfba714f78d) debugger extension can help visualize the current content of uncompressed 2D samples:
+
+![ImageWatch](http://mmaitre314.github.io/images/MediaReaderImageWatch.png)
+
+To enable this, install Image Watch and copy [this Natvis file](https://raw.githubusercontent.com/mmaitre314/MediaReader/master/MediaCaptureReader/MediaCaptureReader/MediaCaptureReader.Shared/MediaReader.natvis) to the Visual Studio Visualizers folder, which is typically C:\Users\%USERNAME%\Documents\Visual Studio 2013\Visualizers\.
+
+The content of MediaSample2D and MediaBuffer2D is displayed by clicking on the associated magnifying glasses in debugger tooltips and Autos/Locals/Watch windows.
+
 ## Examples
 
 ### Detecting QR codes using [ZXing.Net](http://www.nuget.org/packages/ZXing.Net/)
