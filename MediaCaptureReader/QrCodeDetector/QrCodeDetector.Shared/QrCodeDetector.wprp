@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WindowsPerformanceRecorder Version="1.0">
+  <Profiles>
+    <EventCollector Id="EventCollector" Name="EventCollector">
+      <BufferSize Value="128" />
+      <Buffers Value="40" />
+    </EventCollector>
+    
+    <EventProvider Id="MediaCaptureReader" Name="*MMaitre-MediaCaptureReader" />
+    <EventProvider Id="QrCodeDetector" Name="*MMaitre-QrCodeDetector" />
+
+    <Profile Id="Logger.Verbose.File" Name="Logger" Description="MMaitre-QrCodeDetector" LoggingMode="File" DetailLevel="Verbose">
+      <Collectors>
+        <EventCollectorId Value="EventCollector">
+          <EventProviders>
+            <EventProviderId Value="MediaCaptureReader" />
+            <EventProviderId Value="QrCodeDetector" />
+          </EventProviders>
+        </EventCollectorId>
+      </Collectors>
+    </Profile>
+    
+    <Profile Id="Logger.Verbose.Memory" Name="Logger" Description="MMaitre-QrCodeDetector" Base="Logger.Verbose.File" LoggingMode="Memory" DetailLevel="Verbose" />
+  </Profiles>
+</WindowsPerformanceRecorder>

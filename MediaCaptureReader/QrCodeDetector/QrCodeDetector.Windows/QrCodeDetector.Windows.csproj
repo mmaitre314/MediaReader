@@ -16,7 +16,7 @@
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>QrCodeDetector.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <NuGetPackageImportStamp>72609987</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>1f6d18bc</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -124,18 +124,21 @@
       <HintPath>..\..\packages\ZXing.Net.0.14.0.1\lib\windows8\ZXing.winmd</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.csproj">
+      <Project>{512a8b6e-04d5-4914-aa3d-11e35bbc173a}</Project>
+      <Name>MediaCaptureReaderExtensions.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MediaCaptureReader\MediaCaptureReader.Windows\MediaCaptureReader.Windows.vcxproj">
+      <Project>{076b7278-9f5a-450d-91c9-1aefc086afe1}</Project>
+      <Name>MediaCaptureReader.Windows</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="..\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <Import Project="..\..\packages\MMaitre.MediaCaptureReader.2.1.0\build\win81\MMaitre.MediaCaptureReader.targets" Condition="Exists('..\..\packages\MMaitre.MediaCaptureReader.2.1.0\build\win81\MMaitre.MediaCaptureReader.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\MMaitre.MediaCaptureReader.2.1.0\build\win81\MMaitre.MediaCaptureReader.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\MMaitre.MediaCaptureReader.2.1.0\build\win81\MMaitre.MediaCaptureReader.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

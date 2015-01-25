@@ -32,8 +32,6 @@ namespace QrCodeDetector
     {
         DisplayRequest m_displayRequest = new DisplayRequest();
         MediaCapture m_capture;
-        MediaReader m_reader;
-        ImagePresenter m_presenter;
 #if !WINDOWS_PHONE_APP
         SystemMediaTransportControls m_mediaControls;
 #endif
@@ -149,18 +147,20 @@ namespace QrCodeDetector
             await capture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.VideoPreview, format);
 
             // Make the SwapChainPanel full screen
-            double scale = Math.Min(this.ActualWidth / format.Width, this.ActualHeight / format.Height);
+            var scale = Math.Min(this.ActualWidth / format.Width, this.ActualHeight / format.Height);
             Preview.Width = format.Width;
             Preview.Height = format.Height;
             Preview.RenderTransformOrigin = new Point(.5, .5);
             Preview.RenderTransform = new ScaleTransform { ScaleX = scale, ScaleY = scale };
-
+            BarcodeOutline.Width = format.Width;
+            BarcodeOutline.Height = format.Height;
+            BarcodeOutline.RenderTransformOrigin = new Point(.5, .5);
+            BarcodeOutline.RenderTransform = new ScaleTransform { ScaleX = scale, ScaleY = scale };
+            
             var reader = await MediaReader.CreateFromMediaCaptureAsync(capture, AudioInitialization.Deselected, VideoInitialization.Bgra8);
             var presenter = ImagePresenter.CreateFromSwapChainPanel(Preview, reader.GraphicsDevice, (int)format.Width, (int)format.Height);
 
             m_capture = capture;
-            m_reader = reader;
-            m_presenter = presenter;
 
             // Run preview/detection out of UI thread
             var ignore = Task.Run(async () =>
@@ -171,8 +171,11 @@ namespace QrCodeDetector
 
                         while (true)
                         {
+                            Logger.Events.VideoStream_ReadStart();
                             using (var result = await reader.VideoStream.ReadAsync())
                             {
+                                Logger.Events.VideoStream_ReadStop();
+
                                 if (result.Error)
                                 {
                                     break;
@@ -192,15 +195,31 @@ namespace QrCodeDetector
                         }
 
                         barcodeReader.SampleDecoded -= barcodeReader_SampleDecoded;
+                        reader.Dispose();
+                        presenter.Dispose();
                     }
                 });
         }
 
-        void barcodeReader_SampleDecoded(VideoBarcodeReader sender, Result e)
+        void barcodeReader_SampleDecoded(VideoBarcodeReader sender, SampleDecodedEventArgs e)
         {
             var ignore = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                TextLog.Text = e == null ? "No barcode" : e.Text;
+                if (e.Text == null)
+                {
+                    BarcodeOutline.Points.Clear();
+                    TextLog.Text = "No barcode";
+                }
+                else
+                {
+                    TextLog.Text = e.Text;
+
+                    BarcodeOutline.Points.Clear();
+                    foreach (var point in e.Points)
+                    {
+                        BarcodeOutline.Points.Add(new Point(point.X * BarcodeOutline.Width, point.Y * BarcodeOutline.Height));
+                    }
+                }
             });
         }
 
@@ -212,16 +231,6 @@ namespace QrCodeDetector
                 {
                     m_capture.Dispose();
                     m_capture = null;
-                }
-                if (m_reader != null)
-                {
-                    m_reader.Dispose();
-                    m_reader = null;
-                }
-                if (m_presenter != null)
-                {
-                    m_presenter.Dispose();
-                    m_presenter = null;
                 }
             }
         }

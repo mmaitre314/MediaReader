@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="http://mmaitre314.github.io/EventProvider.xsd"
     Name="MMaitre-MediaCaptureReader"
     >
-    
+  
   <Event Name="Info">
     <VarArgs Type="AnsiString" Name="Message" />
   </Event>
@@ -12,6 +12,7 @@
     <VarArgs Type="AnsiString" Name="Message" />
   </Event>
   
+  <!-- CaptureReader -->
   <Task Name="CaptureReader_LifeTime">
     <Start>
       <Arg Type="Pointer" Name="Object" />
@@ -27,6 +28,7 @@
     <Arg Type="Pointer" Name="Sample" />
   </Event>
 
+  <!-- HttpMjpegCaptureSource -->
   <Task Name="HttpMjpegCaptureSource_LifeTime">
     <Start>
       <Arg Type="Pointer" Name="Object" />
@@ -44,4 +46,50 @@
     </Stop>
   </Task>
   
+  <!-- ImageProcessor -->
+  <Task Name="ImageProcessor_LifeTime">
+    <Start>
+      <Arg Type="Pointer" Name="Object" />
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="Object" />
+    </Stop>
+  </Task>
+  <Task Name="ImageProcessor_CreateVideoProcessor">
+    <Start>
+      <Arg Type="Pointer" Name="Object" />
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="Object" />
+    </Stop>
+  </Task>
+  <Task Name="ImageProcessor_Convert">
+    <Start>
+      <Arg Type="Pointer" Name="InputSample" />
+      <Arg Type="Int8"   Name="InputFormat"/>
+      <Arg Type="Int32"  Name="InputWidth"/>
+      <Arg Type="Int32"  Name="InputHeight"/>
+      <Arg Type="Pointer" Name="GraphicsDevice"/>
+      <Arg Type="Int8"   Name="OutputFormat"/>
+      <Arg Type="Int32"  Name="OutputWidth"/>
+      <Arg Type="Int32"  Name="OutputHeight"/>
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="InputSample" />
+    </Stop>
+  </Task>
+  <Task Name="ImageProcessor_Rotate">
+    <Start>
+      <Arg Type="Pointer"  Name="InputSample" />
+      <Arg Type="Int8"    Name="InputFormat"/>
+      <Arg Type="Int32"   Name="InputWidth"/>
+      <Arg Type="Int32"   Name="InputHeight"/>
+      <Arg Type="Pointer"  Name="GraphicsDevice"/>
+      <Arg Type="Int8"    Name="Rotation"/>
+    </Start>
+    <Stop>
+      <Arg Type="Pointer" Name="InputSample" />
+    </Stop>
+  </Task>
+
 </EventProvider>

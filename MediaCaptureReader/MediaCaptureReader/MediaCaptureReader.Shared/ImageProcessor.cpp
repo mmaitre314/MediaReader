@@ -148,6 +148,7 @@ ImageProcessor::ImageProcessor()
     , _inputHeight(0)
     , _usingGraphicsDevice(false)
 {
+    Logger.ImageProcessor_LifeTimeStart((void*)this);
     ZeroMemory(&_outputStreamInfo, sizeof(_outputStreamInfo));
 
     _CreateVideoProcessor();
@@ -155,10 +156,14 @@ ImageProcessor::ImageProcessor()
 
 ImageProcessor::~ImageProcessor()
 {
+    Logger.ImageProcessor_LifeTimeStop((void*)this);
 }
 
 void ImageProcessor::_CreateVideoProcessor()
 {
+    Logger.ImageProcessor_CreateVideoProcessorStart((void*)this);
+    OnScopeExit([this]{ Logger.ImageProcessor_CreateVideoProcessorStop((void*)this); });
+
     //
     // Create two different formats to force the SourceReader to create a video processor
     //
@@ -251,6 +256,9 @@ MediaSample2D^ ImageProcessor::Convert(
         throw ref new InvalidArgumentException(L"height");
     }
 
+    Logger.ImageProcessor_ConvertStart((void*)sample, (char)sample->Format, sample->Width, sample->Height, (void*)sample->GraphicsDevice, (char)format, width, height);
+    OnScopeExit([sample]{ Logger.ImageProcessor_ConvertStop((void*)sample); });
+
     // Reinitialize the video processor if input/output conversion parameters changed
     if ((sample->Format != _inputFormat) ||
         (sample->Width != _inputWidth) ||
@@ -284,6 +292,9 @@ MediaSample2D^ ImageProcessor::Rotate(
 {
     auto lock = _lock.LockExclusive();
     CHKNULL(sample);
+
+    Logger.ImageProcessor_RotateStart((void*)sample, (char)sample->Format, sample->Width, sample->Height, (void*)sample->GraphicsDevice, (char)rotation);
+    OnScopeExit([sample]{ Logger.ImageProcessor_RotateStop((void*)sample); });
 
     // Output parameters
     auto format = sample->Format;

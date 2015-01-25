@@ -10,6 +10,7 @@
 
     <Grid>
         <SwapChainPanel Name="Preview" />
+        <Polyline Name="BarcodeOutline" Stroke="Red" StrokeThickness="3"/>
         <TextBlock Name="TextLog" VerticalAlignment="Bottom" FontSize="24"/>
     </Grid>
 </Page>

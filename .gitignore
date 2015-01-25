@@ -113,3 +113,6 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 /MediaCaptureReader/QrCodeDetector/QrCodeDetector.Windows/QrCodeDetector.Windows.csproj.user
 /MediaCaptureReader/QrCodeDetector/QrCodeDetector.WindowsPhone/obj/Debug
 /MediaCaptureReader/QrCodeDetector/QrCodeDetector.WindowsPhone/obj/x86/Release
+/MediaCaptureReader/QrCodeDetector/QrCodeDetector.WindowsPhone/bin/ARM/Release
+/MediaCaptureReader/QrCodeDetector/QrCodeDetector.WindowsPhone/obj/ARM/Release
+/MediaCaptureReader/QrCodeDetector/QrCodeDetector.WindowsPhone/QrCodeDetector.WindowsPhone.csproj.user
