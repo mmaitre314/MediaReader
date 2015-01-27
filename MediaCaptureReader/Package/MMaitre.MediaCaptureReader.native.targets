@@ -12,4 +12,7 @@
       <Implementation>MediaCaptureReader.WindowsPhone.dll</Implementation>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)\MediaCaptureReader.natvis" />
+  </ItemGroup>  
 </Project>

@@ -51,6 +51,8 @@
     <file src="MMaitre.MediaCaptureReader.native.targets" target="build\native\MMaitre.MediaCaptureReader.targets" />
     <file src="MMaitre.MediaCaptureReader.win81.targets" target="build\win81\MMaitre.MediaCaptureReader.targets" />
     <file src="MMaitre.MediaCaptureReader.wpa81.targets" target="build\wpa81\MMaitre.MediaCaptureReader.targets" />
-
+    
+    <!-- debug -->
+    <file src="MediaCaptureReader.natvis" target="build\native\MediaCaptureReader.natvis" />
   </files>
 </package>

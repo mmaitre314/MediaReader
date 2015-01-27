@@ -60,7 +60,4 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ImageEncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ImageDecoder.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)MediaReader.natvis" />
-  </ItemGroup>
 </Project>
