@@ -16,16 +16,16 @@
   </metadata>
   <files>
     <!-- symbols -->
-    <file src="Win32\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="build\native\Windows\x86\" />
-    <file src="x64\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="build\native\Windows\x64\" />
-    <file src="ARM\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="build\native\Windows\Arm\" />
-    <file src="Win32\Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.pdb" target="build\native\WindowsPhone\x86\" />
-    <file src="ARM\Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.pdb" target="build\native\WindowsPhone\Arm\" />
-    <file src="x86\Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.pdb" target="build\native\Windows\x86\" />
-    <file src="x64\Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.pdb" target="build\native\Windows\x64\" />
-    <file src="ARM\Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.pdb" target="build\native\Windows\Arm\" />
-    <file src="x86\Release\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.pdb" target="build\native\WindowsPhone\x86\" />
-    <file src="ARM\Release\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.pdb" target="build\native\WindowsPhone\Arm\" />
+    <file src="Win32\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="lib\Windows\x86\" />
+    <file src="x64\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="lib\Windows\x64\" />
+    <file src="ARM\Release\MediaCaptureReader.Windows\MediaCaptureReader.Windows.pdb" target="lib\Windows\Arm\" />
+    <file src="Win32\Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.pdb" target="lib\WindowsPhone\x86\" />
+    <file src="ARM\Release\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.pdb" target="lib\WindowsPhone\Arm\" />
+    <file src="x86\Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.pdb" target="lib\Windows\x86\" />
+    <file src="x64\Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.pdb" target="lib\Windows\x64\" />
+    <file src="ARM\Release\MediaCaptureReaderExtensions.Windows\MediaCaptureReaderExtensions.Windows.pdb" target="lib\Windows\Arm\" />
+    <file src="x86\Release\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.pdb" target="lib\WindowsPhone\x86\" />
+    <file src="ARM\Release\MediaCaptureReaderExtensions.WindowsPhone\MediaCaptureReaderExtensions.WindowsPhone.pdb" target="lib\WindowsPhone\Arm\" />
 
     <!-- source -->
     <file src="..\MediaCaptureReader\**\*.cs" target="src\" />
