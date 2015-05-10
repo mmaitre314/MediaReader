@@ -4,6 +4,7 @@
 #include <sstream>
 #include <queue>
 #include <chrono>
+#include <functional>
 
 #include <collection.h>
 #include <ppltasks.h>
@@ -337,31 +338,21 @@ private:
 // Note: the lambda cannot throw as it is called in a destructor
 //
 
-namespace Details
+class ScopeExitCall
 {
-    template<typename Lambda>
-    class OnScopeExitImpl
+public:
+
+    ScopeExitCall(_In_ std::function<void()> fn)
+        : _fn(fn)
     {
-    public:
+    }
 
-        OnScopeExitImpl(_In_ Lambda lambda)
-            : _lambda(lambda)
-        {
-        }
+    ~ScopeExitCall()
+    {
+        _fn();
+    }
 
-        ~OnScopeExitImpl()
-        {
-            _lambda();
-        }
+private:
 
-    private:
-
-        Lambda _lambda;
-    };
-}
-
-template<typename Lambda>
-::Details::OnScopeExitImpl<Lambda> OnScopeExit(_In_ Lambda lambda)
-{
-    return ::Details::OnScopeExitImpl<Lambda>(lambda);
-}
+    std::function<void()> _fn;
+};

@@ -64,7 +64,7 @@ IAsyncAction^ ImageEncoder::SaveToStreamAsync(
                 unsigned char *data = nullptr;
                 unsigned long length;
                 CHK(buffer->Lock(&data, &length, nullptr));
-                OnScopeExit([buffer]()
+                ScopeExitCall call([buffer]()
                 {
                     (void)buffer->Unlock();
                 });
@@ -89,7 +89,7 @@ IAsyncAction^ ImageEncoder::SaveToStreamAsync(
         long stride;
         unsigned long length;
         CHK(buffer2D->Lock2DSize(MF2DBuffer_LockFlags_Read, &ignore, &stride, &data, &length));
-        OnScopeExit([buffer2D]()
+        ScopeExitCall call([buffer2D]()
         {
             (void)buffer2D->Unlock2D();
         });
