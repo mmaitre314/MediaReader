@@ -128,6 +128,12 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="..\Content\video.cvmpilj.mjpg">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</DeploymentContent>
+    </None>
     <None Include="UnitTestsCx.WindowsPhone_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +149,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HttpMjpegCaptureSourceTests.cpp" />
     <ClCompile Include="MediaCaptureReaderTests.cpp" />
     <ClCompile Include="MediaGraphicsDeviceTests.cpp" />
     <ClCompile Include="pch.cpp">
@@ -157,6 +164,9 @@
     <ProjectReference Include="..\MediaCaptureReader\MediaCaptureReader.WindowsPhone\MediaCaptureReader.WindowsPhone.vcxproj">
       <Project>{190bc414-8267-4090-905a-28f522f7a544}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Content\Car.mp4" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsPhone\v$(TargetPlatformVersion)\Microsoft.Cpp.WindowsPhone.$(TargetPlatformVersion).targets" />

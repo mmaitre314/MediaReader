@@ -3,6 +3,8 @@
   <ItemGroup>
     <ClCompile Include="MediaGraphicsDeviceTests.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="MediaCaptureReaderTests.cpp" />
+    <ClCompile Include="HttpMjpegCaptureSourceTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Await.h" />
@@ -33,10 +35,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="UnitTestsCx.WindowsPhone_TemporaryKey.pfx" />
+    <None Include="..\Content\video.cvmpilj.mjpg" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{30e1baad-ae12-44cd-bf77-0b232b698cf5}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Content\Car.mp4" />
   </ItemGroup>
 </Project>

@@ -122,3 +122,9 @@ MediaCaptureReader/MediaCaptureReaderTestApp/MediaCaptureReaderTestApp.WindowsPh
 /MediaCaptureReader/UnitTestsCs.Desktop/bin
 /MediaCaptureReader/UnitTestsCs.Desktop/obj/Debug
 /MediaCaptureReader/UnitTestsCs.Desktop/obj/Release
+/MediaCaptureReader/QrCodeDetector/QrCodeDetector.Windows/bin/ARM
+/MediaCaptureReader/QrCodeDetector/QrCodeDetector.WindowsPhone/bin/ARM/Debug
+/MediaCaptureReader/UnitTestsCs.Windows/bin/ARM
+/MediaCaptureReader/UnitTestsCx.Windows/Images/Thumbs.db
+/MediaCaptureReader/Win32/Debug/MediaCaptureReader.Windows
+/MediaCaptureReader/x86/Debug/MediaCaptureReaderExtensions.Windows

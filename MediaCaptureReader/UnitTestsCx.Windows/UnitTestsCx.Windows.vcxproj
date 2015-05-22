@@ -225,6 +225,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HttpMjpegCaptureSourceTests.cpp" />
     <ClCompile Include="HttpMultipartMessageTests.cpp" />
     <ClCompile Include="CaptureReaderTests.cpp" />
     <ClCompile Include="ImageDecoderTests.cpp" />
@@ -249,6 +250,14 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="..\Content\video.cvmpilj.mjpg">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
     <None Include="packages.config" />
     <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
   </ItemGroup>

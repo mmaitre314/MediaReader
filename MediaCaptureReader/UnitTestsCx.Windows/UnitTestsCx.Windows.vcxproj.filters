@@ -20,6 +20,7 @@
     <ClCompile Include="MediaSampleTests.cpp" />
     <ClCompile Include="MediaProcessor2DTests.cpp" />
     <ClCompile Include="ImageDecoderTests.cpp" />
+    <ClCompile Include="HttpMjpegCaptureSourceTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\UnitTestLogo.scale-100.png">
@@ -42,6 +43,7 @@
     <None Include="UnitTestsCx.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="$(MSBuildThisFileDirectory)\..\..\content\$(MappedPlatformToolset)\Help\Lumia Imaging SDK.chm" />
+    <None Include="..\Content\video.cvmpilj.mjpg" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

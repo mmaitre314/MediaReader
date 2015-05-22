@@ -42,7 +42,7 @@ namespace MediaCaptureReader
         void _QueueSample(_In_ WMCo::MediaStreamSample^ sample);
         void _ProcessQueue();
 
-#if WINDOWS_PHONE_APP
+#if (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
         const bool _decodeMJPEG = true; // No MJPEG decoder
 #else
         const bool _decodeMJPEG = false; // MJPEG decoder in-box

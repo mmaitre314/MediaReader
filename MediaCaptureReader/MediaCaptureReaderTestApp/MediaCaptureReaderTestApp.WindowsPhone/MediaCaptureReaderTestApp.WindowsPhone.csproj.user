@@ -3,4 +3,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <DeviceId>30F105C9-681E-420B-A277-7C086EAD8A4E</DeviceId>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DeviceId>30F105C9-681E-420B-A277-7C086EAD8A4E</DeviceId>
+    <DebugEngines>{3B476D35-A401-11D2-AAD4-00C04F990171}</DebugEngines>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DeviceId>184901A8-DC44-4CED-869E-DC7733D048D6</DeviceId>
+  </PropertyGroup>
 </Project>

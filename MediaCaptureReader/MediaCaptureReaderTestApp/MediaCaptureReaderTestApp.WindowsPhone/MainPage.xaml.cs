@@ -27,7 +27,7 @@ namespace MediaCaptureReaderTestApp
     public sealed partial class MainPage : Page
     {
         MediaCapture _capture;
-        CaptureReader _captureReader;
+        MediaReader _mediaReader;
         ImagePresenter _imagePresenter;
         ImagePresenter _swapChainPresenter;
 
@@ -41,6 +41,18 @@ namespace MediaCaptureReaderTestApp
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
+
+            //
+            // Doing all that video processing is too much for low-end phones like the Lumia 520
+            // Pick-and-choose which piece should run
+            //
+
+            VideoPreview.MediaFailed += VideoPreview_MediaFailed;
+            //var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/video.cvmpilj.mjpg"));
+            //var stream = await file.OpenAsync(FileAccessMode.Read);
+            //var source = await HttpMjpegCaptureSource.CreateFromStreamAsync(stream, "myboundary");
+            var source = await HttpMjpegCaptureSource.CreateFromUriAsync("http://216.123.238.208/axis-cgi/mjpg/video.cgi?camera&resolution=640x480");
+            VideoPreview.SetMediaStreamSource(source.Source);
 
             var settings = new MediaCaptureInitializationSettings
             {
@@ -71,28 +83,26 @@ namespace MediaCaptureReaderTestApp
                 (int)previewProps.Height
                 );
 
-            TextLog.Text += "Creating CaptureReader\n";
+            TextLog.Text += "Creating MediaReader\n";
 
-            var readerProps = VideoEncodingProperties.CreateUncompressed(MediaEncodingSubtypes.Bgra8, previewProps.Width, previewProps.Height);
-            readerProps.FrameRate.Numerator = previewProps.FrameRate.Numerator;
-            readerProps.FrameRate.Denominator = previewProps.FrameRate.Denominator;
-
-            _captureReader = await CaptureReader.CreateAsync(
-                _capture, new MediaEncodingProfile
-                {
-                    Video = readerProps
-                });
+            _mediaReader = await MediaReader.CreateFromMediaCaptureAsync(_capture, AudioInitialization.Deselected, VideoInitialization.Bgra8);
 
             TextLog.Text += "Starting video loop\n";
 
             var ignore = Task.Run(() => VideoLoop());
         }
 
+        void VideoPreview_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            TextLog.Text += String.Format("VideoPreview MediaFailed: {0}\n", e.ErrorMessage);
+        }
+
         async void VideoLoop()
         {
             while (true)
             {
-                var sample = (MediaSample2D)await _captureReader.GetVideoSampleAsync().AsTask().ConfigureAwait(false);
+                var result = await _mediaReader.VideoStream.ReadAsync().AsTask().ConfigureAwait(false);
+                var sample = (MediaSample2D)result.Sample;
 
                 _swapChainPresenter.Present(sample);
 

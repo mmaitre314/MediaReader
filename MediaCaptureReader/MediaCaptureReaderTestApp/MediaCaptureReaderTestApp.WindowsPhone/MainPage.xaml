@@ -9,6 +9,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <MediaElement
+            Name="VideoPreview"
+            Width="320"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            AutoPlay="True"
+            AreTransportControlsEnabled="True"
+            RealTimePlayback="True"
+            >
+        </MediaElement>
         <Image Name="ImagePreview" RenderTransformOrigin="0, 0">
             <Image.RenderTransform>
                 <ScaleTransform ScaleX=".5" ScaleY=".5" />

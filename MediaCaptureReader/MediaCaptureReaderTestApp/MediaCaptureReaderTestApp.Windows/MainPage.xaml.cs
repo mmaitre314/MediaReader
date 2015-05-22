@@ -88,7 +88,7 @@ namespace MediaCaptureReaderTestApp
 
         void VideoPreview_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            TextLog.Text += "VideoPreview MediaFailed: " + e.ErrorMessage;
+            TextLog.Text += String.Format("VideoPreview MediaFailed: {0}\n", e.ErrorMessage);
         }
 
         async void VideoLoop()
