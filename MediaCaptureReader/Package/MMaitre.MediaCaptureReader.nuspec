@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Reads audio and video data from files, cameras, microphones, network cameras, and generic media sources in Universal Store apps.</summary>
     <description>Reads audio/video data from files (StorageFile, IRandomAccessStream, path), cameras and microphone (MediaCapture), MJPEG IP Cameras, and generic sources (IMediaSource). Renders video samples to XAML's SwapChainPanel and SurfaceImageSource, rotates/converts them, saves them to JPEG. Universal Store apps targeting either Windows or Windows Phone are supported.</description>
-    <releaseNotes>Fix failure to start HttpMjpegCaptureSource on Phone</releaseNotes>
+    <releaseNotes>Remove calls to OutputDebugStringA() to pass the Store certification</releaseNotes>
     <copyright>Copyright © 2015, Matthieu Maitre. All rights reserved.</copyright>
     <tags>Native WinRT XAML MediaCapture SwapChainPanel SurfaceImageSource</tags>
   </metadata>

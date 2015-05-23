@@ -18,7 +18,6 @@
     <None Include="MMaitre.MediaCaptureReader.wpa81.targets" />
     <None Include="pack.cmd" />
     <None Include="pack.sln" />
-    <None Include="publish.cmd" />
     <None Include="publish.ps1" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

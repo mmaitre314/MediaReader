@@ -1,7 +1,7 @@
-# Script to upload the page to NuGet and the symbols to http://mmaitre314.blob.core.windows.net/symbols/
+# Script to upload the package to http://www.nuget.org/ and the symbols to http://mmaitre314.blob.core.windows.net/symbols/
 # Add-AzureAccount must be run before the script
 
-$version = "2.1.3"
+$version = "2.1.4"
 $outputPath = "c:\NuGet\"
 $product = "MMaitre.MediaCaptureReader"
 $storageAccountName = "mmaitre314"
@@ -42,7 +42,11 @@ function Find-PDBs($zip)
 }
 
 Write-Host "Uploading NuGet package" -ForegroundColor Cyan
-# & "${outputPath}nuget.exe" push "${outputPath}Packages\${product}.${version}.nupkg"
+& "${outputPath}nuget.exe" push "${outputPath}Packages\${product}.${version}.nupkg"
+if ($LASTEXITCODE -ne 0)
+{
+    throw "symstore returned $LASTEXITCODE"
+}
 
 # SymbolSource.org currently does not support native PDBs, so publishing to Azure blob instead
 # & "${outputPath}nuget.exe" push "${outputPath}Symbols\${product}.Symbols.${version}.nupkg" -Source http://nuget.gw.symbolsource.org/Public/NuGet

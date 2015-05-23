@@ -31,7 +31,7 @@ public:
 
         IBuffer^ part = msg.GetPart();
         Assert::IsNotNull(part);
-        Assert::AreEqual(ARRAYSIZE("message") - 1, part->Length);
+        Assert::AreEqual((unsigned int)ARRAYSIZE("message") - 1, part->Length);
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("message")));
 
         Assert::IsNull(msg.GetPart());
@@ -42,7 +42,7 @@ public:
 
         part = msg.GetPart();
         Assert::IsNotNull(part);
-        Assert::AreEqual(sizeof("MESSAGE") - 1, part->Length);
+        Assert::AreEqual((unsigned int)sizeof("MESSAGE") - 1, part->Length);
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("MESSAGE")));
     }
 
@@ -75,7 +75,7 @@ public:
 
         IBuffer^ part = msg.GetPart();
         Assert::IsNotNull(part);
-        Assert::AreEqual(ARRAYSIZE("msg") - 1, part->Length);
+        Assert::AreEqual((unsigned int)ARRAYSIZE("msg") - 1, part->Length);
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("msg")));
 
         Assert::IsNull(msg.GetPart());
@@ -95,7 +95,7 @@ public:
 
         part = msg.GetPart();
         Assert::IsNotNull(part);
-        Assert::AreEqual(sizeof("MSG") - 1, part->Length);
+        Assert::AreEqual((unsigned int)sizeof("MSG") - 1, part->Length);
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("MSG")));
     }
 
@@ -113,7 +113,7 @@ public:
 
         IBuffer^ part = msg.GetPart();
         Assert::IsNotNull(part);
-        Assert::AreEqual(ARRAYSIZE("message") - 1, part->Length);
+        Assert::AreEqual((unsigned int)ARRAYSIZE("message") - 1, part->Length);
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("message")));
 
         Assert::IsNull(msg.GetPart());
@@ -124,7 +124,7 @@ public:
 
         part = msg.GetPart();
         Assert::IsNotNull(part);
-        Assert::AreEqual(sizeof("MESSAGE") - 1, part->Length);
+        Assert::AreEqual((unsigned int)sizeof("MESSAGE") - 1, part->Length);
         Assert::AreEqual(0, memcmp(GetData(part), STRING_AND_SIZE("MESSAGE")));
     }
 

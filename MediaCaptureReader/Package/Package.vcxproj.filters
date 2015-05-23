@@ -22,7 +22,6 @@
     <None Include="MMaitre.MediaCaptureReader.win81.targets" />
     <None Include="MMaitre.MediaCaptureReader.wpa81.targets" />
     <None Include="pack.cmd" />
-    <None Include="publish.cmd" />
     <None Include="pack.sln" />
     <None Include="MediaCaptureReader.natvis" />
     <None Include="publish.ps1" />

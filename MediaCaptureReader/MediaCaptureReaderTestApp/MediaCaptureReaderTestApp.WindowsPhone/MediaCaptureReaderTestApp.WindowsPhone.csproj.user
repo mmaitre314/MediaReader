@@ -11,4 +11,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <DeviceId>184901A8-DC44-4CED-869E-DC7733D048D6</DeviceId>
   </PropertyGroup>
+  <PropertyGroup>
+    <AppxPackageIsForStore>False</AppxPackageIsForStore>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>arm</AppxBuildConfigurationSelection>
+  </PropertyGroup>
 </Project>
