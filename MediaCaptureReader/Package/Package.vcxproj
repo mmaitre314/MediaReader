@@ -19,6 +19,7 @@
     <None Include="pack.cmd" />
     <None Include="pack.sln" />
     <None Include="publish.cmd" />
+    <None Include="publish.ps1" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C69D2B9D-A33D-4A05-8E48-D4785E1FC572}</ProjectGuid>

@@ -25,5 +25,6 @@
     <None Include="publish.cmd" />
     <None Include="pack.sln" />
     <None Include="MediaCaptureReader.natvis" />
+    <None Include="publish.ps1" />
   </ItemGroup>
 </Project>
