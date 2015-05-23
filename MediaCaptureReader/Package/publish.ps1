@@ -1,7 +1,7 @@
 # Script to upload the package to http://www.nuget.org/ and the symbols to http://mmaitre314.blob.core.windows.net/symbols/
 # Add-AzureAccount must be run before the script
 
-$version = "2.1.4"
+$version = "2.1.5"
 $outputPath = "c:\NuGet\"
 $product = "MMaitre.MediaCaptureReader"
 $storageAccountName = "mmaitre314"

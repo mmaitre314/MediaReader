@@ -5,7 +5,6 @@ namespace MediaCaptureReader
     ref class MediaSample;
     interface class IMediaSample;
 
-    [WFM::GCPressure(amount = WFM::GCPressureAmount::High)]
     public ref class MediaReaderReadResult sealed
     {
     public:
