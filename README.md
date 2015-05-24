@@ -1,5 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/ix4eud7pf2w9p0gt?svg=true)](https://ci.appveyor.com/project/mmaitre314/mediacapturereader)
 [![NuGet package](http://mmaitre314.github.io/images/nuget.png)](https://www.nuget.org/packages/MMaitre.MediaCaptureReader/)
+![Symbols](http://mmaitre314.github.io/images/Symbols.png)
 
 Media Reader
 ============
