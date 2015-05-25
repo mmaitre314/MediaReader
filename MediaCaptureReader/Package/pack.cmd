@@ -12,6 +12,13 @@ if exist "%ProgramFiles(x86)%\MSBuild\12.0\Bin\msbuild.exe" (
     set BUILD="%ProgramFiles(x86)%\MSBuild\12.0\Bin\msbuild.exe"
 )
 
+if exist "%ProgramFiles%\Git\cmd\git.exe" (
+    set GIT="%ProgramFiles%\Git\cmd\git.exe"
+)
+if exist "%ProgramFiles(x86)%\Git\cmd\git.exe" (
+    set GIT="%ProgramFiles(x86)%\Git\cmd\git.exe"
+)
+
 REM Clean
 call .\clean.cmd
 
@@ -23,3 +30,6 @@ REM Build
 REM Pack
 %OUTPUT%nuget.exe pack MMaitre.MediaCaptureReader.nuspec -OutputDirectory %OUTPUT%Packages -Prop NuGetVersion=%VERSION% -NoPackageAnalysis
 %OUTPUT%nuget.exe pack MMaitre.MediaCaptureReader.Symbols.nuspec -OutputDirectory %OUTPUT%Symbols -Prop NuGetVersion=%VERSION% -NoPackageAnalysis
+
+REM Tag
+%GIT% tag --force %VERSION%
