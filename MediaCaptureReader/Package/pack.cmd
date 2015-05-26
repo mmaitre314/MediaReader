@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal enableextensions
 
 set VERSION=2.1.6
 
@@ -24,12 +24,17 @@ call .\clean.cmd
 
 REM Build
 %BUILD% .\pack.sln /maxcpucount /target:build /nologo /p:Configuration=Release /p:Platform=Win32
+if %ERRORLEVEL% NEQ 0 goto eof
 %BUILD% .\pack.sln /maxcpucount /target:build /nologo /p:Configuration=Release /p:Platform=x64
+if %ERRORLEVEL% NEQ 0 goto eof
 %BUILD% .\pack.sln /maxcpucount /target:build /nologo /p:Configuration=Release /p:Platform=ARM
+if %ERRORLEVEL% NEQ 0 goto eof
 
 REM Pack
 %OUTPUT%nuget.exe pack MMaitre.MediaCaptureReader.nuspec -OutputDirectory %OUTPUT%Packages -Prop NuGetVersion=%VERSION% -NoPackageAnalysis
+if %ERRORLEVEL% NEQ 0 goto eof
 %OUTPUT%nuget.exe pack MMaitre.MediaCaptureReader.Symbols.nuspec -OutputDirectory %OUTPUT%Symbols -Prop NuGetVersion=%VERSION% -NoPackageAnalysis
+if %ERRORLEVEL% NEQ 0 goto eof
 
 REM Tag
-%GIT% tag --force %VERSION%
+%GIT% tag v%VERSION%
