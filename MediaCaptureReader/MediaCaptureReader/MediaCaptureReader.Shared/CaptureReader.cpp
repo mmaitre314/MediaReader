@@ -3,6 +3,7 @@
 #include "MediaStreamSink.h"
 #include "MediaSink.h"
 #include "CaptureReader.h"
+#include <assert.h>
 
 using namespace concurrency;
 using namespace MediaCaptureReader;
@@ -54,7 +55,11 @@ CaptureReader::CaptureReader(
     , _streamType(streamType)
     , _capture(capture)
 {
-    Logger.CaptureReader_LifeTimeStart((void*)this);
+
+	#ifdef NTRACELOG
+		Logger.CaptureReader_LifeTimeStart((void*)this);
+	#endif
+	
 
     _mediaSink = Make<MediaSink>(
         profile->Audio, 
@@ -89,7 +94,9 @@ CaptureReader::~CaptureReader()
     _mediaExtension = nullptr;
     _capture = nullptr;
 
-    Logger.CaptureReader_LifeTimeStop((void*)this);
+	#ifdef NTRACELOG
+		Logger.CaptureReader_LifeTimeStop((void*)this);
+	#endif
 }
 
 IAsyncAction^ CaptureReader::FinishAsync()
@@ -183,7 +190,9 @@ void CaptureReader::ProcessAudioSample(_In_ IMediaSample^ sample)
         _videoSampleRequestQueue.pop();
     }
 
-    Logger.CaptureReader_AudioSample((void*)sample);
+	#ifdef NTRACELOG
+		Logger.CaptureReader_AudioSample((void*)sample);
+	#endif
 
     // Dispatch without the lock taken to avoid deadlocks
     t.set(sample);
@@ -202,7 +211,9 @@ void CaptureReader::ProcessVideoSample(_In_ IMediaSample^ sample)
         _videoSampleRequestQueue.pop();
     }
 
-    Logger.CaptureReader_VideoSample((void*)sample);
+	#ifdef NTRACELOG
+		Logger.CaptureReader_VideoSample((void*)sample);
+	#endif
 
     // Dispatch without the lock taken to avoid deadlocks
     t.set(sample);

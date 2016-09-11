@@ -28,7 +28,10 @@
 #include <windows.media.capture.h>
 #include <windows.ui.xaml.media.dxinterop.h>
 
-#include "Events\Logger.h"
+#ifdef NTRACELOG
+	#include "Events\Logger.h"
+#endif
+
 #include "DebuggerLogger.h"
 
 #ifndef NDEBUG
@@ -37,36 +40,37 @@
 #define NT_ASSERT(expr)
 #endif
 
+#ifdef NTRACELOG
+	#define Trace(format, ...) { \
+		if(s_logger.IsEnabled(LogLevel::Information)) { s_logger.Log(__FUNCTION__, LogLevel::Information, format, __VA_ARGS__); } \
+		Logger.Info("%s " ## format, __FUNCTION__, __VA_ARGS__); \
+	}
+	#define TraceError(format, ...) { \
+		if(s_logger.IsEnabled(LogLevel::Error)) { s_logger.Log(__FUNCTION__, LogLevel::Error, format, __VA_ARGS__); } \
+		Logger.Error("%s " ## format, __FUNCTION__, __VA_ARGS__); \
+	}
 
-#define Trace(format, ...) { \
-    if(s_logger.IsEnabled(LogLevel::Information)) { s_logger.Log(__FUNCTION__, LogLevel::Information, format, __VA_ARGS__); } \
-    Logger.Info("%s " ## format, __FUNCTION__, __VA_ARGS__); \
-}
-#define TraceError(format, ...) { \
-    if(s_logger.IsEnabled(LogLevel::Error)) { s_logger.Log(__FUNCTION__, LogLevel::Error, format, __VA_ARGS__); } \
-    Logger.Error("%s " ## format, __FUNCTION__, __VA_ARGS__); \
-}
+	#define TraceScope(obj) \
+		class TraceScope \
+		{ \
+		public: \
+			TraceScope(_In_ LPCSTR function, _In_ void* object) \
+				: _function(function) \
+				, _object(object) \
+			{ \
+				Logger.Info("%s @%p - enter", function, object); \
+			} \
+			~TraceScope() \
+			{ \
+				Logger.Info("%s @%p - exit", _function, _object); \
+			} \
+		private: \
+			const void* _object; \
+			const LPCSTR _function; \
+		} _traceScope(__FUNCTION__, reinterpret_cast<void*>(obj)); \
 
-#define TraceScope(obj) \
-    class TraceScope \
-    { \
-    public: \
-        TraceScope(_In_ LPCSTR function, _In_ void* object) \
-            : _function(function) \
-            , _object(object) \
-        { \
-            Logger.Info("%s @%p - enter", function, object); \
-        } \
-        ~TraceScope() \
-        { \
-            Logger.Info("%s @%p - exit", _function, _object); \
-        } \
-    private: \
-        const void* _object; \
-        const LPCSTR _function; \
-    } _traceScope(__FUNCTION__, reinterpret_cast<void*>(obj)); \
-
-#define TraceScopeCx(obj) TraceScope(obj)
+	#define TraceScopeCx(obj) TraceScope(obj)
+#endif
 
 namespace AWF = ::ABI::Windows::Foundation;
 namespace AWFC = ::ABI::Windows::Foundation::Collections;

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MediaSample.h"
 #include "MediaBuffer2D.h"
+#include <assert.h>
 
 using namespace MediaCaptureReader;
 using namespace Microsoft::WRL;

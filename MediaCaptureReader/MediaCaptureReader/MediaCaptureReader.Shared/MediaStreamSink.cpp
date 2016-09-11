@@ -109,7 +109,9 @@ HRESULT MediaStreamSink::ProcessSample(__in_opt IMFSample *sample)
             long long duration = 0;
             (void)sample->GetSampleDuration(&duration);
 
-            Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
+#ifdef NTRACELOG
+			Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
+#endif
 
             ComPtr<IMF2DBuffer2> buffer2D;
             ComPtr<IMFMediaBuffer> buffer1D;
@@ -305,8 +307,9 @@ HRESULT MediaStreamSink::SetCurrentMediaType(__in IMFMediaType *mediaType)
 
         _UpdateMediaType(mediaType);
     });
-
-    Trace("SetCurrentMediaType hr=%08X, %s", hr, MediaTypeFormatter::Format(mediaType).c_str());
+#ifdef NTRACELOG
+	Trace("SetCurrentMediaType hr=%08X, %s", hr, MediaTypeFormatter::Format(mediaType).c_str());
+#endif
 
     return hr;
 }

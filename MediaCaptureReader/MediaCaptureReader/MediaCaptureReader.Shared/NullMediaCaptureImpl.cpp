@@ -4,6 +4,7 @@
 #include "NullVideoDeviceController.h"
 #include "NullMediaCaptureSettings.h"
 #include "MediaGraphicsDevice.h"
+#include <assert.h>
 
 using namespace ABI::Windows::Foundation;
 using namespace ABI::Windows::Foundation::Collections;

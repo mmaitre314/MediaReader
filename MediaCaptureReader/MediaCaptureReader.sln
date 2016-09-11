@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaCaptureReader", "MediaCaptureReader", "{D5B2427F-6295-42B5-A983-A0B5A6431A18}"
 EndProject
@@ -47,16 +47,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QrCodeDetector.WindowsPhone
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestsCs.Desktop", "UnitTestsCs.Desktop\UnitTestsCs.Desktop.csproj", "{8A965FD2-5D89-439B-A92A-717CCE611F68}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MediaCaptureReader.UWP", "MediaCaptureReader\MediaCaptureReader.UWP\MediaCaptureReader.UWP.vcxproj", "{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaCaptureReaderExtensions.UWP", "MediaCaptureReaderExtensions.UWP\MediaCaptureReaderExtensions.UWP.csproj", "{1D43D413-596D-4B0C-9531-D3470A63DD57}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{071bb221-5418-434c-8706-e5f549053f03}*SharedItemsImports = 9
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{076b7278-9f5a-450d-91c9-1aefc086afe1}*SharedItemsImports = 4
 		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{1843427e-f5d0-4d09-8a07-7cf935d34c5a}*SharedItemsImports = 4
-		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{c382ec3b-d2fa-487e-ae89-b04bf926def9}*SharedItemsImports = 4
-		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{7db8d248-b230-48a8-b372-64eacf7bb2c7}*SharedItemsImports = 4
-		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{1f08de49-dfe0-4ceb-a659-72b621a59f73}*SharedItemsImports = 13
 		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{190bc414-8267-4090-905a-28f522f7a544}*SharedItemsImports = 4
-		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{071bb221-5418-434c-8706-e5f549053f03}*SharedItemsImports = 9
+		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{1f08de49-dfe0-4ceb-a659-72b621a59f73}*SharedItemsImports = 13
+		MediaCaptureReader\MediaCaptureReader.Shared\MediaCaptureReader.Shared.vcxitems*{3ba07add-967f-4db8-8f52-6eab0863fb97}*SharedItemsImports = 4
 		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{751e3c0f-451a-4fb3-897f-cc4e9f231781}*SharedItemsImports = 13
+		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{7db8d248-b230-48a8-b372-64eacf7bb2c7}*SharedItemsImports = 4
+		MediaCaptureReaderTestApp\MediaCaptureReaderTestApp.Shared\MediaCaptureReaderTestApp.Shared.projitems*{c382ec3b-d2fa-487e-ae89-b04bf926def9}*SharedItemsImports = 4
 		QrCodeDetector\QrCodeDetector.Shared\QrCodeDetector.Shared.projitems*{eda71cd7-2ef6-41c8-b1c3-adb2c33c2f5c}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -486,6 +491,52 @@ Global
 		{8A965FD2-5D89-439B-A92A-717CCE611F68}.Release|Win32.ActiveCfg = Release|Any CPU
 		{8A965FD2-5D89-439B-A92A-717CCE611F68}.Release|x64.ActiveCfg = Release|Any CPU
 		{8A965FD2-5D89-439B-A92A-717CCE611F68}.Release|x86.ActiveCfg = Release|Any CPU
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|ARM.ActiveCfg = Debug|ARM
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|ARM.Build.0 = Debug|ARM
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|Win32.Build.0 = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|x64.ActiveCfg = Debug|x64
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|x64.Build.0 = Debug|x64
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|x86.ActiveCfg = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Debug|x86.Build.0 = Debug|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|Any CPU.ActiveCfg = Release|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|ARM.ActiveCfg = Release|ARM
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|ARM.Build.0 = Release|ARM
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|Win32.ActiveCfg = Release|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|Win32.Build.0 = Release|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|x64.ActiveCfg = Release|x64
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|x64.Build.0 = Release|x64
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|x86.ActiveCfg = Release|Win32
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97}.Release|x86.Build.0 = Release|Win32
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|ARM.ActiveCfg = Debug|ARM
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|ARM.Build.0 = Debug|ARM
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|Win32.ActiveCfg = Debug|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|Win32.Build.0 = Debug|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|x64.ActiveCfg = Debug|x64
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|x64.Build.0 = Debug|x64
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|x86.ActiveCfg = Debug|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Debug|x86.Build.0 = Debug|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|ARM.ActiveCfg = Release|ARM
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|ARM.Build.0 = Release|ARM
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|Mixed Platforms.Build.0 = Release|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|Win32.ActiveCfg = Release|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|Win32.Build.0 = Release|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|x64.ActiveCfg = Release|x64
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|x64.Build.0 = Release|x64
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|x86.ActiveCfg = Release|x86
+		{1D43D413-596D-4B0C-9531-D3470A63DD57}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -502,5 +553,7 @@ Global
 		{1F08DE49-DFE0-4CEB-A659-72B621A59F73} = {035153F1-FBD4-4E8F-9177-FA8DFB04355C}
 		{1843427E-F5D0-4D09-8A07-7CF935D34C5A} = {035153F1-FBD4-4E8F-9177-FA8DFB04355C}
 		{EDA71CD7-2EF6-41C8-B1C3-ADB2C33C2F5C} = {035153F1-FBD4-4E8F-9177-FA8DFB04355C}
+		{3BA07ADD-967F-4DB8-8F52-6EAB0863FB97} = {D5B2427F-6295-42B5-A983-A0B5A6431A18}
+		{1D43D413-596D-4B0C-9531-D3470A63DD57} = {9F74D49B-6A6D-4938-985A-02C5F99F359C}
 	EndGlobalSection
 EndGlobal
