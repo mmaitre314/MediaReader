@@ -22,7 +22,10 @@ HttpMjpegCaptureSource::HttpMjpegCaptureSource()
     , _timeOffset(0)
     , _discontinuity(false)
 {
-    Logger.HttpMjpegCaptureSource_LifeTimeStart((void*)this);
+    
+	#ifdef NTRACELOG
+		Logger.HttpMjpegCaptureSource_LifeTimeStart((void*)this);
+	#endif
 
     CHK(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&_wicFactory)));
 }
@@ -45,12 +48,16 @@ HttpMjpegCaptureSource::~HttpMjpegCaptureSource()
     _streamReadBuffer = nullptr;
     _message.Clear();
 
-    Logger.HttpMjpegCaptureSource_LifeTimeStop((void*)this);
+	#ifdef NTRACELOG
+		Logger.HttpMjpegCaptureSource_LifeTimeStop((void*)this);
+	#endif
 }
 
 IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriAsync(_In_ Uri^ uri)
 {
-    Trace("Creating HttpMjpegCaptureSource");
+	#ifdef NTRACELOG
+		Trace("Creating HttpMjpegCaptureSource");
+	#endif
 
     CHKNULL(uri);
 
@@ -63,17 +70,19 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriA
         {
             httpResponse->EnsureSuccessStatusCode();
 
-            Trace("HTTP response headers:");
-            for (auto header : httpResponse->Headers)
-            {
-                Trace("  %S: %S", header->Key->Data(), header->Value->Data());
-            }
+			#ifdef NTRACELOG
+				Trace("HTTP response headers:");
+				for (auto header : httpResponse->Headers)
+				{
+					Trace("  %S: %S", header->Key->Data(), header->Value->Data());
+				}
 
-            Trace("HTTP response content headers:");
-            for (auto header : httpResponse->Content->Headers)
-            {
-                Trace("  %S: %S", header->Key->Data(), header->Value->Data());
-            }
+				Trace("HTTP response content headers:");
+				for (auto header : httpResponse->Content->Headers)
+				{
+					Trace("  %S: %S", header->Key->Data(), header->Value->Data());
+				}
+			#endif
 
             auto headers = httpResponse->Content->Headers;
             if (headers->ContentType->MediaType != "multipart/x-mixed-replace")
@@ -101,8 +110,9 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriA
             {
                 source->_frameRate = stoi(httpResponse->Headers->Lookup("X-FrameRate")->Data());
             }
-            Trace("Framerate: %i", source->_frameRate);
-
+			#ifdef NTRACELOG
+				Trace("Framerate: %i", source->_frameRate);
+			#endif
             return httpResponse->Content->ReadAsInputStreamAsync();
         }).then([source](IInputStream^ stream)
         {
@@ -110,7 +120,9 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriA
             return source->_InitializeAsync();
         }).then([source]()
         {
-            Trace("HttpMjpegCaptureSource created");
+			#ifdef NTRACELOG
+				Trace("HttpMjpegCaptureSource created");
+			#endif
             return source;
         });
     });
@@ -118,7 +130,9 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromUriA
 
 IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromStreamAsync(_In_ WSS::IInputStream^ stream, _In_ String^ boundary)
 {
-    Trace("Creating HttpMjpegCaptureSource");
+	#ifdef NTRACELOG
+		Trace("Creating HttpMjpegCaptureSource");
+	#endif
 
     CHKNULL(stream);
     CHKNULL(boundary);
@@ -132,7 +146,9 @@ IAsyncOperation<HttpMjpegCaptureSource^>^ HttpMjpegCaptureSource::CreateFromStre
 
         return create_task(source->_InitializeAsync()).then([source]()
         {
-            Trace("HttpMjpegCaptureSource created");
+			#ifdef NTRACELOG
+				Trace("HttpMjpegCaptureSource created");
+			#endif
             return source;
         });
     });
@@ -166,7 +182,9 @@ task<void> HttpMjpegCaptureSource::_InitializeAsync()
             encodingProps->FrameRate->Denominator = 1;
         }
 
-        Trace("Source output subtype: %S", encodingProps->Subtype->Data());
+		#ifdef NTRACELOG
+				Trace("Source output subtype: %S", encodingProps->Subtype->Data());
+		#endif
 
         auto source = ref new MediaStreamSource(ref new VideoStreamDescriptor(encodingProps));
         source->CanSeek = false;
@@ -174,7 +192,9 @@ task<void> HttpMjpegCaptureSource::_InitializeAsync()
         source->Starting += ref new TypedEventHandler<MediaStreamSource^, MediaStreamSourceStartingEventArgs^>(
             [this](MediaStreamSource^, MediaStreamSourceStartingEventArgs^)
         {
-            Trace("Starting event received");
+			#ifdef NTRACELOG
+				Trace("Starting event received");
+			#endif
             auto lock = _lock.LockExclusive();
             _started = true;
         });
@@ -185,7 +205,9 @@ task<void> HttpMjpegCaptureSource::_InitializeAsync()
             auto lock = _lock.LockExclusive();
             if (!_closed)
             {
-                Trace("SampleRequested event received");
+				#ifdef NTRACELOG
+					Trace("SampleRequested event received");
+				#endif
                 _QueueRequest(e->Request);
             }
         });
@@ -193,7 +215,9 @@ task<void> HttpMjpegCaptureSource::_InitializeAsync()
         source->Closed += ref new TypedEventHandler<MediaStreamSource^, MediaStreamSourceClosedEventArgs^>(
             [this](MediaStreamSource^, MediaStreamSourceClosedEventArgs^)
         {
-            Trace("Closed event received");
+			#ifdef NTRACELOG
+				Trace("Closed event received");
+			#endif
             delete this;
         });
 
@@ -224,7 +248,9 @@ void HttpMjpegCaptureSource::_ReadFramesAsync()
             // Decode the JPEG buffer to NV12 if the platform does not have an MJPEG decoder
             if (_decodeMJPEG)
             {
-                Logger.HttpMjpegCaptureSource_DecodeMjpegStart((void*)this);
+				#ifdef NTRACELOG
+					Logger.HttpMjpegCaptureSource_DecodeMjpegStart((void*)this);
+				#endif
 
                 ComPtr<IWICStream> stream;
                 ComPtr<IWICBitmapDecoder> decoder;
@@ -259,7 +285,9 @@ void HttpMjpegCaptureSource::_ReadFramesAsync()
                     2
                     ));
 
-                Logger.HttpMjpegCaptureSource_DecodeMjpegStop((void*)this);
+				#ifdef NTRACELOG
+					Logger.HttpMjpegCaptureSource_DecodeMjpegStop((void*)this);
+				#endif
             }
 
             auto sample = MediaStreamSample::CreateFromBuffer(buffer, { time });
@@ -281,7 +309,9 @@ void HttpMjpegCaptureSource::_ReadFramesAsync()
         catch (Exception^ e)
         {
             auto lock = _lock.LockExclusive();
-            TraceError("Error: 0x%08X %S", e->HResult, e->Message)
+			#ifdef NTRACELOG
+				TraceError("Error: 0x%08X %S", e->HResult, e->Message)
+			#endif
             if (_source != nullptr)
             {
                 _source->NotifyError(MediaStreamSourceErrorStatus::Other);
@@ -319,7 +349,9 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
             throw ref new OperationCanceledException();
         }
 
-        Trace("Read %iB from stream", readBuffer->Length);
+		#ifdef NTRACELOG
+			Trace("Read %iB from stream", readBuffer->Length);
+		#endif
 
         if (readBuffer->Length > 0)
         {
@@ -331,7 +363,9 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
             auto raStream = dynamic_cast<IRandomAccessStream^>(_stream);
             if ((raStream != nullptr) && (raStream->Size > 0) && (raStream->Position >= raStream->Size))
             {
-                Trace("Looping stream");
+				#ifdef NTRACELOG
+					Trace("Looping stream");
+				#endif
                 raStream->Seek(0);
             }
         }
@@ -342,7 +376,9 @@ task<IBuffer^> HttpMjpegCaptureSource::_ReadSingleFrameAsync()
 
 void HttpMjpegCaptureSource::_QueueRequest(_In_ MediaStreamSourceSampleRequest ^request)
 {
-    Trace("Queuing request");
+	#ifdef NTRACELOG
+		Trace("Queuing request");
+	#endif
     _sampleRequests.push(request);
     _sampleRequestDeferrals.push(request->GetDeferral());
     _ProcessQueue();
@@ -350,11 +386,15 @@ void HttpMjpegCaptureSource::_QueueRequest(_In_ MediaStreamSourceSampleRequest ^
 
 void HttpMjpegCaptureSource::_QueueSample(_In_ MediaStreamSample^ sample)
 {
-    Trace("Queuing sample: time %I64ihns", sample->Timestamp.Duration);
+	#ifdef NTRACELOG
+		Trace("Queuing sample: time %I64ihns", sample->Timestamp.Duration);
+	#endif
 
     if (_samples.size() >= 2)
     {
-        Trace("Dropping sample: time %I64ihns", _samples.front()->Timestamp.Duration);
+		#ifdef NTRACELOG
+			Trace("Dropping sample: time %I64ihns", _samples.front()->Timestamp.Duration);
+		#endif
         _discontinuity = true;
         _samples.pop();
     }
@@ -374,7 +414,9 @@ void HttpMjpegCaptureSource::_ProcessQueue()
         request->Sample->Discontinuous = _discontinuity;
         _discontinuity = false;
 
-        Trace("Sending sample: time %I64ihns", _samples.front()->Timestamp.Duration);
+		#ifdef NTRACELOG
+			Trace("Sending sample: time %I64ihns", _samples.front()->Timestamp.Duration);
+		#endif
 
         deferral->Complete();
 

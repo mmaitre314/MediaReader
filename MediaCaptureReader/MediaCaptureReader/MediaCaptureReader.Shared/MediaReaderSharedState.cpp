@@ -27,7 +27,9 @@ MediaReaderSharedState::MediaReaderSharedState(
 : _streamCount(0)
 , _closed(false)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     _graphicsDevice = _GetSharedGraphicsDevice(settings);
 
@@ -43,7 +45,9 @@ MediaReaderSharedState::MediaReaderSharedState(
 
 MediaReaderSharedState::~MediaReaderSharedState()
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 }
 
 ComPtr<IMFAttributes> MediaReaderSharedState::_CreateSourceReaderAttributes(
@@ -52,7 +56,9 @@ ComPtr<IMFAttributes> MediaReaderSharedState::_CreateSourceReaderAttributes(
     const ComPtr<SourceReaderCallback>& callback
     ) const
 {
-    TraceScopeCx(const_cast<MediaReaderSharedState^>(this));
+	#ifdef NTRACELOG
+		TraceScopeCx(const_cast<MediaReaderSharedState^>(this));
+	#endif
 
     ComPtr<IMFAttributes> attr;
     CHK(MFCreateAttributes(&attr, 10));
@@ -91,7 +97,9 @@ void MediaReaderSharedState::CreateStreams(
     )
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     MediaReaderAudioStream^ audioStreamTemp;
     MediaReaderVideoStream^ videoStreamTemp;
@@ -146,7 +154,9 @@ void MediaReaderSharedState::CreateStreams(
 void MediaReaderSharedState::GetMetadata(WF::TimeSpan* duration, bool* canSeek)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     duration->Duration = 0;
     *canSeek = false;
@@ -170,7 +180,9 @@ void MediaReaderSharedState::GetMetadata(WF::TimeSpan* duration, bool* canSeek)
 AudioEncodingProperties^ MediaReaderSharedState::GetCurrentAudioStreamProperties(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     Microsoft::WRL::ComPtr<IMFMediaType> mt;
@@ -185,7 +197,9 @@ AudioEncodingProperties^ MediaReaderSharedState::GetCurrentAudioStreamProperties
 VideoEncodingProperties^ MediaReaderSharedState::GetCurrentVideoStreamProperties(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     Microsoft::WRL::ComPtr<IMFMediaType> mt;
@@ -200,7 +214,9 @@ VideoEncodingProperties^ MediaReaderSharedState::GetCurrentVideoStreamProperties
 IMediaEncodingProperties^ MediaReaderSharedState::GetCurrentOtherStreamProperties(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     Microsoft::WRL::ComPtr<IMFMediaType> mt;
@@ -215,7 +231,9 @@ IMediaEncodingProperties^ MediaReaderSharedState::GetCurrentOtherStreamPropertie
 IVectorView<AudioEncodingProperties^>^ MediaReaderSharedState::GetNativeAudioStreamProperties(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     auto list = ref new Vector<AudioEncodingProperties^>();
@@ -238,7 +256,9 @@ IVectorView<AudioEncodingProperties^>^ MediaReaderSharedState::GetNativeAudioStr
 IVectorView<VideoEncodingProperties^>^ MediaReaderSharedState::GetNativeVideoStreamProperties(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     auto list = ref new Vector<VideoEncodingProperties^>();
@@ -261,7 +281,9 @@ IVectorView<VideoEncodingProperties^>^ MediaReaderSharedState::GetNativeVideoStr
 IVectorView<IMediaEncodingProperties^>^ MediaReaderSharedState::GetNativeOtherStreamProperties(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     auto list = ref new Vector<IMediaEncodingProperties^>();
@@ -283,7 +305,9 @@ IVectorView<IMediaEncodingProperties^>^ MediaReaderSharedState::GetNativeOtherSt
 
 IAsyncOperation<MediaReaderReadResult^>^ MediaReaderSharedState::ReadAsync(unsigned int streamIndex)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     return create_async([this, streamIndex]()
     {
@@ -311,7 +335,9 @@ IAsyncOperation<MediaReaderReadResult^>^ MediaReaderSharedState::ReadAsync(unsig
 
 IAsyncAction^ MediaReaderSharedState::SetCurrentStreamPropertiesAsync(unsigned int streamIndex, IMediaEncodingProperties^ properties)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     return create_async([this, streamIndex, properties]()
     {
@@ -330,7 +356,9 @@ IAsyncAction^ MediaReaderSharedState::SetCurrentStreamPropertiesAsync(unsigned i
 
 IAsyncAction^ MediaReaderSharedState::SetNativeStreamPropertiesAsync(unsigned int streamIndex, IMediaEncodingProperties^ properties)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     return create_async([this, streamIndex, properties]()
     {
@@ -360,7 +388,9 @@ IAsyncAction^ MediaReaderSharedState::SetNativeStreamPropertiesAsync(unsigned in
 void MediaReaderSharedState::SetSelection(unsigned int streamIndex, bool selected)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     CHK(_sourceReader->SetStreamSelection(streamIndex, selected));
@@ -369,7 +399,9 @@ void MediaReaderSharedState::SetSelection(unsigned int streamIndex, bool selecte
 bool MediaReaderSharedState::GetSelection(unsigned int streamIndex)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     if (!_closed)
     {
@@ -392,7 +424,9 @@ void MediaReaderSharedState::OnReadSample(
     )
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     try
     {
@@ -409,7 +443,9 @@ void MediaReaderSharedState::OnReadSample(
             NT_ASSERT(timeSample == time);
 #endif
 
-            Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
+			#ifdef NTRACELOG
+				Trace("@%p IMFSample @%p, time %I64dhns, duration %I64dhns", (void*)this, sample, (int64)time, (int64)duration);
+			#endif
 
             ComPtr<IMF2DBuffer2> buffer2D;
             ComPtr<IMFMediaBuffer> buffer1D;
@@ -445,7 +481,9 @@ void MediaReaderSharedState::OnReadSample(
         }
         else
         {
-            Trace("@%p IMFSample @nullptr, time %I64dhns", (void*)this, time);
+		#ifdef NTRACELOG
+			Trace("@%p IMFSample @nullptr, time %I64dhns", (void*)this, time);
+		#endif
         }
 
         auto result = ref new MediaReaderReadResult(hr, streamFlags, time, mediaSample);
@@ -466,7 +504,9 @@ void MediaReaderSharedState::OnReadSample(
 
 MediaGraphicsDevice^ MediaReaderSharedState::_GetSharedGraphicsDevice(MediaReaderInitializationSettings^ settings) const
 {
-    TraceScopeCx(const_cast<MediaReaderSharedState^>(this));
+	#ifdef NTRACELOG
+		TraceScopeCx(const_cast<MediaReaderSharedState^>(this));
+	#endif
     MediaGraphicsDevice^ graphicsDevice;
 
     if (settings->HardwareAccelerationEnabled)
@@ -484,7 +524,9 @@ MediaGraphicsDevice^ MediaReaderSharedState::_GetSharedGraphicsDevice(MediaReade
 void MediaReaderSharedState::Seek(WF::TimeSpan position)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+#ifdef NTRACELOG
+	TraceScopeCx(this);
+#endif
     _VerifyNotClosed();
 
     PROPVARIANT seek;
@@ -497,7 +539,9 @@ void MediaReaderSharedState::Seek(WF::TimeSpan position)
 IAsyncAction^ MediaReaderSharedState::FinishAsync()
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+#ifdef NTRACELOG
+	TraceScopeCx(this);
+#endif
 
     if (!_closed)
     {

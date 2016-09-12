@@ -148,7 +148,10 @@ ImageProcessor::ImageProcessor()
     , _inputHeight(0)
     , _usingGraphicsDevice(false)
 {
-    Logger.ImageProcessor_LifeTimeStart((void*)this);
+	#ifdef NTRACELOG
+		Logger.ImageProcessor_LifeTimeStart((void*)this);
+	#endif
+
     ZeroMemory(&_outputStreamInfo, sizeof(_outputStreamInfo));
 
     _CreateVideoProcessor();
@@ -156,13 +159,17 @@ ImageProcessor::ImageProcessor()
 
 ImageProcessor::~ImageProcessor()
 {
-    Logger.ImageProcessor_LifeTimeStop((void*)this);
+	#ifdef NTRACELOG
+		Logger.ImageProcessor_LifeTimeStop((void*)this);
+	#endif
 }
 
 void ImageProcessor::_CreateVideoProcessor()
 {
-    Logger.ImageProcessor_CreateVideoProcessorStart((void*)this);
-    ScopeExitCall call([this]{ Logger.ImageProcessor_CreateVideoProcessorStop((void*)this); });
+	#ifdef NTRACELOG
+		Logger.ImageProcessor_CreateVideoProcessorStart((void*)this);
+		ScopeExitCall call([this]{ Logger.ImageProcessor_CreateVideoProcessorStop((void*)this); });
+	#endif
 
     //
     // Create two different formats to force the SourceReader to create a video processor
@@ -256,8 +263,10 @@ MediaSample2D^ ImageProcessor::Convert(
         throw ref new InvalidArgumentException(L"height");
     }
 
-    Logger.ImageProcessor_ConvertStart((void*)sample, (char)sample->Format, sample->Width, sample->Height, (void*)sample->GraphicsDevice, (char)format, width, height);
-    ScopeExitCall call([sample]{ Logger.ImageProcessor_ConvertStop((void*)sample); });
+	#ifdef NTRACELOG
+		Logger.ImageProcessor_ConvertStart((void*)sample, (char)sample->Format, sample->Width, sample->Height, (void*)sample->GraphicsDevice, (char)format, width, height);
+		ScopeExitCall call([sample]{ Logger.ImageProcessor_ConvertStop((void*)sample); });
+	#endif
 
     // Reinitialize the video processor if input/output conversion parameters changed
     if ((sample->Format != _inputFormat) ||
@@ -293,8 +302,10 @@ MediaSample2D^ ImageProcessor::Rotate(
     auto lock = _lock.LockExclusive();
     CHKNULL(sample);
 
-    Logger.ImageProcessor_RotateStart((void*)sample, (char)sample->Format, sample->Width, sample->Height, (void*)sample->GraphicsDevice, (char)rotation);
-    ScopeExitCall call([sample]{ Logger.ImageProcessor_RotateStop((void*)sample); });
+	#ifdef NTRACELOG
+		Logger.ImageProcessor_RotateStart((void*)sample, (char)sample->Format, sample->Width, sample->Height, (void*)sample->GraphicsDevice, (char)rotation);
+		ScopeExitCall call([sample]{ Logger.ImageProcessor_RotateStop((void*)sample); });
+	#endif
 
     // Output parameters
     auto format = sample->Format;

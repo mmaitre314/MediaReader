@@ -121,7 +121,9 @@ IAsyncOperation<MediaReader^>^ MediaReader::CreateFromMediaCaptureAsync(
 MediaReader::MediaReader(IRandomAccessStream^ stream, MediaReaderInitializationSettings^ settings)
 : _canSeek(false)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     CHKNULL(stream);
     CHKNULL(settings);
 
@@ -139,7 +141,9 @@ MediaReader::MediaReader(IRandomAccessStream^ stream, MediaReaderInitializationS
 MediaReader::MediaReader(IMediaSource^ source, MediaReaderInitializationSettings^ settings)
 : _canSeek(false)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     CHKNULL(source);
     CHKNULL(settings);
 
@@ -159,7 +163,9 @@ MediaReader::MediaReader(IMediaSource^ source, MediaReaderInitializationSettings
 MediaReader::MediaReader(MediaCapture^ capture, MediaReaderCaptureInitializationSettings^ settings)
 : _canSeek(false)
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     CHKNULL(capture);
     CHKNULL(settings);
 
@@ -173,7 +179,9 @@ MediaReader::MediaReader(MediaCapture^ capture, MediaReaderCaptureInitialization
 MediaReader::~MediaReader()
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     for (auto stream : _allStreams)
     {
@@ -207,7 +215,9 @@ IAsyncAction^ MediaReader::_InitializeAsync(
     VideoInitialization video
     )
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     // Deselect all the streams
     for (auto stream : _allStreams)
@@ -279,6 +289,8 @@ IAsyncAction^ MediaReader::_InitializeAsync(
                         auto newProps = VideoEncodingProperties::CreateUncompressed(MediaEncodingSubtypes::Bgra8, props->Width, props->Height);
                         newProps->FrameRate->Numerator = props->FrameRate->Numerator;
                         newProps->FrameRate->Denominator = props->FrameRate->Denominator;
+						newProps->Bitrate = props->Bitrate;
+						newProps->ProfileId = props->ProfileId;
                         taskVideo = create_task(_videoStream->SetCurrentStreamPropertiesAsync(newProps));
                     }
                     break;
@@ -307,7 +319,9 @@ IAsyncAction^ MediaReader::_InitializeAsync(
 void MediaReader::Seek(TimeSpan position)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     _state->Seek(position);

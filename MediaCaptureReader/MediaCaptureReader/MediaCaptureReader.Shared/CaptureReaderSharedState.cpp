@@ -30,10 +30,11 @@ CaptureReaderSharedState::CaptureReaderSharedState(MediaCapture^ capture, MediaR
 , _audioSelected(false)
 , _videoSelected(false)
 {
-    TraceScopeCx(this);
-
-    Trace("@%p StreamType %i", (void*)this, (int)_streamType);
-
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+		Trace("@%p StreamType %i", (void*)this, (int)_streamType);
+	#endif
+	
     _capture = capture;
     _graphicsDevice = MediaGraphicsDevice::CreateFromMediaCapture(capture);
     
@@ -71,7 +72,9 @@ CaptureReaderSharedState::CaptureReaderSharedState(MediaCapture^ capture, MediaR
 
 CaptureReaderSharedState::~CaptureReaderSharedState()
 {
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 }
 
 IAsyncAction^ CaptureReaderSharedState::CompleteInitializationAsync()
@@ -79,8 +82,11 @@ IAsyncAction^ CaptureReaderSharedState::CompleteInitializationAsync()
     return create_async([this]()
     {
         auto lock = _lock.LockExclusive();
-        TraceScopeCx(this);
 
+		#ifdef NTRACELOG
+			TraceScopeCx(this);
+		#endif
+        
         _state = State::Starting;
 
         task<void> task;
@@ -103,7 +109,10 @@ IAsyncAction^ CaptureReaderSharedState::CompleteInitializationAsync()
 IAsyncAction^ CaptureReaderSharedState::FinishAsync()
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     auto streamType = _streamType;
     bool stopNeeded = (_state == State::Started);
@@ -174,7 +183,10 @@ void CaptureReaderSharedState::CreateStreams(
     )
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     MediaReaderAudioStream^ audioStreamTemp;
     MediaReaderVideoStream^ videoStreamTemp;
@@ -212,8 +224,11 @@ IAsyncOperation<MediaReaderReadResult^>^ CaptureReaderSharedState::ReadAudioAsyn
     return create_async([this]()
     {
         auto lock = _lock.LockExclusive();
-        TraceScopeCx(this);
 
+		#ifdef NTRACELOG
+			TraceScopeCx(this);
+		#endif
+        
         if (_state != State::Started)
         {
             throw ref new Platform::COMException(MF_E_INVALID_STREAM_STATE, L"Not started");
@@ -233,7 +248,10 @@ IAsyncOperation<MediaReaderReadResult^>^ CaptureReaderSharedState::ReadVideoAsyn
     return create_async([this]()
     {
         auto lock = _lock.LockExclusive();
-        TraceScopeCx(this);
+
+		#ifdef NTRACELOG
+			TraceScopeCx(this);
+		#endif
 
         if (_state != State::Started)
         {
@@ -252,7 +270,11 @@ IAsyncOperation<MediaReaderReadResult^>^ CaptureReaderSharedState::ReadVideoAsyn
 IAsyncAction^ CaptureReaderSharedState::SetCurrentAudioStreamPropertiesAsync(unsigned /*streamIndex*/, _In_ AudioEncodingProperties^ properties)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
+    
     _VerifyNotClosed();
 
     _encodingProfile->Audio = properties;
@@ -278,7 +300,11 @@ IAsyncAction^ CaptureReaderSharedState::SetCurrentAudioStreamPropertiesAsync(uns
 IAsyncAction^ CaptureReaderSharedState::SetCurrentVideoStreamPropertiesAsync(unsigned /*streamIndex*/, _In_ VideoEncodingProperties^ properties)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
+
     _VerifyNotClosed();
 
     _encodingProfile->Video = properties;
@@ -304,7 +330,9 @@ IAsyncAction^ CaptureReaderSharedState::SetCurrentVideoStreamPropertiesAsync(uns
 IAsyncAction^ CaptureReaderSharedState::SetNativeAudioStreamPropertiesAsync(unsigned int /*streamIndex*/, _In_ AudioEncodingProperties^ properties)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif    
     _VerifyNotClosed();
 
     return _capture->AudioDeviceController->SetMediaStreamPropertiesAsync(MediaStreamType::Audio, properties);
@@ -313,7 +341,9 @@ IAsyncAction^ CaptureReaderSharedState::SetNativeAudioStreamPropertiesAsync(unsi
 IAsyncAction^ CaptureReaderSharedState::SetNativeVideoStreamPropertiesAsync(unsigned int /*streamIndex*/, _In_ VideoEncodingProperties^ properties)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif   
     _VerifyNotClosed();
 
     return _capture->VideoDeviceController->SetMediaStreamPropertiesAsync(_GetVideoStreamType(), properties);
@@ -322,7 +352,9 @@ IAsyncAction^ CaptureReaderSharedState::SetNativeVideoStreamPropertiesAsync(unsi
 AudioEncodingProperties^ CaptureReaderSharedState::GetCurrentAudioStreamProperties(unsigned int /*streamIndex*/)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     ComPtr<IMFMediaType> mt;
@@ -341,7 +373,9 @@ AudioEncodingProperties^ CaptureReaderSharedState::GetCurrentAudioStreamProperti
 VideoEncodingProperties^ CaptureReaderSharedState::GetCurrentVideoStreamProperties(unsigned int /*streamIndex*/)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     ComPtr<IMFMediaType> mt;
@@ -360,7 +394,9 @@ VideoEncodingProperties^ CaptureReaderSharedState::GetCurrentVideoStreamProperti
 IVectorView<AudioEncodingProperties^>^ CaptureReaderSharedState::GetNativeAudioStreamProperties(unsigned int /*streamIndex*/)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif  
     _VerifyNotClosed();
 
     auto availableFormats = _capture->VideoDeviceController->GetAvailableMediaStreamProperties(MediaStreamType::Audio);
@@ -376,7 +412,9 @@ IVectorView<AudioEncodingProperties^>^ CaptureReaderSharedState::GetNativeAudioS
         }
         else
         {
-            Trace("@%p ignoring one available format (not audio)", (void*)this);
+			#ifdef NTRACELOG
+				Trace("@%p ignoring one available format (not audio)", (void*)this);
+			#endif
         }
     }
 
@@ -386,7 +424,9 @@ IVectorView<AudioEncodingProperties^>^ CaptureReaderSharedState::GetNativeAudioS
 IVectorView<VideoEncodingProperties^>^ CaptureReaderSharedState::GetNativeVideoStreamProperties(unsigned int /*streamIndex*/)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     _VerifyNotClosed();
 
     auto availableFormats = _capture->VideoDeviceController->GetAvailableMediaStreamProperties(_GetVideoStreamType());
@@ -402,7 +442,9 @@ IVectorView<VideoEncodingProperties^>^ CaptureReaderSharedState::GetNativeVideoS
         }
         else
         {
-            Trace("@%p ignoring one available format (not video)", (void*)this);
+			#ifdef NTRACELOG
+				Trace("@%p ignoring one available format (not video)", (void*)this);
+			#endif
         }
     }
 
@@ -412,7 +454,9 @@ IVectorView<VideoEncodingProperties^>^ CaptureReaderSharedState::GetNativeVideoS
 void CaptureReaderSharedState::SetAudioSelection(unsigned int /*streamIndex*/, bool selected)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     if (_state != State::Created)
     {
@@ -431,7 +475,9 @@ void CaptureReaderSharedState::SetAudioSelection(unsigned int /*streamIndex*/, b
 void CaptureReaderSharedState::SetVideoSelection(unsigned int /*streamIndex*/, bool selected)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
 
     if (_state != State::Created)
     {
@@ -450,23 +496,28 @@ void CaptureReaderSharedState::SetVideoSelection(unsigned int /*streamIndex*/, b
 bool CaptureReaderSharedState::GetAudioSelection(unsigned int /*streamIndex*/)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     return _audioSelected;
 }
 
 bool CaptureReaderSharedState::GetVideoSelection(unsigned int /*streamIndex*/)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+	#endif
     return _videoSelected;
 }
 
 void CaptureReaderSharedState::ProcessAudioSample(_In_ IMediaSample^ sample)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
-
-    Trace("@%p IMediaBufferReference @%p", (void*)this, (void*)sample);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+		Trace("@%p IMediaBufferReference @%p", (void*)this, (void*)sample);
+	#endif
 
     try
     {
@@ -489,9 +540,10 @@ void CaptureReaderSharedState::ProcessAudioSample(_In_ IMediaSample^ sample)
 void CaptureReaderSharedState::ProcessVideoSample(_In_ IMediaSample^ sample)
 {
     auto lock = _lock.LockExclusive();
-    TraceScopeCx(this);
-
-    Trace("@%p IMediaBufferReference @%p", (void*)this, (void*)sample);
+	#ifdef NTRACELOG
+		TraceScopeCx(this);
+		Trace("@%p IMediaBufferReference @%p", (void*)this, (void*)sample);
+	#endif
 
     try
     {
